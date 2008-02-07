@@ -5,7 +5,9 @@ z.B. Tor schießen, Ball vom Gegenspieler abnehmen, Zu Spieler xy passen, usw.
 
 Der Controller sollte ein Objekt haben, indem der Zustand des Spielers erfasst wird (kann auch der Spieler selbst sein). d.h Position, Richtung, Verfassung.
 
-Der Controller könnte eine Strategie haben (austauschbar) womit der nächste Spielzug ermittelt wird.
+Wir sollten auch das Spielfeld modellieren, mit dem wir Voraussagen über Positionen der Mitspieler und des Balls machen können.
+
+Der Controller könnte eine Strategie haben (austauschbar) womit der nächste Spielzug ermittelt wird. (Hier sitzen die Zustandsautomaten)
 
 Verschiedene Spieler haben verschiedene Strategien, wie Torwart, Stürmer, Verteidiger.
 Kann, ggf. erweitert werden und im Spiel ausgetauscht werden, falls es die Spielsituation erfordert.
@@ -17,4 +19,4 @@ Da die Anzahl der Nachrichten unter den Spielern Beschränkt, sollten möglichst
 Es ist von Rauschen in den Nachrichten die Rede, man sollte untersuchen, wie dieser aussieht, und ob man da Redundanz in den Nachrichten einbauen kann.
 Nachrichten sollten sich auch an bestimmte Spieler richten können. Das Format sollte man je nach Rauschen bestimmt werden (vielleicht spielt Entfernung vom Sprecher auch eine Rolle).
 
-Naja, das wird wenn ich jetzt so weiterlese, eher so das drumherum werden, die eigentliche Aufgabenstellung scheint sich ja um die Automaten zu drehen.
+Naja, ist alles Optional, wir haben ja schließlich nur zwei Wochen. Insgesamt scheint das Spiel ja eher so das drumherum zu sein, die eigentliche Aufgabenstellung sind ja eher die Automaten.
