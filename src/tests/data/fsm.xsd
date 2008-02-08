@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:element name="fsm" type="fsmType">
+    <xsd:key name="stateKey">
+      <xsd:selector xpath="./state" />
+      <xsd:field xpath="@name" />
+    </xsd:key>
+    <xsd:keyref name="transitionForeignKey" refer="stateKey">
+      <xsd:selector xpath="./state/transition" />
+      <xsd:field xpath="@target" />
+    </xsd:keyref>
+  </xsd:element>
+  <xsd:complexType name="fsmType">
+    <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+      <xsd:element name="state" type="fsmState" />
+    </xsd:sequence>
+    <xsd:attribute name="name" type="safeString" use="optional" />
+  </xsd:complexType>
+  <xsd:complexType name="fsmState">
+    <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+      <xsd:element name="transition" type="fsmTransition" />
+    </xsd:sequence>
+    <xsd:attribute name="name" type="safeString" use="required" />
+    <xsd:attribute name="initial" type="xsd:boolean" use="optional" />
+  </xsd:complexType>
+  <xsd:complexType name="fsmTransition">
+    <xsd:simpleContent>
+      <xsd:extension base="safeString">
+        <xsd:attribute name="target" type="safeString" use="required" />
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:simpleType name="safeString">
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1" />
+      <xsd:pattern value="([a-zA-Z0-9]|[\{\[\(\)\]\}_\-\.\*\| ]|&amp;)*" />
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:schema>
