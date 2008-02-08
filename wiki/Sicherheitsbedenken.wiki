@@ -13,3 +13,9 @@ Naja im Prinzip ist das ganze ja akademisch und in der Hinsicht, sollte es kein 
 Das einzig was natürlich berechtigt ist, wäre wenn andere Studenten von uns Code nehmen, aber gerade für dieses Projekt gibt es ja andere Projekte früherer Mannschaften, die man sich eher anschauen würde. Und das hilft denen natürlich relativ wenig beim Testat, ganz zu schweigen vom fehlenden Lerneffekt.
 
 Übersehe ich hier noch was?
+
+----
+
+Ja, dass es wenig hilft, sich unseren Code zu klauen ist sicher nicht ganz falsch, aber dennoch hab ich dabei kein so gutes Gefühl, weil am Ende kopiert jemand wirklich einfach und dann müssten wir womöglich noch beweisen, dass derjenige von uns kopiert hat und nicht umgekehrt. 
+
+Ich hätte allerdings nichts dagegen, nach Ende des Praktikum den fertigen Code hier hochzuladen. Vielleicht ist er nochmal nützlich für jemanden, z.B. die folgenden Semester :-)
