@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Schema for student's xml representation of HFSMs.
+Note that not all HFSM validity constraints can be enforced by this schema.
+This schema enforces only the document structure but there are no constraints
+enforcing referential integrity and uniqueness on state/transition names and
+transition start/target states.
+-->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:element name="hfsm" type="hfsmType" />
+  <xsd:complexType name="hfsmType">
+    <xsd:sequence minOccurs="1" maxOccurs="1">
+      <xsd:element name="state" type="hfsmState" />
+    </xsd:sequence>
+    <xsd:attribute name="name" type="safeString" use="optional" />
+  </xsd:complexType>
+  <xsd:complexType name="hfsmState">
+    <xsd:sequence>
+      <xsd:element name="substates" type="hfsmSubstates" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="transition" type="hfsmTransition" minOccurs="0" maxOccurs="unbounded" />
+    </xsd:sequence>
+    <xsd:attribute name="name" type="safeString" use="required" />
+    <xsd:attribute name="initial" type="xsd:boolean" use="optional" />
+  </xsd:complexType>
+  <xsd:complexType name="hfsmSubstates">
+    <xsd:sequence minOccurs="1" maxOccurs="unbounded">
+      <xsd:element name="state" type="hfsmState" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="hfsmTransition">
+    <xsd:simpleContent>
+      <xsd:extension base="safeString">
+        <xsd:attribute name="target" type="safeString" use="required" />
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:simpleType name="safeString">
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1" />
+      <xsd:pattern value="([a-zA-Z0-9]|[\{\[\(\)\]\}_\-\.\*\| ]|&amp;)*" />
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:schema>
