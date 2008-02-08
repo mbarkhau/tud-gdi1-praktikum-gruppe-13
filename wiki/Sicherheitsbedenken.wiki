@@ -22,7 +22,7 @@ Manuel
 
 Ja, dass es wenig hilft, sich unseren Code zu klauen ist sicher nicht ganz falsch, aber dennoch hab ich dabei kein so gutes Gefühl, weil am Ende kopiert jemand wirklich einfach und dann müssten wir womöglich noch beweisen, dass derjenige von uns kopiert hat und nicht umgekehrt. 
 
-Ich hätte allerdings nichts dagegen, nach Ende des Praktikum den fertigen Code hier hochzuladen. Vielleicht ist er nochmal nützlich für jemanden, z.B. die folgenden Semester :-)
+Ich hätte allerdings nichts dagegen, nach Ende des Praktikums den fertigen Code hier hochzuladen. Vielleicht ist er nochmal nützlich für jemanden, z.B. die folgenden Semester :-)
 
 PS: Ich hab mir mal die Freiheit genommen, dazuzuschreiben, wer was hier reineditiert hat. Solltet ihr was dagegen haben, könnt ihr es ja wieder rauslöschen, aber so behält man besser den Überblick.
 
