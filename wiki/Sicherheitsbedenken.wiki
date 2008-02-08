@@ -1,0 +1,7 @@
+#summary Plattformbezügliche Sicherheitsbedenken
+
+Ich bin mir nicht ganz sicher, ob wir wirklich unseren Programmcode hier hochladen wollen.
+
+Immerhin kann jeder hier den Code herunterladen, und wir bekommen das noch nicht einmal mitgeteilt. Leider scheint es auch keine Möglichkeit zu geben, das anonyme Herunterladen von Programmcode zu unterbinden.
+
+Momentan hab ich auch keinen besseren Vorschlag zu machen. Ich wollte erstmal wissen, ob diese Bedenken von euch geteilt werden oder nicht.
