@@ -6,7 +6,7 @@ import atan2.model.Team;
  * This class instantiates a dribbler team (consisting of one single dribbler) and
  * connects it to the soccer server.
  */
-public class DribbleTeamRun {
+public class DribbleTeamBRun {
 
 	/**
 	 * Creates a DribbleTeam and connects to a SoccerServer.
@@ -25,7 +25,7 @@ public class DribbleTeamRun {
 	// hostname accepts hostname AND IP's like "192.168.0.15"
 	private static String hostname = "127.0.0.1";
 
-	private static String teamname = "TeamA";
+	private static String teamname = "TeamB";
 
 	public static void main(String[] args) {
 		if(args.length == 1)
