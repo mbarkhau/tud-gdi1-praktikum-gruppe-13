@@ -76,13 +76,11 @@ public class DribblePlayer extends ControllerAdaptor {
 	public void postInfo() {
 		if (playerObjective == GOTOBALL) {
 			player.turn(ballDirection);
-			if (ballDistance > 5){
+			if (ballDistance > 1){
 				player.dash(100);
-				player.dash(100);
-			}else if (ballDistance > 1){
 				player.dash(100);
 			}else{
-				player.dash(30);
+				player.dash(100);
 				goalDirection += ballDirection;
 			}
 			ballDirection = 0;
@@ -97,9 +95,9 @@ public class DribblePlayer extends ControllerAdaptor {
 			ballState = BALL_LOST;
 		}
 		if (playerObjective == FOCUS) {
-			player.turn(72);
-			ballDirection += 72;
-			goalDirection += 72;
+			player.turn(90);
+			ballDirection += 90;
+			goalDirection += 90;
 		}
 		if (playerObjective != WAIT)
 			skipEval = true;
@@ -124,9 +122,11 @@ public class DribblePlayer extends ControllerAdaptor {
 
 	@Override
 	public void infoSeeFlagGoalOther(int id, double distance, double direction) {
-		this.goalDirection = direction;
-		this.goalDistance = distance;
-		this.goalLastSeen = 0;
+		if(id == FLAG_CENTER){
+			this.goalDirection = direction;
+			this.goalDistance = distance;
+			this.goalLastSeen = 0;
+		}
 	}
 
 	@Override
