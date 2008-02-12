@@ -23,3 +23,10 @@ Ich werde kommendes Wochenede nicht, übernächstes aber höchst wahrscheinlich 
 Traumhaft wär's natürlich wenn wir bis zur Woche der Klausur fertig wären. 
 
 Gruß Patrick
+
+----------
+
+Ja ich schreibe die auch mit, bin auch am lernen. Habe Nachmittags am ehesten Zeit, Morgens muss ich arbeiten. Dribbler ist schon fertig, Ralf macht gerade die Aufgabe 2.
+Ich habe auch schon ein paar klassen geschrieben, um den Spielzustand zu erfassen, da muss aber noch einiges gemacht werden und ich will nicht damit weitermachen, bis sicher ist, dass die in der Form gebraucht werden. So einfach wie beim DribblePlayer gehst nicht, aber ganz übertreiben muss man es ja auch nicht.
+
+Wir können schon für Morgen ein Treffen im Skype ausmachen? ca. 18:00, dann kann man an dem Abend noch was Programmieren. Von mir aus gerne auch schon früher.
