@@ -27,19 +27,16 @@ public class SoccerTeam extends Team {
 
 	@Override
 	public Controller getNewController(int i, Player p) {
-		// TODO return the correct controller according to the given player number
-		return null;
+		return new mis.gdi1lab07.student.gameBehaviour.Controller(this.getTeamName(), p);
 	}
 
 	@Override
 	public int getLabGroupId() {
-		// TODO return your GroupId
-		return -1;
+		return 13;
 	}
 
 	@Override
 	public String getLabGroupName() {
-		// TODO return your GroupName
 		return null;
 	}
 }
