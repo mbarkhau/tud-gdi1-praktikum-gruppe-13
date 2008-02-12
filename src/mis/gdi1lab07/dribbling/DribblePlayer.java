@@ -41,13 +41,21 @@ public class DribblePlayer extends ControllerAdaptor {
 	private double goalDistance = 1000;
 
 	private boolean skipEval = false;
-	
+
 	@Override
 	public void preInfo() {
 		goalLastSeen++;
-		if (PLAY_MODE_BEFORE_KICK_OFF == playMode && ballDistance > 4){
-			 player.move(0, 0);
-		}else if (!skipEval) {
+		if (PLAY_MODE_BEFORE_KICK_OFF == playMode && ballDistance > 4) {
+			player.move(0, 0);
+			playerObjective = WAIT;
+		} else if (PLAY_MODE_KICK_IN_OTHER == playMode
+				|| PLAY_MODE_CORNER_KICK_OTHER == playMode
+				|| PLAY_MODE_GOAL_KICK_OTHER == playMode
+				|| PLAY_MODE_GOAL_OTHER == playMode
+				|| PLAY_MODE_GOAL_OWN == playMode) {
+			player.move(0, 0);
+			playerObjective = WAIT;
+		} else if (!skipEval) {
 
 			if (ballState == BALL_LOST)
 				playerObjective = FOCUS;
@@ -60,9 +68,9 @@ public class DribblePlayer extends ControllerAdaptor {
 					playerObjective = FOCUS;
 					return;
 				} else {
-					if (goalDistance < 20) {
+					if (goalDistance < 30) {
 						playerObjective = SHOOT;
-					}else {
+					} else {
 						playerObjective = DRIBBLE;
 					}
 				}
@@ -76,28 +84,26 @@ public class DribblePlayer extends ControllerAdaptor {
 	public void postInfo() {
 		if (playerObjective == GOTOBALL) {
 			player.turn(ballDirection);
-			if (ballDistance > 1){
+			if (ballDistance > 2) {
 				player.dash(100);
 				player.dash(100);
-			}else{
+			} else {
 				player.dash(100);
-				goalDirection += ballDirection;
 			}
-			ballDirection = 0;
 			ballState = BALL_LOST;
 		}
 		if (playerObjective == DRIBBLE) {
-			player.kick(50, 0);
+			player.kick(80, goalDirection);
 			ballState = BALL_LOST;
 		}
 		if (playerObjective == SHOOT) {
-			player.kick(70, goalDirection);
+			player.kick(100, goalDirection);
 			ballState = BALL_LOST;
 		}
 		if (playerObjective == FOCUS) {
-			player.turn(90);
-			ballDirection += 90;
-			goalDirection += 90;
+			player.turn(85);
+			ballDirection += 85;
+			goalDirection += 85;
 		}
 		if (playerObjective != WAIT)
 			skipEval = true;
@@ -122,7 +128,7 @@ public class DribblePlayer extends ControllerAdaptor {
 
 	@Override
 	public void infoSeeFlagGoalOther(int id, double distance, double direction) {
-		if(id == FLAG_CENTER){
+		if (id == FLAG_CENTER) {
 			this.goalDirection = direction;
 			this.goalDistance = distance;
 			this.goalLastSeen = 0;
