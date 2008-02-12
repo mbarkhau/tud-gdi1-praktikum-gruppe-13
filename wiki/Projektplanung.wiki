@@ -30,3 +30,11 @@ Ja ich schreibe die auch mit, bin auch am lernen. Habe Nachmittags am ehesten Ze
 Ich habe auch schon ein paar klassen geschrieben, um den Spielzustand zu erfassen, da muss aber noch einiges gemacht werden und ich will nicht damit weitermachen, bis sicher ist, dass die in der Form gebraucht werden. So einfach wie beim DribblePlayer gehst nicht, aber ganz übertreiben muss man es ja auch nicht.
 
 Wir können schon für Morgen ein Treffen im Skype ausmachen? ca. 18:00, dann kann man an dem Abend noch was Programmieren. Von mir aus gerne auch schon früher.
+
+------
+
+Bei einem Skype-Treffen morgen abend wäre ich selbstverständlich auch dabei. Ein Treffen in Real ist meiner Ansicht derzeitig nicht notwendig, aber das wird sich im Laufe des Projektes sicherlich noch zeigen.
+
+Ich bin um 18 Uhr für eine Skype-Konferenz erreichbar. Aufgabe 2.1 ist mittlerweile auch in nem Beta-Status, sind  nur noch ein paar Bugs zu fixen :-)
+
+Gruß Ralf
