@@ -9,16 +9,17 @@ public class StudentLogExpPrettyPrinter implements LogExpHandler {
 
 	StringBuffer Expression;
 	Stack<Integer> ExpressionStack; // Speichert die noch zu schlieﬂenden
-									// Expressions
+	// Expressions
 
 	// Werte, die auf dem Stack abzulegen sind.
 	static final int OR = 0;
 	static final int AND = 1;
 	static final int NOT = 2;
-	static final int WRITE_EXPRESSION = 3; //Gibt an, dass die Funktion noch geschrieben werden muss.
+	static final int WRITE_EXPRESSION = 3; // Gibt an, dass die Funktion noch
+											// geschrieben werden muss.
 
 	// Zu and, or und not entsprechende Strings
-	String[] ExpressionNames = { "or", "and", "not" };
+	String[] ExpressionNames = { "or", "and", "not", "WRITE_EXPRESSION" };
 
 	public StudentLogExpPrettyPrinter() {
 		Expression = new StringBuffer();
@@ -62,11 +63,11 @@ public class StudentLogExpPrettyPrinter implements LogExpHandler {
 
 	public void constFalse() throws LogExpException {
 		// TODO Auto-generated method stub
-		if(ExpressionStack.peek()==WRITE_EXPRESSION) {
+		if (ExpressionStack.peek() == WRITE_EXPRESSION) {
 			ExpressionStack.pop();
-			Expression.append("false " + ExpressionNames[ExpressionStack.peek()] + " ");
-		}
-		else {
+			Expression.append("false "
+					+ ExpressionNames[ExpressionStack.peek()] + " ");
+		} else {
 			Expression.append("false");
 		}
 
@@ -74,11 +75,11 @@ public class StudentLogExpPrettyPrinter implements LogExpHandler {
 
 	public void constTrue() throws LogExpException {
 		// TODO Auto-generated method stub
-		if(ExpressionStack.peek()==WRITE_EXPRESSION) {
+		if (ExpressionStack.peek() == WRITE_EXPRESSION) {
 			ExpressionStack.pop();
-			Expression.append("true " + ExpressionNames[ExpressionStack.peek()] + " ");
-		}
-		else {
+			Expression.append("true " + ExpressionNames[ExpressionStack.peek()]
+					+ " ");
+		} else {
 			Expression.append("true");
 		}
 	}
@@ -88,6 +89,7 @@ public class StudentLogExpPrettyPrinter implements LogExpHandler {
 		if (ExpressionStack.peek() == AND) {
 			ExpressionStack.pop();
 			Expression.append(")");
+			printExpression();
 		} else
 			throw new LogExpException(
 					"Error: called endAnd(), but last Expression was "
@@ -99,6 +101,7 @@ public class StudentLogExpPrettyPrinter implements LogExpHandler {
 		if (ExpressionStack.peek() == NOT) {
 			ExpressionStack.pop();
 			Expression.append(")");
+			printExpression();
 		} else
 			throw new LogExpException(
 					"Error: called endNegation(), but last Expression was "
@@ -110,6 +113,7 @@ public class StudentLogExpPrettyPrinter implements LogExpHandler {
 		if (ExpressionStack.peek() == OR) {
 			ExpressionStack.pop();
 			Expression.append(")");
+			printExpression();
 		} else
 			throw new LogExpException(
 					"Error: called endOr(), but last Expression was "
@@ -120,7 +124,17 @@ public class StudentLogExpPrettyPrinter implements LogExpHandler {
 		// TODO Auto-generated method stub
 		Expression.append(name + " " + ExpressionNames[ExpressionStack.peek()]);
 	}
-	
+
+	public void printExpression() {
+		if (!ExpressionStack.empty()) {
+			if (ExpressionStack.peek() == WRITE_EXPRESSION) {
+				ExpressionStack.pop();
+				Expression.append(" " + ExpressionNames[ExpressionStack.peek()]
+						+ " ");
+			}
+		}
+	}
+
 	public String toString() {
 		return Expression.toString();
 	}
