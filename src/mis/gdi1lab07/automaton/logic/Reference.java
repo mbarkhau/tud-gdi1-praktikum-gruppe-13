@@ -11,7 +11,7 @@ public class Reference implements LogicExpression<BooleanVariables> {
 	@Override
 	public boolean eval(BooleanVariables env) throws LogExpException {
 		// TODO Auto-generated method stub
-		return env.get(name);
+		return env.get(this.name);
 	}
 
 	@Override
