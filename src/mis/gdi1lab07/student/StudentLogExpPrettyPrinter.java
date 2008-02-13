@@ -122,7 +122,8 @@ public class StudentLogExpPrettyPrinter implements LogExpHandler {
 
 	public void variableReference(String name) throws LogExpException {
 		// TODO Auto-generated method stub
-		Expression.append(name + " " + ExpressionNames[ExpressionStack.peek()]);
+		Expression.append(name);
+		printExpression();
 	}
 
 	public void printExpression() {
