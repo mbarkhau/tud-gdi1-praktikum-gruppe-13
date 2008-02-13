@@ -166,7 +166,7 @@ public class TestLogExpBuilderTwo {
 		builder.endNegation();
 		
 		System.out.println(builder.getLogExp().toString());
-		assertFalse(builder.getLogExp().eval(context));
+		assertTrue(builder.getLogExp().eval(context));
 	}
 	
 	@Test
