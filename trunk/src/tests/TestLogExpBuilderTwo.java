@@ -109,6 +109,7 @@ public class TestLogExpBuilderTwo {
 			builder.endOr();
 		builder.endNegation();
 		
+		
 		System.out.println(builder.getLogExp().toString());
 		assertFalse(builder.getLogExp().eval(context));
 	}
