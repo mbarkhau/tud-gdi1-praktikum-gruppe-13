@@ -3,7 +3,7 @@ package mis.gdi1lab07.automaton;
 import mis.gdi1lab07.automaton.logic.LogExpException;
 import mis.gdi1lab07.automaton.logic.LogicExpression;
 
-public class Transition<T> {
+public class StateTransition<T> {
 
 	private String name;
 	
