@@ -53,9 +53,9 @@ public class TestFSM implements Constants {
 	public void testBuild02() throws AutomatonException {
 		FSMBuilder<Integer> fsmBuilder = ClassGetter.newFsmBuilder();
 		fsmBuilder.beginFSM();
-		fsmBuilder.state(A, false);
+		fsmBuilder.state(A, true);
 		fsmBuilder.state(B, false);
-		fsmBuilder.beginFSM();
+		fsmBuilder.endFSM();
 	}
 
 	@Test
@@ -70,7 +70,7 @@ public class TestFSM implements Constants {
 		fsmBuilder.transition(B, A, e2, dummy);
 		fsmBuilder.transition(A, A, e3, dummy);
 		fsmBuilder.transition(B, B, e3, dummy);
-		fsmBuilder.beginFSM();
+		fsmBuilder.endFSM();
 	}
 
 	@Test
@@ -82,7 +82,7 @@ public class TestFSM implements Constants {
 			fsmBuilder.state(A, true);
 			fsmBuilder.state(B, false);
 			fsmBuilder.transition(A, C, e1, dummy);
-			fsmBuilder.beginFSM();
+			fsmBuilder.endFSM();
 		}
 		catch(AutomatonException e) {
 			caught = true;
@@ -100,7 +100,7 @@ public class TestFSM implements Constants {
 			fsmBuilder.state(A, true);
 			fsmBuilder.state(B, false);
 			fsmBuilder.transition(C, A, e1, dummy);
-			fsmBuilder.beginFSM();
+			fsmBuilder.endFSM();
 		}
 		catch(AutomatonException e) {
 			caught = true;
@@ -118,7 +118,7 @@ public class TestFSM implements Constants {
 			fsmBuilder.state(A, true);
 			fsmBuilder.state(B, false);
 			fsmBuilder.transition(C, D, e1, dummy);
-			fsmBuilder.beginFSM();
+			fsmBuilder.endFSM();
 		}
 		catch(AutomatonException e) {
 			caught = true;
