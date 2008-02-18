@@ -37,6 +37,7 @@ public class StudentLogExpBuilder implements LogExpBuilder<BooleanVariables> {
 	@Override
 	public void beginAnd() throws LogExpException {
 		// TODO Auto-generated method stub
+		combineParameters();
 		updateParamCount();
 		ExpressionStack.push(AND);
 
@@ -45,6 +46,7 @@ public class StudentLogExpBuilder implements LogExpBuilder<BooleanVariables> {
 	@Override
 	public void beginNegation() throws LogExpException {
 		// TODO Auto-generated method stub
+		combineParameters();
 		updateParamCount();
 		ExpressionStack.push(NOT);
 
@@ -53,6 +55,7 @@ public class StudentLogExpBuilder implements LogExpBuilder<BooleanVariables> {
 	@Override
 	public void beginOr() throws LogExpException {
 		// TODO Auto-generated method stub
+		combineParameters();
 		updateParamCount();
 		ExpressionStack.push(OR);
 	}
@@ -117,7 +120,7 @@ public class StudentLogExpBuilder implements LogExpBuilder<BooleanVariables> {
 	public void endOr() throws LogExpException {
 		// TODO Auto-generated method stub
 		if (ExpressionStack.peek() <= PARAM_ONE)
-			throw new LogExpException("Error: And needs two parameters!");
+			throw new LogExpException("Error: Or needs two parameters!");
 		else {
 			removeParamCount();
 			if (ExpressionStack.peek() == OR) {
@@ -136,7 +139,9 @@ public class StudentLogExpBuilder implements LogExpBuilder<BooleanVariables> {
 	@Override
 	public LogicExpression<BooleanVariables> getLogExp() throws LogExpException {
 		// TODO Auto-generated method stub
-		return ObjectStack.peek();
+		if((ExpressionStack.size()==0)&&(ObjectStack.size()==1))
+			return ObjectStack.peek();
+		else throw new LogExpException("Der Ausdruck ist nicht korrekt fertiggestellt.");
 	}
 
 	public void variableReference(String name) throws LogExpException {
