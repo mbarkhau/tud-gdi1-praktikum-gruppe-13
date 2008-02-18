@@ -9,7 +9,7 @@ public class State<ENV> {
 
 	private final String name;
 
-	private List<Transition<ENV>> transitions = new ArrayList<Transition<ENV>>();
+	private List<StateTransition<ENV>> transitions = new ArrayList<StateTransition<ENV>>();
 
 	public State(String name) {
 		this.name = name;
@@ -18,7 +18,7 @@ public class State<ENV> {
 	public State<ENV> getTransition(ENV input) throws AutomatonException,
 			LogExpException {
 		State<ENV> result = null;
-		for (Transition<ENV> trans : transitions) {
+		for (StateTransition<ENV> trans : transitions) {
 			if (trans.eval(input)) {
 				if (result != null)
 					throw new AutomatonException(
@@ -35,7 +35,7 @@ public class State<ENV> {
 	 *            der folgezustand bei input
 	 * @throws AutomatonException
 	 */
-	public void addTransition(Transition<ENV> transition)
+	public void addTransition(StateTransition<ENV> transition)
 			throws AutomatonException {
 		if (transition.getStartState() != this)
 			throw new AutomatonException(
@@ -52,7 +52,7 @@ public class State<ENV> {
 	}
 
 	public void serialize(FSMHandler<ENV> handler) throws AutomatonException {
-		for (Transition<ENV> trans : transitions) 
+		for (StateTransition<ENV> trans : transitions) 
 			handler.transition(trans.getStartState().toString(), trans
 					.getTargetState().toString(), trans.getName(), trans
 					.getExp());

@@ -10,7 +10,7 @@ import mis.gdi1lab07.automaton.AutomatonException;
 import mis.gdi1lab07.automaton.FSM;
 import mis.gdi1lab07.automaton.FSMBuilder;
 import mis.gdi1lab07.automaton.State;
-import mis.gdi1lab07.automaton.Transition;
+import mis.gdi1lab07.automaton.StateTransition;
 import mis.gdi1lab07.automaton.logic.LogicExpression;
 
 /**
@@ -82,7 +82,7 @@ public class StudentFsmBuilder<T> implements FSMBuilder<T> {
 			throw new AutomatonException("Missing target state " + targetState + ", for transition " + transitionName);
 				
 		State<T> changeThis = states.get(startState);
-		Transition<T> newTransition = new Transition<T>();
+		StateTransition<T> newTransition = new StateTransition<T>();
 		newTransition.setStartState(states.get(startState));
 		newTransition.setTargetState(states.get(targetState));
 		newTransition.setName(transitionName);
