@@ -14,9 +14,9 @@ import mis.gdi1lab07.automaton.logic.LogicExpression;
 public class StudentHfsmXmlPrinter<ENV> implements HFSMHandler<ENV> {
 
 	
-	private final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
+	private final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
 	
-	private final String HFSM_TAG_START = "<hfsm name=\"";
+	private final String HFSM_TAG_START = "<hfsm name=\"StudentHFSM\">\n";
 	
 	private static String HFSM_TAG_END = "</hfsm>\n";
 	
@@ -91,7 +91,7 @@ public class StudentHfsmXmlPrinter<ENV> implements HFSMHandler<ENV> {
 
 	@Override
 	public void state(String name, boolean isInitialState) throws AutomatonException {
-		this.emptyCharCounter++;
+		//this.emptyCharCounter++;
 		buffer.append(emptyChars() + this.stateTag(name, isInitialState));
 		this.tagStack.push(STATE);
 	}
@@ -99,9 +99,9 @@ public class StudentHfsmXmlPrinter<ENV> implements HFSMHandler<ENV> {
 	@Override
 	public void transition(String startState, String targetState, String transitionName,
 			LogicExpression<ENV> exp) throws AutomatonException {
-		this.emptyCharCounter++;
+		//this.emptyCharCounter++;
 		buffer.append(this.emptyChars()+this.transTag(targetState, transitionName));
-		this.emptyCharCounter--;
+		//this.emptyCharCounter--;
 	}
 	
 	
