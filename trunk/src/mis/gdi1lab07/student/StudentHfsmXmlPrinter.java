@@ -1,5 +1,6 @@
 package mis.gdi1lab07.student;
 
+import java.io.IOException;
 import java.io.Writer;
 import java.util.Stack;
 
@@ -71,6 +72,16 @@ public class StudentHfsmXmlPrinter<ENV> implements HFSMHandler<ENV> {
 		}
 		
 		this.tagStack.pop();
+		
+		
+		if(tagStack.size()==0){
+			buffer.append(this.HFSM_TAG_END);
+		try {
+			w.write(buffer.toString());
+		} catch (IOException e) {
+			throw new AutomatonException(e);
+		}}
+
 	}
 
 	@Override
