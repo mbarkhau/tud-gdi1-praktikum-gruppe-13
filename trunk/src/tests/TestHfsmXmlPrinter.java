@@ -50,4 +50,22 @@ public class TestHfsmXmlPrinter {
 			fail("Invalid XML: " + e.getMessage());
 		}
 	}
+	
+	@Test
+	public void testFSMXMLPrinter02() throws Exception {
+		HFSM<Integer> hfsm = Automata.buildEx02();
+		
+		StringWriter sw = new StringWriter();
+		HFSMHandler<Integer> printer = ClassGetter.newHfsmXmlPrinter(sw);
+
+		hfsm.serialize(printer);
+		sw.flush();
+		
+		try {
+			ClassGetter.newValidator(xsdhfsm).validateDocumentRaw(new StringReader(sw.toString()));
+		}
+		catch(Exception e) {
+			fail("Invalid XML: " + e.getMessage());
+		}
+	}
 }

@@ -5,10 +5,10 @@ import java.util.Stack;
 import mis.gdi1lab07.automaton.logic.LogExpException;
 import mis.gdi1lab07.automaton.logic.LogExpHandler;
 
-public class StudentLogExpPrettyPrinter implements LogExpHandler {
+public class StudentLogExpPrettyPrinter<T> implements LogExpHandler<T> {
 
 	StringBuffer Expression;
-	Stack<Integer> ExpressionStack; // Speichert die noch zu schließenden
+	Stack<Integer> ExpressionStack; // Speichert die noch zu schlieï¿½enden
 	// Expressions
 
 	// Werte, die auf dem Stack abzulegen sind.

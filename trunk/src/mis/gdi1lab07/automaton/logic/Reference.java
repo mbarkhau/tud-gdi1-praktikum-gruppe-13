@@ -1,6 +1,6 @@
 package mis.gdi1lab07.automaton.logic;
 
-public class Reference implements LogicExpression<BooleanVariables> {
+public class Reference<T extends BooleanVariables> implements LogicExpression<T> {
 
 	private String name;
 	
@@ -9,13 +9,13 @@ public class Reference implements LogicExpression<BooleanVariables> {
 	}
 	
 	@Override
-	public boolean eval(BooleanVariables env) throws LogExpException {
+	public boolean eval(T env) throws LogExpException {
 		// TODO Auto-generated method stub
 		return env.get(this.name);
 	}
 
 	@Override
-	public void serialize(LogExpHandler handler) throws LogExpException {
+	public void serialize(LogExpHandler<T> handler) throws LogExpException {
 		// TODO Auto-generated method stub
 		handler.variableReference(name);
 

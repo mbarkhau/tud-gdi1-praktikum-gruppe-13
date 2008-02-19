@@ -2,23 +2,23 @@ package mis.gdi1lab07.automaton.logic;
 
 import mis.gdi1lab07.student.StudentLogExpPrettyPrinter;
 
-public class OrExpression implements LogicExpression<Object> {
+public class OrExpression<T> implements LogicExpression<T> {
 
-	private LogicExpression<Object> e1, e2;
+	private LogicExpression<T> e1, e2;
 	
-	public OrExpression(LogicExpression<Object> e1, LogicExpression<Object> e2) {
+	public OrExpression(LogicExpression<T> e1, LogicExpression<T> e2) {
 		this.e1 = e1;
 		this.e2 = e2;
 	}
 	
 	@Override
-	public boolean eval(Object env) throws LogExpException {
+	public boolean eval(T env) throws LogExpException {
 		// TODO Auto-generated method stub
 		return e1.eval(env) || e2.eval(env);
 	}
 
 	@Override
-	public void serialize(LogExpHandler<Object> handler) throws LogExpException {
+	public void serialize(LogExpHandler<T> handler) throws LogExpException {
 		// TODO Auto-generated method stub
 		handler.beginOr();
 		e1.serialize(handler);
@@ -27,7 +27,7 @@ public class OrExpression implements LogicExpression<Object> {
 	}
 	
 	public String toString() {
-		StudentLogExpPrettyPrinter printer = new StudentLogExpPrettyPrinter();
+		StudentLogExpPrettyPrinter<T> printer = new StudentLogExpPrettyPrinter<T>();
 		try {
 			this.serialize(printer);
 		} catch (LogExpException e) {
