@@ -22,9 +22,9 @@ public class StudentHFSM<T> implements HFSM<T> {
 
 	private HFSM<T> stateHFSM;
 
-	private HFSM<T> initialState;
+	private StudentHFSM<T> initialState;
 
-	private Map<String, HFSM<T>> states = new HashMap<String, HFSM<T>>();
+	private Map<String, StudentHFSM<T>> states = new HashMap<String, StudentHFSM<T>>();
 
 	private List<HFSMTransition<T>> transitions = new ArrayList<HFSMTransition<T>>();
 
@@ -57,14 +57,14 @@ public class StudentHFSM<T> implements HFSM<T> {
 
 			}
 		}
-		if (nextState != null) { //Eine feuernde Transition
+		if (nextState != null) { // Eine feuernde Transition
 			nextState.reset();
 			stateHFSM = nextState;
 			output();
 			return nextState;
 		}
 		doOutput();
-		if (stateHFSM != null) //Keine feuernde Transition
+		if (stateHFSM != null) // Keine feuernde Transition
 			stateHFSM.input(context);
 		return this;
 	}
@@ -85,7 +85,38 @@ public class StudentHFSM<T> implements HFSM<T> {
 
 	@Override
 	public void serialize(HFSMHandler<T> handler) throws AutomatonException {
-		// TODO Auto-generated method stub
+		if (hasStates()) {
+			handler.beginState(name, true);
+			doSerialization(handler);
+			handler.endState();
+		} else
+			handler.state(name, true);
+
+	}
+
+	public void doSerialization(HFSMHandler<T> handler)
+			throws AutomatonException {
+		for (StudentHFSM<T> current : states.values()) {
+			boolean isInitial = (current == initialState);
+			if (current.hasStates()) {
+				handler.beginState(current.getName(), isInitial);
+				current.doSerialization(handler);
+				handler.endState();
+			} else {
+				handler.state(current.getName(), isInitial);
+			}
+		}
+		serializeTransitions(handler);
+	}
+
+	public void serializeTransitions(HFSMHandler<T> handler)
+			throws AutomatonException {
+		for (HFSMTransition<T> current : transitions) {
+			handler.transition(current.getStartState().toString(), current
+					.getTargetState().toString(), current.getName(), current
+					.getExp());
+		}
+
 	}
 
 	@Override
@@ -108,7 +139,7 @@ public class StudentHFSM<T> implements HFSM<T> {
 		return initialState;
 	}
 
-	public void setInitialState(HFSM<T> initialState) {
+	public void setInitialState(StudentHFSM<T> initialState) {
 		this.initialState = initialState;
 	}
 
@@ -116,12 +147,16 @@ public class StudentHFSM<T> implements HFSM<T> {
 			String transitionName, LogicExpression<T> exp)
 			throws AutomatonException {
 		HFSMTransition<T> newTrans = new HFSMTransition<T>();
-		
+
 		if (!states.containsKey(targetState))
-			throw new AutomatonException("Couldn't create transition, missing targetState " + targetState);
+			throw new AutomatonException(
+					"Couldn't create transition, missing targetState "
+							+ targetState);
 		if (!states.containsKey(startState))
-			throw new AutomatonException("Couldn't create transition, missing startState " + startState);
-		
+			throw new AutomatonException(
+					"Couldn't create transition, missing startState "
+							+ startState);
+
 		newTrans.setExp(exp);
 		newTrans.setName(transitionName);
 		newTrans.setStartState(states.get(startState));
@@ -132,12 +167,12 @@ public class StudentHFSM<T> implements HFSM<T> {
 	public void addState(StudentHFSM<T> state) {
 		states.put(state.getName(), state);
 	}
-	
-	public boolean hasStates(){
+
+	public boolean hasStates() {
 		return states.size() > 0;
 	}
-	
-	public String toString(){
+
+	public String toString() {
 		return name;
 	}
 }
