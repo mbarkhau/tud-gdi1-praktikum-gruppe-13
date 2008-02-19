@@ -96,24 +96,26 @@ public class StudentHFSM<T> implements HFSM<T> {
 
 	public void doSerialization(HFSMHandler<T> handler)
 			throws AutomatonException {
-		for (StudentHFSM<T> current : states.values()) {
-			boolean isInitial = (current == initialState);
-			if (current.hasStates()) {
-				handler.beginState(current.getName(), isInitial);
-				current.doSerialization(handler);
+		for (StudentHFSM<T> curState : states.values()) {
+			boolean isInitial = (curState == initialState);
+			if (curState.hasStates()) {
+				handler.beginState(curState.getName(), isInitial);
+				curState.doSerialization(handler);
+				serializeTransitions(handler, curState);
 				handler.endState();
 			} else {
-				handler.state(current.getName(), isInitial);
+				handler.state(curState.getName(), isInitial);
+				serializeTransitions(handler, curState);
 			}
 		}
-		serializeTransitions(handler);
 	}
 
-	public void serializeTransitions(HFSMHandler<T> handler)
+	public void serializeTransitions(HFSMHandler<T> handler, HFSM<T> startState)
 			throws AutomatonException {
-		for (HFSMTransition<T> current : transitions) {
-			handler.transition(current.getStartState().toString(), current
-					.getTargetState().toString(), current.getName(), current
+		for (HFSMTransition<T> curTrans : transitions) {
+			if (curTrans.getStartState() == startState)
+				handler.transition(curTrans.getStartState().toString(), curTrans
+					.getTargetState().toString(), curTrans.getName(), curTrans
 					.getExp());
 		}
 

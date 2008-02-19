@@ -1,6 +1,6 @@
 package mis.gdi1lab07.automaton.logic;
 
-public class ConstantValue implements LogicExpression {
+public class ConstantValue<T> implements LogicExpression<T> {
 	
 	private boolean value;
 	
@@ -9,13 +9,13 @@ public class ConstantValue implements LogicExpression {
 	}
 
 	@Override
-	public boolean eval(Object env) throws LogExpException {
+	public boolean eval(T env) throws LogExpException {
 		// TODO Auto-generated method stub
 		return this.value;
 	}
 
 	@Override
-	public void serialize(LogExpHandler handler) throws LogExpException {
+	public void serialize(LogExpHandler<T> handler) throws LogExpException {
 		// TODO Auto-generated method stub
 		if(value) handler.constTrue();
 		else handler.constFalse();

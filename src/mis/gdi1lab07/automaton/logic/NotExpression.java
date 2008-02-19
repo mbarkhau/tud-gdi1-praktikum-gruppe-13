@@ -2,22 +2,22 @@ package mis.gdi1lab07.automaton.logic;
 
 import mis.gdi1lab07.student.StudentLogExpPrettyPrinter;
 
-public class NotExpression implements LogicExpression<Object> {
+public class NotExpression<T> implements LogicExpression<T> {
 
-	LogicExpression<Object> exp;
+	LogicExpression<T> exp;
 	
-	public NotExpression(LogicExpression<Object> exp) {
+	public NotExpression(LogicExpression<T> exp) {
 		this.exp = exp;
 	}
 	
 	@Override
-	public boolean eval(Object env) throws LogExpException {
+	public boolean eval(T env) throws LogExpException {
 		// TODO Auto-generated method stub
 		return !(exp.eval(env));
 	}
 
 	@Override
-	public void serialize(LogExpHandler handler) throws LogExpException {
+	public void serialize(LogExpHandler<T> handler) throws LogExpException {
 		// TODO Auto-generated method stub
 		handler.beginNegation();
 		exp.serialize(handler);
