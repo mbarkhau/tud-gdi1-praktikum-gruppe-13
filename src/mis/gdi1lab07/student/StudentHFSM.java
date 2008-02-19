@@ -42,14 +42,13 @@ public class StudentHFSM<T> implements HFSM<T> {
 	@Override
 	public void doOutput() throws AutomatonException {
 		log.log(LogLevel.Info, name);
-		System.out.println(name);
 	}
 
 	@Override
 	public HFSM<T> input(T context) throws AutomatonException {
 		HFSM<T> nextState = null;
 		for (HFSMTransition<T> trans : transitions) {
-			if (trans.eval(context)) {
+			if (trans.getStartState() == stateHFSM && trans.eval(context)) {
 				if (nextState != null)
 					throw new AutomatonException(
 							"Multiple transitions for this input.");
@@ -58,12 +57,15 @@ public class StudentHFSM<T> implements HFSM<T> {
 
 			}
 		}
-		if (nextState != null) {
+		if (nextState != null) { //Eine feuernde Transition
+			nextState.reset();
 			stateHFSM = nextState;
+			output();
 			return nextState;
 		}
-		stateHFSM.input(context);
 		doOutput();
+		if (stateHFSM != null) //Keine feuernde Transition
+			stateHFSM.input(context);
 		return this;
 	}
 
@@ -77,6 +79,8 @@ public class StudentHFSM<T> implements HFSM<T> {
 	@Override
 	public void reset() throws AutomatonException {
 		stateHFSM = initialState;
+		if (stateHFSM != null)
+			stateHFSM.reset();
 	}
 
 	@Override
@@ -87,6 +91,9 @@ public class StudentHFSM<T> implements HFSM<T> {
 	@Override
 	public void setLog(Logger log) {
 		this.log = log;
+		for (HFSM<T> state : states.values()) {
+			state.setLog(log);
+		}
 	}
 
 	public String getName() {

@@ -42,6 +42,8 @@ public class StudentHfsmBuilder<T> implements HFSMBuilder<T> {
 					"Couldn't add substate, to a HFSM, which was initialized as a non hierarchical HFSM");
 		
 		StudentHFSM<T> newHFMS = new StudentHFSM<T>();
+		newHFMS.setName(name);
+		
 		if (hfsms.size() != 0) {
 			StudentHFSM<T> curHFMS = hfsms.peek();
 			curHFMS.addState(newHFMS);
@@ -54,7 +56,6 @@ public class StudentHfsmBuilder<T> implements HFSMBuilder<T> {
 		}else {
 			topHFSM = newHFMS;
 		}
-		newHFMS.setName(name);
 		hfsms.push(newHFMS);
 	}
 
