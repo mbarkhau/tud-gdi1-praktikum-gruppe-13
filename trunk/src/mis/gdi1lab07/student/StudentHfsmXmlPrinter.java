@@ -20,9 +20,11 @@ public class StudentHfsmXmlPrinter<ENV> implements HFSMHandler<ENV> {
 	
 	private static String HFSM_TAG_END = "</hfsm>\n";
 	
-	private static String STATE_TAG_END = " </state>\n";
+	private static String STATE_TAG_END = "</state>\n";
 	
-	private static String SUBSTATE_TAG_END  = "<substates>\n";
+	private static String SUBSTATES  = "<substates>\n";
+	
+	private static String SUBSTATE_TAG_END = "</substates>\n";
 	
 	private final Writer w;
 	
@@ -56,17 +58,20 @@ public class StudentHfsmXmlPrinter<ENV> implements HFSMHandler<ENV> {
 		this.emptyCharCounter++;
 		buffer.append(emptyChars()+this.stateTag(name, isInitialState));
 		this.emptyCharCounter++;
-		buffer.append(emptyChars()+this.SUBSTATE_TAG_END);
+		buffer.append(emptyChars()+this.SUBSTATES);
 		this.tagStack.push(SUBSTATE);
+		
 
 	}
 
 	@Override
 	public void endState() throws AutomatonException {
+		this.emptyCharCounter--;
+		
 		if(this.tagStack.peek()==STATE)
-			buffer.append(this.STATE_TAG_END);
+			buffer.append(this.emptyChars()+this.STATE_TAG_END);
 		else{
-			this.emptyCharCounter--;
+			
 			buffer.append(this.emptyChars()+this.SUBSTATE_TAG_END);
 			
 		}
