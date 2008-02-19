@@ -1,6 +1,7 @@
 package mis.gdi1lab07.student;
 
 import java.io.Writer;
+import java.util.Stack;
 
 import mis.gdi1lab07.automaton.AutomatonException;
 import mis.gdi1lab07.automaton.HFSMHandler;
@@ -20,14 +21,19 @@ public class StudentHfsmXmlPrinter<ENV> implements HFSMHandler<ENV> {
 	
 	private static String STATE_TAG_END = " </state>\n";
 	
-	private static String subs = "<substates>\n";
+	private static String SUBSTATE_TAG_END  = "<substates>\n";
 	
 	private final Writer w;
 	
-	private boolean stateOpen = false;
+	private final boolean STATE = true;
+	
+	private final boolean SUBSTATE = false;
+	
+	private Stack<Boolean> tagStack = new Stack<Boolean>();
 	
 	private final StringBuffer buffer;
 	
+	private int emptyCharCounter = 0;
 	
 	
 	/**
@@ -40,42 +46,64 @@ public class StudentHfsmXmlPrinter<ENV> implements HFSMHandler<ENV> {
 	public StudentHfsmXmlPrinter(Writer w) {
 		this.w = w;
 		buffer = new StringBuffer();
+		buffer.append(this.XML_HEADER);
+		buffer.append(this.HFSM_TAG_START);
 	}
 	
 	@Override
 	public void beginState(String name, boolean isInitialState) throws AutomatonException {
-		buffer.append(this.XML_HEADER);
-		buffer.append(this.HFSM_TAG_START);
+		this.emptyCharCounter++;
+		buffer.append(emptyChars()+this.stateTag(name, isInitialState));
+		this.emptyCharCounter++;
+		buffer.append(emptyChars()+this.SUBSTATE_TAG_END);
+		this.tagStack.push(SUBSTATE);
 
 	}
 
 	@Override
 	public void endState() throws AutomatonException {
-		// TODO Auto-generated method stub
-
+		if(this.tagStack.peek()==STATE)
+			buffer.append(this.STATE_TAG_END);
+		else{
+			this.emptyCharCounter--;
+			buffer.append(this.emptyChars()+this.SUBSTATE_TAG_END);
+			
+		}
+		
+		this.tagStack.pop();
 	}
 
 	@Override
 	public void state(String name, boolean isInitialState) throws AutomatonException {
-		// TODO Auto-generated method stub
-
+		this.emptyCharCounter++;
+		buffer.append(emptyChars() + this.stateTag(name, isInitialState));
+		this.tagStack.push(STATE);
 	}
 
 	@Override
 	public void transition(String startState, String targetState, String transitionName,
 			LogicExpression<ENV> exp) throws AutomatonException {
-		// TODO Auto-generated method stub
-
+		this.emptyCharCounter++;
+		buffer.append(this.emptyChars()+this.transTag(targetState, transitionName));
+		this.emptyCharCounter--;
 	}
 	
 	
 	private String stateTag(String name, boolean initial){
-		return "<state name=\""+name+" initial=\""+initial+"\">\n";
+		return (emptyChars()
+				+ "<state name=\""+name+" initial=\""+initial+"\">\n");
 	}
 	
 	private String transTag(String target, String transName){
-		return ("<transition target=\""+target+"\">"+transName+"\"</transition>\n");
+		return (emptyChars()+"<transition target=\""+target+"\">"+transName+"\"</transition>\n");
 	}
 	
-
+	private String emptyChars(){
+		String temp="";
+		for(int i=0; i<this.emptyCharCounter;i++){
+			temp += " ";
+		}
+		return temp;
+		
+	}
 }
