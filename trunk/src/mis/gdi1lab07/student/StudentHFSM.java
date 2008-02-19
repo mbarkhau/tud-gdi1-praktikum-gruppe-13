@@ -1,14 +1,16 @@
 package mis.gdi1lab07.student;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import mis.gdi1lab07.automaton.AutomatonException;
-import mis.gdi1lab07.automaton.FSM;
 import mis.gdi1lab07.automaton.HFSM;
 import mis.gdi1lab07.automaton.HFSMHandler;
 import mis.gdi1lab07.automaton.HFSMTransition;
-import mis.gdi1lab07.automaton.logic.LogExpException;
+import mis.gdi1lab07.automaton.logic.LogicExpression;
+import utilities.LogLevel;
 import utilities.Logger;
 
 /**
@@ -16,15 +18,17 @@ import utilities.Logger;
  */
 public class StudentHFSM<T> implements HFSM<T> {
 
+	private String name;
+
 	private HFSM<T> stateHFSM;
 
 	private HFSM<T> initialState;
 
-	private List<HFSM<T>> states = new ArrayList<HFSM<T>>();
+	private Map<String, HFSM<T>> states = new HashMap<String, HFSM<T>>();
 
 	private List<HFSMTransition<T>> transitions = new ArrayList<HFSMTransition<T>>();
 
-	private FSM<T> stateFSM;
+	private Logger log;
 
 	/**
 	 * The empty standard constructor MUST be implemented in order to run
@@ -37,8 +41,8 @@ public class StudentHFSM<T> implements HFSM<T> {
 
 	@Override
 	public void doOutput() throws AutomatonException {
-		// TODO Auto-generated method stub
-
+		log.log(LogLevel.Info, name);
+		System.out.println(name);
 	}
 
 	@Override
@@ -54,36 +58,79 @@ public class StudentHFSM<T> implements HFSM<T> {
 
 			}
 		}
-		if (nextState != null){
+		if (nextState != null) {
 			stateHFSM = nextState;
 			return nextState;
 		}
+		stateHFSM.input(context);
 		doOutput();
 		return this;
 	}
 
 	@Override
 	public void output() throws AutomatonException {
-		// TODO Auto-generated method stub
-
+		doOutput();
+		if (stateHFSM != null)
+			stateHFSM.output();
 	}
 
 	@Override
 	public void reset() throws AutomatonException {
-		// TODO Auto-generated method stub
-
+		stateHFSM = initialState;
 	}
 
 	@Override
 	public void serialize(HFSMHandler<T> handler) throws AutomatonException {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void setLog(Logger log) {
-		// TODO Auto-generated method stub
-
+		this.log = log;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public HFSM<T> getInitialState() {
+		return initialState;
+	}
+
+	public void setInitialState(HFSM<T> initialState) {
+		this.initialState = initialState;
+	}
+
+	public void addTransition(String startState, String targetState,
+			String transitionName, LogicExpression<T> exp)
+			throws AutomatonException {
+		HFSMTransition<T> newTrans = new HFSMTransition<T>();
+		
+		if (!states.containsKey(targetState))
+			throw new AutomatonException("Couldn't create transition, missing targetState " + targetState);
+		if (!states.containsKey(startState))
+			throw new AutomatonException("Couldn't create transition, missing startState " + startState);
+		
+		newTrans.setExp(exp);
+		newTrans.setName(transitionName);
+		newTrans.setStartState(states.get(startState));
+		newTrans.setTargetState(states.get(targetState));
+		transitions.add(newTrans);
+	}
+
+	public void addState(StudentHFSM<T> state) {
+		states.put(state.getName(), state);
+	}
+	
+	public boolean hasStates(){
+		return states.size() > 0;
+	}
+	
+	public String toString(){
+		return name;
+	}
 }
