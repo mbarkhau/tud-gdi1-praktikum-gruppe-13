@@ -10,7 +10,7 @@ public class Pass<T> extends StudentHFSM<T> {
 
 	public Pass(FieldPlayer player) {
 		this.player = player;
-
+		this.setName(getClass().getName());
 	}
 
 }

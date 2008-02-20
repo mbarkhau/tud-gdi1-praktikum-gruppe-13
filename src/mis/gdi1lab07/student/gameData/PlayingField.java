@@ -47,7 +47,7 @@ public class PlayingField {
 		return gameMode;
 	}
 
-	/** TODO: */
+	
 	public void setGameMode(Integer gameMode) {
 		this.gameMode = gameMode;
 		if (gameMode == Controller.PLAY_MODE_BEFORE_KICK_OFF) {
@@ -102,7 +102,6 @@ public class PlayingField {
 		this.theirScore = theirScore;
 	}
 
-	//TODO: Calculate this on the fly
 	public Integer getTickCount() {
 		return tickCount;
 	}

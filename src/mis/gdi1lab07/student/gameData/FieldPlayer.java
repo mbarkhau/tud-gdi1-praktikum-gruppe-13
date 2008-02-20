@@ -6,7 +6,7 @@ import java.util.Map;
 import atan2.model.Controller;
 import atan2.model.Player;
 
-public class FieldPlayer extends MobileFieldObject implements Player {
+public class FieldPlayer<T extends GameEnv> extends MobileFieldObject implements Player {
 
 	private Player decoratedPlayer;
 
@@ -20,7 +20,7 @@ public class FieldPlayer extends MobileFieldObject implements Player {
 //
 //	private double viewOffset = 0;
 
-	private GameEnv env;
+	private T env;
 	
 	// Used for triangulation, entries in this List MUST be as precise as
 	// possible relative to the player. Either refresh them, if the Player
@@ -33,8 +33,9 @@ public class FieldPlayer extends MobileFieldObject implements Player {
 
 	}
 
-	public FieldPlayer(Player player) {
+	public FieldPlayer(Player player, T env) {
 		this.decoratedPlayer = player;
+		this.env = env;
 	}
 
 	@Override
@@ -143,16 +144,12 @@ public class FieldPlayer extends MobileFieldObject implements Player {
 
 	@Override
 	public void turn(double angle) {
-		decoratedPlayer.turn(angle);
 		env.turn(angle);
+		decoratedPlayer.turn(angle);
 	}
 
-	public GameEnv getEnv() {
+	public T getEnv() {
 		return env;
-	}
-
-	public void setEnv(GameEnv env) {
-		this.env = env;
 	}
 
 }

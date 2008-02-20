@@ -16,7 +16,7 @@ public class PlayerUpdateTest {
 	@Before
 	public void setUp() throws Exception {
 		Player player = new DummyPlayerImpl(0);
-		ControllerAdaptor controller = new Controller("TestTeam", player);
+//		ControllerAdaptor controller = new Controller("TestTeam", player);
 		
 	}
 

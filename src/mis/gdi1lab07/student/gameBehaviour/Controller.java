@@ -1,18 +1,12 @@
 package mis.gdi1lab07.student.gameBehaviour;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Vector;
-
-import mis.gdi1lab07.student.gameData.Ball;
+import mis.gdi1lab07.automaton.AutomatonException;
+import mis.gdi1lab07.student.StudentHFSM;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
 import mis.gdi1lab07.student.gameData.FieldPosition;
 import mis.gdi1lab07.student.gameData.FieldVector;
-import mis.gdi1lab07.student.gameData.Flag;
-import mis.gdi1lab07.student.gameData.FlagSighting;
+import mis.gdi1lab07.student.gameData.FlagConstants;
 import mis.gdi1lab07.student.gameData.GameEnv;
-import mis.gdi1lab07.student.gameData.PlayingField;
-import mis.gdi1lab07.student.tests.DummyPlayerImpl;
 import atan2.model.ControllerAdaptor;
 import atan2.model.Player;
 
@@ -22,25 +16,13 @@ import atan2.model.Player;
  */
 public class Controller extends ControllerAdaptor {
 
-	private PlayerStrategy strategy;
-
-	// If we made these static, we would have a common view of the game
-	// for all players. Akin to telepathy.
-	private PlayingField field = new PlayingField();
-
-	private FieldPlayer fieldPlayer;
-
-	private Ball ball = new Ball();
-
-	private Map<Integer, FieldPlayer> players = new HashMap<Integer, FieldPlayer>();;
-
-	private GameEnv env = new GameEnv();
+	private StudentHFSM<GameEnv> hfsm;
 	
-	public Controller(String teamName, Player player) {
-		field.setOurName(teamName);
-		fieldPlayer = new FieldPlayer(player);
-		fieldPlayer.setTeamName(teamName);
-		fieldPlayer.setPosition(0, new FieldPosition(0, 0));
+	private GameEnv env = new GameEnv();
+
+	public Controller(FieldPlayer<GameEnv> p, StudentHFSM<GameEnv> hfsm) {
+		this.hfsm = hfsm;
+		this.env = p.getEnv();
 	}
 
 	// Callbacks to Controller
@@ -48,22 +30,25 @@ public class Controller extends ControllerAdaptor {
 	@Override
 	public void preInfo() {
 
-		
 	}
 
 	@Override
 	public void postInfo() {
-		fieldPlayer.turn(5);
+		try {
+			hfsm.input(env);
+		} catch (AutomatonException e) {
+			throw new IllegalStateException(e);
+		}
 	}
 
 	@Override
 	public void infoHear(double dir, String msg) {
-
+		env.addMsg(dir, msg);
 	}
 
 	@Override
 	public void infoHearPlayMode(int playMode) {
-		field.setGameMode(playMode);
+		env.setPlayMode(playMode);
 	}
 
 	@Override
@@ -73,48 +58,86 @@ public class Controller extends ControllerAdaptor {
 
 	@Override
 	public void infoSeeBall(double dist, double dir) {
-		env.setBall(new FieldVector())
+		env.setBall(new FieldVector(dist, dir));
 	}
 
 	@Override
 	public void infoSeeFlagCenter(int id, double dist, double dir) {
-//		Flag flag = null;
-//		switch (id) {
-//		case FLAG_LEFT:
-//			flag = Flag.C_B;
-//			break;
-//		case FLAG_CENTER:
-//			flag = Flag.C;
-//			break;
-//		case FLAG_RIGHT:
-//			flag = Flag.C_T;
-//			break;
-//
-//		default:
-//			break;
-//		}
-//		fieldPlayer.recordFlagSighting(field.getCurrentTick(),
-//				new FlagSighting(flag, dist, dir));
+		boolean isRight = player.isTeamEast();
+		int flagId = FlagConstants.INVALD;
+		
+		if (id == FLAG_CENTER)
+			flagId = FlagConstants.C;
+
+		if (id == FLAG_RIGHT)
+			flagId = (isRight) ? FlagConstants.C_T : FlagConstants.C_B ;
+		
+		if (id == FLAG_LEFT)
+			flagId = (isRight) ? FlagConstants.C_B : FlagConstants.C_T ;
+		
+		env.setFlag(flagId, dist, dir);
 	}
 
 	@Override
 	public void infoSeeFlagCornerOther(int id, double dist, double dir) {
+		boolean isRight = player.isTeamEast();
+		int flagId = FlagConstants.INVALD;
 
+		if (id == FLAG_RIGHT)
+			flagId = (isRight) ? FlagConstants.L_T : FlagConstants.R_T;
+		
+		if (id == FLAG_LEFT)
+			flagId = (isRight) ? FlagConstants.L_B : FlagConstants.R_B;
+		
+		env.setFlag(flagId, dist, dir);
 	}
 
 	@Override
 	public void infoSeeFlagCornerOwn(int id, double dist, double dir) {
+		boolean isRight = player.isTeamEast();
+		int flagId = FlagConstants.INVALD;
 
+		if (id == FLAG_RIGHT)
+			flagId = (isRight) ? FlagConstants.R_T : FlagConstants.L_T;
+		
+		if (id == FLAG_LEFT)
+			flagId = (isRight) ? FlagConstants.R_B : FlagConstants.L_B;
+		
+		env.setFlag(flagId, dist, dir);
 	}
 
 	@Override
 	public void infoSeeFlagGoalOther(int id, double dist, double dir) {
+		boolean isRight = player.isTeamEast();
+		int flagId = FlagConstants.INVALD;
 
+		if (id == FLAG_CENTER)
+			flagId = (isRight) ? FlagConstants.G_L_C : FlagConstants.G_R_C;
+
+		if (id == FLAG_RIGHT)
+			flagId = (isRight) ? FlagConstants.G_L_T : FlagConstants.G_R_T;
+		
+		if (id == FLAG_LEFT)
+			flagId = (isRight) ? FlagConstants.G_L_B : FlagConstants.G_R_B;
+		
+		env.setFlag(flagId, dist, dir);
 	}
 
 	@Override
 	public void infoSeeFlagGoalOwn(int id, double dist, double dir) {
+		boolean isRight = player.isTeamEast();
+		int flagId = FlagConstants.INVALD;
 
+		if (id == FLAG_CENTER)
+			flagId = (isRight) ? FlagConstants.G_R_C : FlagConstants.G_L_C;
+
+		if (id == FLAG_RIGHT)
+			flagId = (isRight) ? FlagConstants.G_R_T : FlagConstants.G_L_T;
+		
+		if (id == FLAG_LEFT)
+			flagId = (isRight) ? FlagConstants.G_R_B : FlagConstants.G_L_B;
+		
+		env.setFlag(flagId, dist, dir);
 	}
 
 	@Override
@@ -154,27 +177,11 @@ public class Controller extends ControllerAdaptor {
 
 	@Override
 	public void infoSeePlayerOther(int id, double dist, double dir) {
-
+		env.setOtherPlayer(id, dist, dir);
 	}
 
 	@Override
 	public void infoSeePlayerOwn(int id, double dist, double dir) {
-		env.setAnglePlayer(dir);
-		env.setDistancePlayer(dist);
-
-		System.out.println(env.getDistanceToBall());
-//		Integer playerId = new Integer(id);
-//		FieldPlayer seenPlayer;
-//		if (players.get(playerId) == null) {
-//			seenPlayer = new FieldPlayer(new DummyPlayerImpl(id));
-//			players.put(playerId, seenPlayer);
-//			seenPlayer.setPosition(field.getCurrentTick(), new FieldPosition(
-//					fieldPlayer.getPosition(), fieldPlayer.getViewOffset()
-//							+ dir, dist));
-//		} else {
-//			seenPlayer = players.get(playerId);
-//
-//		}
-
+		env.setOwnPlayer(id, dist, dir);
 	}
 }

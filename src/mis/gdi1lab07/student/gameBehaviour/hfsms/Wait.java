@@ -11,6 +11,6 @@ public class Wait<T> extends StudentHFSM<T> {
 	
 	public Wait(FieldPlayer player){
 		this.player = player;
-		
+		this.setName(getClass().getName());
 	}
 }

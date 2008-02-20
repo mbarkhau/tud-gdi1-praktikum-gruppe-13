@@ -10,6 +10,6 @@ public class AcceptPassFrom<T> extends StudentHFSM<T> {
 	
 	public AcceptPassFrom(FieldPlayer player){
 		this.player = player;
-		
+		this.setName(getClass().getName());
 	}
 }
