@@ -2,6 +2,8 @@ package mis.gdi1lab07.student.gameData;
 
 public class FieldVector {
 	
+	private int age = 0;
+	
 	private double distance = 0;
 	
 	private double direction = 0;
@@ -27,7 +29,17 @@ public class FieldVector {
 		this.direction = direction;
 	}
 	
+	/** Werde älter! */
+	public void doAge(){
+		age++;
+	}
+	
+	public int getAge(){
+		return age;
+	}
+	
 	public String toString(){
 		return "distance: " + distance + " direction: " + direction;
 	}
+	
 }

@@ -1,15 +1,17 @@
 package mis.gdi1lab07.student.gameBehaviour.hfsms;
 
 import mis.gdi1lab07.automaton.AutomatonException;
+import mis.gdi1lab07.automaton.logic.AndExpression;
+import mis.gdi1lab07.automaton.logic.LogicExpression;
 import mis.gdi1lab07.student.StudentHFSM;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.GameIsOn;
+import mis.gdi1lab07.student.gameBehaviour.logicExpressions.HasScouted;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
+import mis.gdi1lab07.student.gameData.GameEnv;
 
-public class PassAI<T> extends StudentHFSM<T> {
+public class PassAI<T extends GameEnv> extends StudentHFSM<T> {
 	
 	public PassAI(FieldPlayer player) throws AutomatonException{
-		setInitialState(new Wait<T>(player));
-		addState(getInitialState());
 		
 		StudentHFSM<T> scout = new Scout<T>(player);
 		StudentHFSM<T> walk = new WalkToBall<T>(player);
@@ -19,6 +21,8 @@ public class PassAI<T> extends StudentHFSM<T> {
 		StudentHFSM<T> doPass = new Pass<T>(player);
 		StudentHFSM<T> wait = new Wait<T>(player);
 		StudentHFSM<T> waitForKickoff = new WaitForKickoff<T>();
+		
+		setInitialState(waitForKickoff);
 
 		addState(scout);
 		addState(walk);
@@ -29,15 +33,16 @@ public class PassAI<T> extends StudentHFSM<T> {
 		addState(wait);
 		addState(waitForKickoff);
 		
-		addTransition(waitForKickoff.getName(), scout.getName(), "start scouting", new GameIsOn<T>());
-		addTransition(scout.getName(), walk.getName(), "goto ball", new GameIsOn<T>());
-		addTransition(walk.getName(), requestPass.getName(), "request pass", new GameIsOn<T>());
-		addTransition(requestPass.getName(), anouncePass.getName(), "anounce pass", new GameIsOn<T>());
-		addTransition(anouncePass.getName(), doPass.getName(), "pass", new GameIsOn<T>());
-		addTransition(doPass.getName(), wait.getName(), "waiting", new GameIsOn<T>());
-		
-		addTransition(scout.getName(), acceptPass.getName(), "accept pass", new GameIsOn<T>());
-		addTransition(acceptPass.getName(), walk.getName(), "goto ball", new GameIsOn<T>());
+		addTransition(waitForKickoff.getName(), scout.getName(), "start scouting", new GameIsOn<T>((T) player.getEnv()));
+		AndExpression<T> isPasser = new AndExpression<T>(new HasScouted<T>(), new IsClosestToBall<T>());
+		addTransition(scout.getName(), walk.getName(), "goto ball", isPasser);
+		addTransition(walk.getName(), requestPass.getName(), "request pass", new IsAtBall<T>((T) player.getEnv()));
+		addTransition(requestPass.getName(), anouncePass.getName(), "anounce pass", new HasHeardAccepter<T>((T) player.getEnv()));
+//		addTransition(anouncePass.getName(), doPass.getName(), "pass", new GameIsOn<T>(player.getEnv()));
+//		addTransition(doPass.getName(), wait.getName(), "waiting", new GameIsOn<T>(player.getEnv()));
+//		
+//		addTransition(scout.getName(), acceptPass.getName(), "accept pass", new GameIsOn<T>(player.getEnv()));
+//		addTransition(acceptPass.getName(), walk.getName(), "goto ball", new GameIsOn<T>(player.getEnv()));
 	}
 
 }

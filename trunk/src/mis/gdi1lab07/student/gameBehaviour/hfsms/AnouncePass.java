@@ -9,6 +9,6 @@ public class AnouncePass<T> extends StudentHFSM<T> {
 	
 	public AnouncePass(FieldPlayer player){
 		this.player = player;
-		
+		this.setName(getClass().getName());
 	}
 }

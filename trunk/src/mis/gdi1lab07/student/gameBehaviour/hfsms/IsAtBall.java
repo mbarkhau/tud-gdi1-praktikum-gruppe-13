@@ -1,22 +1,21 @@
-package mis.gdi1lab07.student.gameBehaviour.logicExpressions;
+package mis.gdi1lab07.student.gameBehaviour.hfsms;
 
-import atan2.model.ControllerAdaptor;
 import mis.gdi1lab07.automaton.logic.LogExpException;
 import mis.gdi1lab07.automaton.logic.LogExpHandler;
 import mis.gdi1lab07.automaton.logic.LogicExpression;
 import mis.gdi1lab07.student.gameData.GameEnv;
 
-public class GameIsOn<T extends GameEnv> implements LogicExpression<T> {
-
-	private final T env;
+public class IsAtBall<T extends GameEnv> implements LogicExpression<T> {
 	
-	public GameIsOn(T env) {
+	private T env;
+	
+	public IsAtBall(T env) {
 		this.env = env;
 	}
 	
 	@Override
 	public boolean eval(T env) throws LogExpException {
-		return env.getPlayMode() == ControllerAdaptor.PLAY_MODE_PLAY_ON;
+		return env.getBall().getDistance() < 0.5;
 	}
 
 	@Override
