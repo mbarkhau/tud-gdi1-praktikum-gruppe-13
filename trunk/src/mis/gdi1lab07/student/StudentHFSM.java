@@ -83,43 +83,80 @@ public class StudentHFSM<T> implements HFSM<T> {
 			stateHFSM.reset();
 	}
 
-	@Override
-	public void serialize(HFSMHandler<T> handler) throws AutomatonException {
-		if (hasStates()) {
-			handler.beginState(name, true);
-			doSerialization(handler);
-			handler.endState();
-		} else
-			handler.state(name, true);
-
-	}
-
-	public void doSerialization(HFSMHandler<T> handler)
-			throws AutomatonException {
-		for (StudentHFSM<T> curState : states.values()) {
-			boolean isInitial = (curState == initialState);
-			if (curState.hasStates()) {
-				handler.beginState(curState.getName(), isInitial);
-				curState.doSerialization(handler);
-				serializeTransitions(handler, curState);
-				handler.endState();
-			} else {
-				handler.state(curState.getName(), isInitial);
-				serializeTransitions(handler, curState);
-			}
-		}
-	}
+	/*
+	 * @Override public void serialize(HFSMHandler<T> handler) throws
+	 * AutomatonException { if (hasStates()) { handler.beginState(name, true);
+	 * doSerialization(handler); handler.endState(); } else handler.state(name,
+	 * true); }
+	 * 
+	 * public void doSerialization(HFSMHandler<T> handler) throws
+	 * AutomatonException { for (StudentHFSM<T> curState : states.values()) {
+	 * boolean isInitial = (curState == initialState); if (curState.hasStates()) {
+	 * handler.beginState(curState.getName(), isInitial);
+	 * curState.doSerialization(handler); handler.endState();
+	 * serializeTransitions(handler, curState); } else {
+	 * handler.state(curState.getName(), isInitial);
+	 * serializeTransitions(handler, curState); } } }
+	 */
 
 	public void serializeTransitions(HFSMHandler<T> handler, HFSM<T> startState)
 			throws AutomatonException {
 		for (HFSMTransition<T> curTrans : transitions) {
 			if (curTrans.getStartState() == startState)
-				handler.transition(curTrans.getStartState().toString(), curTrans
-					.getTargetState().toString(), curTrans.getName(), curTrans
-					.getExp());
+				handler.transition(curTrans.getStartState().toString(),
+						curTrans.getTargetState().toString(), curTrans
+								.getName(), curTrans.getExp());
 		}
+	}
+
+	@Override
+	public void serialize(HFSMHandler<T> handler) throws AutomatonException {
+		//Wird aufgerufen für den äußersten Automat. Dieser kann keine Transitionen haben.
+		handler.beginState(this.name, true);
+		doSerialize(handler);
+		handler.endState();
+		
+		//Es wird ein Zustand mehr geschlossen als geöffnet, dies signalisiert dem Handler,
+		//dass die Serialisierung abgeschlossen ist
+		//handler.endState();
 
 	}
+
+	public void doSerialize(HFSMHandler<T> handler)
+			throws AutomatonException {
+		//Serialisiert die inneren Zustände eines HFSM
+		//Dazu wird jeder Zustand durchgegangen, und wenn dieser Kindzustände hat,
+		//beginState aufgerufen, sonst wird mittels State übergeben.
+		//beginState
+		//serialisiere unterzustand
+		//end State
+		//transitionen
+		//oder
+		//state
+		//transitionen
+		
+		for (StudentHFSM<T> current : states.values()) {
+			if(current.hasStates()) {
+				handler.beginState(current.getName(), (initialState==current));
+				current.doSerialize(handler);
+				handler.endState();
+				serializeTransitions(handler, current);
+			}
+			else {
+				handler.state(current.getName(), (initialState==current));
+				serializeTransitions(handler, current);
+			}
+				
+		}
+		
+
+	}
+	
+//	public void serializeTransitions(HFSMHandler<T> handler) throws AutomatonException {
+//		for (HFSMTransition<T> trans : transitions) {
+//			handler.transition(this.name, trans.getTargetState().toString(), trans.getName(), trans.getExp());
+//		}
+//	}
 
 	@Override
 	public void setLog(Logger log) {
