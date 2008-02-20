@@ -26,17 +26,22 @@ public class GameEnv {
 	public void turn(double angle){
 		for (FieldVector v : vectors) {
 			double result = v.getDirection();
-			// Normalisiere dreh Winkel
-			if (angle < 0)
-				angle = - (Math.abs(angle) % 360);
+			
+			// Noramlisieren des Eingang-Winkels
+			if(angle > 180){
+				angle -= 360;
+			}
+			else if(angle <= -180)
+				angle += 360;
 
+			// Drehung
 			result -= angle;
 			
-			// Normalisiere ergebnis
+			// Normalisierung des Ausgang-Winkels
 			if (result > 180)
-				result = - (360 - result);
-			if (result < -180)
-				result = - (360 + result);
+				result -= 360;
+			else if (result <= -180)
+				result += 360;
 
 			v.setDirection(result);
 		}
