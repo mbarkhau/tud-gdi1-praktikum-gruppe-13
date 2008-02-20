@@ -137,7 +137,7 @@ public class StudentHFSM<T> implements HFSM<T> {
 		this.name = name;
 	}
 
-	public HFSM<T> getInitialState() {
+	public StudentHFSM<T> getInitialState() {
 		return initialState;
 	}
 

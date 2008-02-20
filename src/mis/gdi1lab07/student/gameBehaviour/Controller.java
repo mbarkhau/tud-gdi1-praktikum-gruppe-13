@@ -2,12 +2,15 @@ package mis.gdi1lab07.student.gameBehaviour;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
 
 import mis.gdi1lab07.student.gameData.Ball;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
 import mis.gdi1lab07.student.gameData.FieldPosition;
+import mis.gdi1lab07.student.gameData.FieldVector;
 import mis.gdi1lab07.student.gameData.Flag;
 import mis.gdi1lab07.student.gameData.FlagSighting;
+import mis.gdi1lab07.student.gameData.GameEnv;
 import mis.gdi1lab07.student.gameData.PlayingField;
 import mis.gdi1lab07.student.tests.DummyPlayerImpl;
 import atan2.model.ControllerAdaptor;
@@ -31,6 +34,8 @@ public class Controller extends ControllerAdaptor {
 
 	private Map<Integer, FieldPlayer> players = new HashMap<Integer, FieldPlayer>();;
 
+	private GameEnv env = new GameEnv();
+	
 	public Controller(String teamName, Player player) {
 		field.setOurName(teamName);
 		fieldPlayer = new FieldPlayer(player);
@@ -42,19 +47,8 @@ public class Controller extends ControllerAdaptor {
 
 	@Override
 	public void preInfo() {
-		String result = "";
-		result += "Ball: ";
-		result += ball.getPosition();
-		result += "My Position: ";
-		result += fieldPlayer.getPosition();
-		result += " - " + fieldPlayer.getViewOffset();
-		result += "\n Players: ";
-		for (Map.Entry<Integer, FieldPlayer> playerEntry : players.entrySet()) {
-			result += playerEntry.getValue().getNumber();
-			result += playerEntry.getValue().getPosition();
-		}
 
-		System.out.println(result);
+		
 	}
 
 	@Override
@@ -79,29 +73,28 @@ public class Controller extends ControllerAdaptor {
 
 	@Override
 	public void infoSeeBall(double dist, double dir) {
-		ball.setPosition(field.getCurrentTick(), new FieldPosition(fieldPlayer
-				.getPosition(), dir, dist));
+		env.setBall(new FieldVector())
 	}
 
 	@Override
 	public void infoSeeFlagCenter(int id, double dist, double dir) {
-		Flag flag = null;
-		switch (id) {
-		case FLAG_LEFT:
-			flag = Flag.C_B;
-			break;
-		case FLAG_CENTER:
-			flag = Flag.C;
-			break;
-		case FLAG_RIGHT:
-			flag = Flag.C_T;
-			break;
-
-		default:
-			break;
-		}
-		fieldPlayer.recordFlagSighting(field.getCurrentTick(),
-				new FlagSighting(flag, dist, dir));
+//		Flag flag = null;
+//		switch (id) {
+//		case FLAG_LEFT:
+//			flag = Flag.C_B;
+//			break;
+//		case FLAG_CENTER:
+//			flag = Flag.C;
+//			break;
+//		case FLAG_RIGHT:
+//			flag = Flag.C_T;
+//			break;
+//
+//		default:
+//			break;
+//		}
+//		fieldPlayer.recordFlagSighting(field.getCurrentTick(),
+//				new FlagSighting(flag, dist, dir));
 	}
 
 	@Override
@@ -166,18 +159,22 @@ public class Controller extends ControllerAdaptor {
 
 	@Override
 	public void infoSeePlayerOwn(int id, double dist, double dir) {
-		Integer playerId = new Integer(id);
-		FieldPlayer seenPlayer;
-		if (players.get(playerId) == null) {
-			seenPlayer = new FieldPlayer(new DummyPlayerImpl(id));
-			players.put(playerId, seenPlayer);
-			seenPlayer.setPosition(field.getCurrentTick(), new FieldPosition(
-					fieldPlayer.getPosition(), fieldPlayer.getViewOffset()
-							+ dir, dist));
-		} else {
-			seenPlayer = players.get(playerId);
+		env.setAnglePlayer(dir);
+		env.setDistancePlayer(dist);
 
-		}
+		System.out.println(env.getDistanceToBall());
+//		Integer playerId = new Integer(id);
+//		FieldPlayer seenPlayer;
+//		if (players.get(playerId) == null) {
+//			seenPlayer = new FieldPlayer(new DummyPlayerImpl(id));
+//			players.put(playerId, seenPlayer);
+//			seenPlayer.setPosition(field.getCurrentTick(), new FieldPosition(
+//					fieldPlayer.getPosition(), fieldPlayer.getViewOffset()
+//							+ dir, dist));
+//		} else {
+//			seenPlayer = players.get(playerId);
+//
+//		}
 
 	}
 }

@@ -16,10 +16,12 @@ public class FieldPlayer extends MobileFieldObject implements Player {
 
 	private Boolean goalie = false;
 
-	private Integer stamina = 4000;
+//	private Integer stamina = 4000;
+//
+//	private double viewOffset = 0;
 
-	private double viewOffset = 0;
-
+	private GameEnv env;
+	
 	// Used for triangulation, entries in this List MUST be as precise as
 	// possible relative to the player. Either refresh them, if the Player
 	// moves/turns, or remove all entries.
@@ -65,22 +67,6 @@ public class FieldPlayer extends MobileFieldObject implements Player {
 
 	public void setGoalie(Boolean goalie) {
 		this.goalie = goalie;
-	}
-
-	public Integer getStamina() {
-		return stamina;
-	}
-
-	public void setStamina(Integer stamina) {
-		this.stamina = stamina;
-	}
-
-	public double getViewOffset() {
-		return viewOffset;
-	}
-
-	public void setViewOffset(double viewOffset) {
-		this.viewOffset = viewOffset;
 	}
 
 	// Decorated Methods
@@ -158,13 +144,15 @@ public class FieldPlayer extends MobileFieldObject implements Player {
 	@Override
 	public void turn(double angle) {
 		decoratedPlayer.turn(angle);
-		viewOffset += angle % 360;
-		if (viewOffset > 360)
-			viewOffset -= 360;
-		if (viewOffset < -360)
-			viewOffset += 360;
-		if (viewOffset > 180)
-			viewOffset = -(360 - viewOffset);
+		env.turn(angle);
+	}
+
+	public GameEnv getEnv() {
+		return env;
+	}
+
+	public void setEnv(GameEnv env) {
+		this.env = env;
 	}
 
 }
