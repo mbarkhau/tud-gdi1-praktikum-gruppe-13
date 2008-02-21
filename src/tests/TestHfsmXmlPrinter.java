@@ -41,6 +41,7 @@ public class TestHfsmXmlPrinter {
 		HFSMHandler<Integer> printer = ClassGetter.newHfsmXmlPrinter(sw);
 
 		hfsm.serialize(printer);
+//		System.out.println(sw.getBuffer().toString());
 		sw.flush();
 		
 		try {
@@ -49,6 +50,7 @@ public class TestHfsmXmlPrinter {
 		catch(Exception e) {
 			fail("Invalid XML: " + e.getMessage());
 		}
+		
 	}
 	
 	@Test
@@ -59,6 +61,7 @@ public class TestHfsmXmlPrinter {
 		HFSMHandler<Integer> printer = ClassGetter.newHfsmXmlPrinter(sw);
 
 		hfsm.serialize(printer);
+		System.out.println(sw.getBuffer());
 		sw.flush();
 		
 		try {
