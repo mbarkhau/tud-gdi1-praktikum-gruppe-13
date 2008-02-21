@@ -17,7 +17,7 @@ public class HasHeardAknowledgement<T extends GameEnv> extends BaseLogicExpressi
 	@Override
 	public boolean eval(T env) throws LogExpException {
 		if(env.receivedMessage(ANNOUNCE_PASS)) {
-			env.removeMessage(ANNOUNCE_PASS);
+//			env.removeMessage(ANNOUNCE_PASS);
 			return true;
 		}
 		else

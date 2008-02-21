@@ -4,14 +4,10 @@ import mis.gdi1lab07.automaton.AutomatonException;
 import mis.gdi1lab07.automaton.logic.AndExpression;
 import mis.gdi1lab07.automaton.logic.NotExpression;
 import mis.gdi1lab07.student.StudentHFSM;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.AcceptorHasAknowledged;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.BallPassedByMe;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.BallPassedToMe;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.GameIsOn;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.HasHeardAccepter;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.HasHeardRequest;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.HasScouted;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.IsAtBall;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.IsClosestToBall;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
 import mis.gdi1lab07.student.gameData.GameEnv;
@@ -22,7 +18,7 @@ public class PassAI<T extends GameEnv> extends StudentHFSM<T> {
 
 		StudentHFSM<T> passer = new PasserAi<T>(player);
 		StudentHFSM<T> passee = new PasseeAi<T>(player);
-		
+
 		StudentHFSM<T> waitForKickoff = new WaitForKickoff<T>();
 		StudentHFSM<T> scout = new Scout<T>(player);
 
@@ -33,26 +29,30 @@ public class PassAI<T extends GameEnv> extends StudentHFSM<T> {
 
 		addState(waitForKickoff);
 		addState(scout);
-		
+
 		addTransition(waitForKickoff.getName(), scout.getName(),
 				"start scouting", new GameIsOn<T>((T) player.getEnv()));
 
 		AndExpression<T> isPasser = new AndExpression<T>(new HasScouted<T>(
 				(T) player.getEnv()), new IsClosestToBall<T>((T) player
 				.getEnv()));
+
 		addTransition(scout.getName(), passer.getName(), "is passer", isPasser);
 
-		addTransition(passer.getName(), passee.getName(), "is passee", new NotExpression<T>(
-				new IsClosestToBall<T>((T) player.getEnv())));
-		
+		addTransition(passer.getName(), passee.getName(), "is passee",
+				new NotExpression<T>(
+						new IsClosestToBall<T>((T) player.getEnv())));
+
+		addTransition(passer.getName(), passee.getName(), "is passe",
+				new BallPassedByMe<T>((T) player.getEnv()));
+
+		addTransition(passee.getName(), passer.getName(), "is passer",
+				new BallPassedToMe<T>((T) player.getEnv()));
+
 		AndExpression<T> isPassee = new AndExpression<T>(new HasScouted<T>(
 				(T) player.getEnv()), new NotExpression<T>(
 				new IsClosestToBall<T>((T) player.getEnv())));
 
-//		sollte auch daran festgemacht werden ob der spieler wirklich gepassed hat		
-//		addTransition(passer.getName(), passee.getName(), "wait",
-//				new BallPassedByMe<T>((T) player.getEnv()));
-		
 		addTransition(scout.getName(), passee.getName(), "is passee", isPassee);
 
 	}

@@ -30,6 +30,6 @@ public class Utils {
 	}
 	
 	public static int convertDistToPow(double distance){
-		return new Double(distance * 0.5).intValue();
+		return new Double(distance * 2).intValue();
 	}
 }

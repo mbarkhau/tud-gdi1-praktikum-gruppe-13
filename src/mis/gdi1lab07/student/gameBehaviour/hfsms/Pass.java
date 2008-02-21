@@ -20,7 +20,6 @@ public class Pass<T> extends StudentHFSM<T> {
 	@Override
 	public void doOutput() throws AutomatonException {
 		int playerId = player.getEnv().findSpeaker(GameMessages.ACCEPT_PASS);
-		System.out.println("kicking to " + playerId);
 		if (playerId != -1){
 			FieldVector passee = player.getEnv().getOwnPlayer(playerId);
 			player.kick(Utils.convertDistToPow(passee.getDistance()), 
