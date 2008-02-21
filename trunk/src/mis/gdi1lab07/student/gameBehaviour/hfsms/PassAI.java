@@ -49,11 +49,8 @@ public class PassAI<T extends GameEnv> extends StudentHFSM<T> {
 		addTransition(passee.getName(), passer.getName(), "is passer",
 				new BallPassedToMe<T>((T) player.getEnv()));
 
-		AndExpression<T> isPassee = new AndExpression<T>(new HasScouted<T>(
-				(T) player.getEnv()), new NotExpression<T>(
-				new IsClosestToBall<T>((T) player.getEnv())));
 
-		addTransition(scout.getName(), passee.getName(), "is passee", isPassee);
+		addTransition(scout.getName(), passee.getName(), "is passee", new NotExpression<T>(isPasser));
 
 	}
 

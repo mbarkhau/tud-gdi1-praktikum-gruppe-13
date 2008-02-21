@@ -1,12 +1,11 @@
 package mis.gdi1lab07.student.soccer;
 
-import utilities.ConsoleLogger;
 import mis.gdi1lab07.automaton.AutomatonException;
 import mis.gdi1lab07.student.StudentHFSM;
-import mis.gdi1lab07.student.gameBehaviour.hfsms.PassAI;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.SuperAI;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
-import mis.gdi1lab07.student.gameData.FieldPosition;
 import mis.gdi1lab07.student.gameData.GameEnv;
+import utilities.ConsoleLogger;
 import atan2.model.Controller;
 import atan2.model.Player;
 import atan2.model.Team;
@@ -36,10 +35,9 @@ public class SoccerTeam extends Team {
 	public Controller getNewController(int i, Player p) {
 		FieldPlayer<GameEnv> fieldPlayer = new FieldPlayer<GameEnv>(p, new GameEnv());
 		fieldPlayer.setTeamName(this.getTeamName());
-		fieldPlayer.setPosition(0, new FieldPosition(0, 0));
 		p.setNumber(i);
 		try {
-			StudentHFSM<GameEnv> passHFSM = new PassAI<GameEnv>(fieldPlayer);
+			StudentHFSM<GameEnv> passHFSM = new SuperAI<GameEnv>(fieldPlayer);
 			passHFSM.setName("passPlayer");
 			passHFSM.setLog(new ConsoleLogger("passPlayerLog"));
 			passHFSM.reset();

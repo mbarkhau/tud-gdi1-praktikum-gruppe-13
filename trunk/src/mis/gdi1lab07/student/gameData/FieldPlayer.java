@@ -6,7 +6,7 @@ import java.util.Map;
 import atan2.model.Controller;
 import atan2.model.Player;
 
-public class FieldPlayer<T extends GameEnv> extends MobileFieldObject implements Player {
+public class FieldPlayer<T extends GameEnv> implements Player {
 
 	private Player decoratedPlayer;
 
@@ -14,40 +14,16 @@ public class FieldPlayer<T extends GameEnv> extends MobileFieldObject implements
 
 	private String teamName;
 
-	private Boolean goalie = false;
-
 //	private Integer stamina = 4000;
 //
 //	private double viewOffset = 0;
 
 	private T env;
 	
-	// Used for triangulation, entries in this List MUST be as precise as
-	// possible relative to the player. Either refresh them, if the Player
-	// moves/turns, or remove all entries.
-	private Map<Flag, FlagSighting> sightings = new HashMap<Flag, FlagSighting>();
-
-	public void recordFlagSighting(Integer tick, FlagSighting sighting) {
-		sightings.put(sighting.getFlag(), sighting);
-		FieldPosition newPos = null;
-
-	}
 
 	public FieldPlayer(Player player, T env) {
 		this.decoratedPlayer = player;
 		this.env = env;
-	}
-
-	@Override
-	public FieldPosition predictNextPos() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public FieldPosition predictPos(int ticks) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	public String getName() {
@@ -63,11 +39,7 @@ public class FieldPlayer<T extends GameEnv> extends MobileFieldObject implements
 	}
 
 	public Boolean getGoalie() {
-		return goalie;
-	}
-
-	public void setGoalie(Boolean goalie) {
-		this.goalie = goalie;
+		return decoratedPlayer.getController().isGoalie();
 	}
 
 	// Decorated Methods

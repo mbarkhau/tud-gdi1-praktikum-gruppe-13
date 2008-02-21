@@ -116,7 +116,6 @@ public interface FlagConstants {
 	public static int T_P_L = 49;
 
 	// Tor
-
 	public static int O_G_C = 53;
 	
 	public static int O_G_R = 54;

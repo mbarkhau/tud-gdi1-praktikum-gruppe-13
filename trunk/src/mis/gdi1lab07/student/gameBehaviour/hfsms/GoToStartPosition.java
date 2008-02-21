@@ -4,6 +4,8 @@ import mis.gdi1lab07.automaton.AutomatonException;
 import mis.gdi1lab07.student.StudentHFSM;
 import mis.gdi1lab07.student.gameData.AssocNumberPosition;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
+import mis.gdi1lab07.student.gameData.FieldVector;
+import mis.gdi1lab07.student.gameData.Utils;
 
 public class GoToStartPosition<T> extends StudentHFSM<T> {
 
@@ -18,8 +20,12 @@ public class GoToStartPosition<T> extends StudentHFSM<T> {
 	}
 	
 	public void doOutput() throws AutomatonException {
-		player.turn(player.getEnv().getFlag(AssocNumberPosition.getPositionFlag(player.getNumber())).getDirection());
-		player.dash(50);
+		FieldVector flagVector = player.getEnv().getFlag(AssocNumberPosition.getPositionFlag(player.getNumber()));
+		if (flagVector != null){
+			if (!Utils.isDirectionEqual(flagVector.getDirection(), 0))
+				player.turn(flagVector.getDirection());
+			player.dash(60);
+		}
 	}
 	
 }
