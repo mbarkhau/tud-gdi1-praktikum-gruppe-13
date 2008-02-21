@@ -61,6 +61,7 @@ public class Controller extends ControllerAdaptor {
 		env.setBall(new FieldVector(dist, dir));
 	}
 
+	// TODO FLAGGEN ÄNDERN!!!
 	@Override
 	public void infoSeeFlagCenter(int id, double dist, double dir) {
 		boolean isRight = player.isTeamEast();
@@ -78,6 +79,7 @@ public class Controller extends ControllerAdaptor {
 		env.setFlag(flagId, dist, dir);
 	}
 
+	// TODO FLAGGEN ÄNDERN!!!
 	@Override
 	public void infoSeeFlagCornerOther(int id, double dist, double dir) {
 		boolean isRight = player.isTeamEast();
@@ -92,6 +94,7 @@ public class Controller extends ControllerAdaptor {
 		env.setFlag(flagId, dist, dir);
 	}
 
+	// TODO FLAGGEN ÄNDERN!!!
 	@Override
 	public void infoSeeFlagCornerOwn(int id, double dist, double dir) {
 		boolean isRight = player.isTeamEast();
@@ -106,36 +109,36 @@ public class Controller extends ControllerAdaptor {
 		env.setFlag(flagId, dist, dir);
 	}
 
+
 	@Override
 	public void infoSeeFlagGoalOther(int id, double dist, double dir) {
-		boolean isRight = player.isTeamEast();
 		int flagId = FlagConstants.INVALD;
 
 		if (id == FLAG_CENTER)
-			flagId = (isRight) ? FlagConstants.G_L_C : FlagConstants.G_R_C;
+			flagId = FlagConstants.G_T_C;
 
 		if (id == FLAG_RIGHT)
-			flagId = (isRight) ? FlagConstants.G_L_T : FlagConstants.G_R_T;
+			flagId = FlagConstants.G_T_R;
 		
 		if (id == FLAG_LEFT)
-			flagId = (isRight) ? FlagConstants.G_L_B : FlagConstants.G_R_B;
+			flagId = FlagConstants.G_T_L;
 		
 		env.setFlag(flagId, dist, dir);
 	}
-
+	
 	@Override
 	public void infoSeeFlagGoalOwn(int id, double dist, double dir) {
 		boolean isRight = player.isTeamEast();
 		int flagId = FlagConstants.INVALD;
 
 		if (id == FLAG_CENTER)
-			flagId = (isRight) ? FlagConstants.G_R_C : FlagConstants.G_L_C;
+			flagId = FlagConstants.G_O_C;
 
 		if (id == FLAG_RIGHT)
-			flagId = (isRight) ? FlagConstants.G_R_T : FlagConstants.G_L_T;
+			flagId = FlagConstants.G_O_R;
 		
 		if (id == FLAG_LEFT)
-			flagId = (isRight) ? FlagConstants.G_R_B : FlagConstants.G_L_B;
+			flagId = FlagConstants.G_O_L;
 		
 		env.setFlag(flagId, dist, dir);
 	}
