@@ -8,7 +8,7 @@ import mis.gdi1lab07.student.gameData.GameMessages;
 public class AcceptorHasAknowledged<T extends GameEnv> extends
 		BaseLogicExpression<T> implements LogicExpression<T>, GameMessages {
 	
-	//Der den Pass akzeptierende Spieler hat die Ankündigung empfangen und gibt deshalb
+	//Der den Pass akzeptierende Spieler hat die Ankï¿½ndigung empfangen und gibt deshalb
 	//keine Antwort mehr
 
 	public AcceptorHasAknowledged(T env) {
@@ -17,14 +17,7 @@ public class AcceptorHasAknowledged<T extends GameEnv> extends
 
 	@Override
 	public boolean eval(T env) throws LogExpException {
-		if(env.receivedMessage(ACCEPT_PASS)) {
-			//Die Nachricht wurde noch erhalten, der Spieler ist also noch nicht bereit, weil er die alte Nachricht noch
-			//nicht erhalten hat.
-			env.removeMessage(ACCEPT_PASS);
-			return false;
-		}
-		else
-			return true;
+		return (env.findSpeaker(ACCEPT_PASS) != -1);
 	}
 
 }
