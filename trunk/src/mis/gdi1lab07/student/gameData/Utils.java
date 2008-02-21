@@ -29,7 +29,7 @@ public class Utils {
 		return Math.abs(dirA) - Math.abs(dirB) < DIR_DELTA;
 	}
 	
-	public static double convertDistToPow(double distance){
-		return 100;
+	public static int convertDistToPow(double distance){
+		return new Double(distance * 0.5).intValue();
 	}
 }

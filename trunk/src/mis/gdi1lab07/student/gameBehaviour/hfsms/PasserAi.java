@@ -31,7 +31,6 @@ public class PasserAi<T extends GameEnv> extends StudentHFSM<T> {
 		addState(doPass);
 		addState(wait);
 		
-		
 		addTransition(walk.getName(), scout.getName(), "scout",
 				new IsAtBall<T>((T) player.getEnv()));
 		
