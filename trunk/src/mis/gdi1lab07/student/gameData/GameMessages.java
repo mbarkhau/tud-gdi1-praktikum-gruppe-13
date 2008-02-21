@@ -4,8 +4,8 @@ public interface GameMessages {
 
 	public static String REQUEST_ACCEPTION = "NimmAn"; //Fordert Passannahmen an
 	
-	public static String ACCEPT_PASS = "Angenommen"; //Nimmt Pass an
+	public static String ACCEPT_PASS = "NehmeAn"; //Nimmt Pass an
 	
-	public static String ANNOUNCE_PASS = "PassKommt"; //Kündigt Pass an
+	public static String ANNOUNCE_PASS = "PassKommt"; //Kï¿½ndigt Pass an
 	
 }

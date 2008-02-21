@@ -120,8 +120,8 @@ public class FieldPlayer<T extends GameEnv> extends MobileFieldObject implements
 
 	@Override
 	public void say(String message) {
+		System.out.println("Player " + decoratedPlayer.getNumber() + " said " + message);
 		decoratedPlayer.say(message);
-
 	}
 
 	@Override

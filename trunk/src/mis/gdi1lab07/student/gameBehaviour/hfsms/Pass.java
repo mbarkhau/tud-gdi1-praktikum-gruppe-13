@@ -18,6 +18,7 @@ public class Pass<T> extends StudentHFSM<T> {
 	@Override
 	public void doOutput() throws AutomatonException {
 		int playerId = player.getEnv().findSpeaker(GameMessages.ACCEPT_PASS);
+		System.out.println("kicking to " + playerId);
 		if (playerId != -1)
 			player.kick(100, player.getEnv().getOwnPlayer(playerId)
 					.getDirection());

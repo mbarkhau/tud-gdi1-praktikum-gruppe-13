@@ -17,7 +17,7 @@ public class AcceptorHasAknowledged<T extends GameEnv> extends
 
 	@Override
 	public boolean eval(T env) throws LogExpException {
-		return (env.findSpeaker(ACCEPT_PASS) != -1);
+		return true;
 	}
 
 }

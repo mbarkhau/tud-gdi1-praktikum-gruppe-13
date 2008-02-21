@@ -3,7 +3,7 @@ package mis.gdi1lab07.student.gameData;
 public class Utils {
 
 	// TODO: prüfe ob das ausreicht (ungenauigkeit von richtungen könnte zu groß sein)
-	public static double DIR_DELTA = 5;
+	public static double DIR_DELTA = 3;
 	
 	/** @return the distance between two vectors */
 	public static double getVectorDistance(FieldVector a, FieldVector b) {
@@ -29,4 +29,7 @@ public class Utils {
 		return Math.abs(dirA) - Math.abs(dirB) < DIR_DELTA;
 	}
 	
+	public static double convertDistToPow(double distance){
+		return 100;
+	}
 }

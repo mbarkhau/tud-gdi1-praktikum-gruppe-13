@@ -46,4 +46,8 @@ public class PlayerMessage {
 		return ownTeam;
 	}
 	
+	public String toString(){
+		return "player "+ playerId + " said " + msg;
+	}
+	
 }
