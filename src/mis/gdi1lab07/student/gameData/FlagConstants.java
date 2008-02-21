@@ -108,18 +108,18 @@ public interface FlagConstants {
 	
 	public static int P_R_B = 49;
 
+	// Goal Theirs
+	public static int G_T_R = 50;
+	
+	public static int G_T_C = 51;
+	
+	public static int G_T_L = 52;
 
-	public static int G_L_T = 50;
+	// Goal Ours
+	public static int G_O_C = 53;
 	
-	public static int G_L_C = 51;
+	public static int G_O_R = 54;
 	
-	public static int G_L_B = 52;
-
-	
-	public static int G_R_T = 53;
-	
-	public static int G_R_C = 54;
-	
-	public static int G_R_B = 55;
+	public static int G_O_L = 55;
 	
 }
