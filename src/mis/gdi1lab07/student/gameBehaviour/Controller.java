@@ -3,12 +3,10 @@ package mis.gdi1lab07.student.gameBehaviour;
 import mis.gdi1lab07.automaton.AutomatonException;
 import mis.gdi1lab07.student.StudentHFSM;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
-import mis.gdi1lab07.student.gameData.FieldPosition;
 import mis.gdi1lab07.student.gameData.FieldVector;
 import mis.gdi1lab07.student.gameData.FlagConstants;
 import mis.gdi1lab07.student.gameData.GameEnv;
 import atan2.model.ControllerAdaptor;
-import atan2.model.Player;
 
 /**
  * Central class which delegates callbacks, so FieldData is updated and requests

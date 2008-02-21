@@ -24,6 +24,8 @@ public class GameEnv {
 	private List<PlayerMessage> msgs = new ArrayList<PlayerMessage>();
 
 	private int gameMode = 0;
+	
+	private int playerPosition = 0;
 
 	public FieldVector getBall() {
 		return (ball != null && ball.getAge() < 2) ? ball : null;
@@ -42,15 +44,18 @@ public class GameEnv {
 	}
 
 	public FieldVector getOwnPlayer(int id) {
-		return ownPlayers.get(id);
+		FieldVector p = ownPlayers.get(id);
+		return (p != null && p.getAge() < 2) ? p : null;
 	}
 
 	public FieldVector getOtherPlayer(int id) {
-		return otherPlayers.get(id);
+		FieldVector p = otherPlayers.get(id);
+		return (p != null && p.getAge() < 2) ? p : null;
 	}
 
 	public FieldVector getFlag(int id) {
-		return flags.get(id);
+		FieldVector f = flags.get(id);
+		return (f != null && f.getAge() < 2) ? f : null;
 	}
 
 	/**
@@ -120,6 +125,14 @@ public class GameEnv {
 
 	public void setPlayMode(int gameMode) {
 		this.gameMode = gameMode;
+	}
+	
+	public void setPlayerPosition(int position) {
+		playerPosition = position;
+	}
+	
+	public int getPlayerPosition() {
+		return playerPosition;
 	}
 
 	public void addMsg(double dir, String msg) {

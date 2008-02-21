@@ -9,19 +9,11 @@ public class HasScouted<T extends GameEnv> extends BaseLogicExpression<T> {
 		super(env);
 	}
 
-	private int turns = 0;
-	
 	@Override
 	public boolean eval(T env) throws LogExpException {
-		turns ++;
-		boolean result = turns > 4;
-		if (result)
-			reset();
-		return result;
-	}
-	
-	public void reset(){
-		turns = 0;
+		return (env.getBall() != null) && (env.getFlag(T_G_C) != null)
+				&& (env.getFlag(O_G_C) != null) && (env.getFlag(C_O_L) != null)
+				&& (env.getFlag(C_O_R) != null);
 	}
 
 }
