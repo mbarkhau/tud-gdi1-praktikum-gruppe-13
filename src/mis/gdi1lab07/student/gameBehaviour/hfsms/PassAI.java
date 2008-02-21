@@ -3,8 +3,12 @@ package mis.gdi1lab07.student.gameBehaviour.hfsms;
 import mis.gdi1lab07.automaton.AutomatonException;
 import mis.gdi1lab07.automaton.logic.AndExpression;
 import mis.gdi1lab07.student.StudentHFSM;
+import mis.gdi1lab07.student.gameBehaviour.logicExpressions.AcceptorHasAknowledged;
+import mis.gdi1lab07.student.gameBehaviour.logicExpressions.BallPassedByMe;
+import mis.gdi1lab07.student.gameBehaviour.logicExpressions.BallPassedToMe;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.GameIsOn;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.HasHeardAccepter;
+import mis.gdi1lab07.student.gameBehaviour.logicExpressions.HasHeardRequest;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.HasScouted;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.IsAtBall;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.IsClosestToBall;
@@ -40,11 +44,11 @@ public class PassAI<T extends GameEnv> extends StudentHFSM<T> {
 		addTransition(scout.getName(), walk.getName(), "goto ball", isPasser);
 		addTransition(walk.getName(), requestPass.getName(), "request pass", new IsAtBall<T>((T) player.getEnv()));
 		addTransition(requestPass.getName(), anouncePass.getName(), "anounce pass", new HasHeardAccepter<T>((T) player.getEnv()));
-//		addTransition(anouncePass.getName(), doPass.getName(), "pass", new GameIsOn<T>(player.getEnv()));
-//		addTransition(doPass.getName(), wait.getName(), "waiting", new GameIsOn<T>(player.getEnv()));
-//		
-//		addTransition(scout.getName(), acceptPass.getName(), "accept pass", new GameIsOn<T>(player.getEnv()));
-//		addTransition(acceptPass.getName(), walk.getName(), "goto ball", new GameIsOn<T>(player.getEnv()));
+		addTransition(anouncePass.getName(), doPass.getName(), "pass", new AcceptorHasAknowledged<T>((T) player.getEnv()));
+		addTransition(doPass.getName(), wait.getName(), "waiting", new BallPassedByMe<T>((T) player.getEnv()));
+		
+		addTransition(scout.getName(), acceptPass.getName(), "accept pass", new HasHeardRequest<T>((T) player.getEnv()));
+		addTransition(acceptPass.getName(), walk.getName(), "goto ball", new BallPassedToMe<T>((T) player.getEnv()));
 	}
 
 }
