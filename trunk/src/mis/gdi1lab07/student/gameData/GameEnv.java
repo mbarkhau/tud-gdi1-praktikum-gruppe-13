@@ -1,5 +1,6 @@
 package mis.gdi1lab07.student.gameData;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -20,9 +21,11 @@ public class GameEnv {
 	// Key is the flag id,
 	private Map<Integer, FieldVector> flags = new HashMap<Integer, FieldVector>();
 
-	private Map<Integer, String> ownMsgs = new HashMap<Integer, String>();
+	//private Map<Integer, String> ownMsgs = new HashMap<Integer, String>();
 
-	private Map<Integer, String> otherMsgs = new HashMap<Integer, String>();
+	//private Map<Integer, String> otherMsgs = new HashMap<Integer, String>();
+	
+	private List<PlayerMessage> ownMsgs = new ArrayList<PlayerMessage>();
 
 	private int gameMode = 0;
 
@@ -127,16 +130,16 @@ public class GameEnv {
 			if (Utils.isDirectionEqual(dir, ownPlayers.get(playerId)
 					.getDirection())) {
 				System.out.println(playerId + " said: " + msg);
-				ownMsgs.put(playerId, msg);
+				ownMsgs.add(new PlayerMessage(playerId, msg));
 				return;
 			}
 		}
-		ownMsgs.put(-1, msg);
+		ownMsgs.add(new PlayerMessage(-1, msg));
 	}
 	
 	public boolean receivedMessage(String msg) {
-		for (String currentMsg : ownMsgs.values()) {
-			if(currentMsg.equals(msg)) {
+		for (PlayerMessage currentMsg : ownMsgs) {
+			if(currentMsg.getMsg().equals(msg)) {
 				return true;
 			}
 		}
@@ -144,10 +147,10 @@ public class GameEnv {
 	}
 	
 	public void removeMessage(String msg) {
-		for (String currentMsg : ownMsgs.values()) 
+		for (PlayerMessage currentMsg : ownMsgs) 
 		{
-			if(currentMsg.equals(msg)) {
-				ownMsgs.values().remove(currentMsg);
+			if(currentMsg.getMsg().equals(msg)) {
+				ownMsgs.remove(currentMsg);
 			}
 		}
 	}
