@@ -5,10 +5,6 @@ import mis.gdi1lab07.student.StudentHFSM;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
 
 public class WaitForKickoff<T> extends StudentHFSM<T> {
-
-	public WaitForKickoff(){
-		this.setName(getClass().getName());
-	}
 	
 	@Override
 	public void doOutput() throws AutomatonException {

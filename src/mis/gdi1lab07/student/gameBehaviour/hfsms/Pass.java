@@ -9,8 +9,8 @@ public class Pass<T> extends StudentHFSM<T> {
 	private final FieldPlayer player;
 
 	public Pass(FieldPlayer player) {
+		super();
 		this.player = player;
-		this.setName(getClass().getName());
 	}
 
 }

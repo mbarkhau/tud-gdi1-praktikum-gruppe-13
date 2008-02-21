@@ -9,8 +9,8 @@ public class Scout<T> extends StudentHFSM<T> {
 	private final FieldPlayer player;
 	
 	public Scout(FieldPlayer player){
+		super();
 		this.player = player;
-		this.setName(getClass().getName());
 	}
 	
 	@Override

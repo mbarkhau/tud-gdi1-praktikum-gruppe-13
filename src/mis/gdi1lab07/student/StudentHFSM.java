@@ -36,7 +36,7 @@ public class StudentHFSM<T> implements HFSM<T> {
 	 * with this constructor!
 	 */
 	public StudentHFSM() {
-		// TODO This constructor MUST be implemented correctly!!
+		this.setName(getClass().getName());
 	}
 
 	@Override
@@ -111,12 +111,12 @@ public class StudentHFSM<T> implements HFSM<T> {
 
 	@Override
 	public void serialize(HFSMHandler<T> handler) throws AutomatonException {
-		//Wird aufgerufen für den äußersten Automat. Dieser kann keine Transitionen haben.
+		//Wird aufgerufen fï¿½r den ï¿½uï¿½ersten Automat. Dieser kann keine Transitionen haben.
 		handler.beginState(this.name, true);
 		doSerialize(handler);
 		handler.endState();
 		
-		//Es wird ein Zustand mehr geschlossen als geöffnet, dies signalisiert dem Handler,
+		//Es wird ein Zustand mehr geschlossen als geï¿½ffnet, dies signalisiert dem Handler,
 		//dass die Serialisierung abgeschlossen ist
 		//handler.endState();
 
@@ -124,9 +124,9 @@ public class StudentHFSM<T> implements HFSM<T> {
 
 	public void doSerialize(HFSMHandler<T> handler)
 			throws AutomatonException {
-		//Serialisiert die inneren Zustände eines HFSM
-		//Dazu wird jeder Zustand durchgegangen, und wenn dieser Kindzustände hat,
-		//beginState aufgerufen, sonst wird mittels State übergeben.
+		//Serialisiert die inneren Zustï¿½nde eines HFSM
+		//Dazu wird jeder Zustand durchgegangen, und wenn dieser Kindzustï¿½nde hat,
+		//beginState aufgerufen, sonst wird mittels State ï¿½bergeben.
 		//beginState
 		//serialisiere unterzustand
 		//end State

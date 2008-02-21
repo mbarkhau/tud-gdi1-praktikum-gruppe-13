@@ -10,8 +10,8 @@ public class WalkToBall<T> extends StudentHFSM<T> {
 	private final FieldPlayer player;
 	
 	public WalkToBall(FieldPlayer player){
+		super();
 		this.player = player;
-		this.setName(getClass().getName());
 	}
 	
 	@Override
