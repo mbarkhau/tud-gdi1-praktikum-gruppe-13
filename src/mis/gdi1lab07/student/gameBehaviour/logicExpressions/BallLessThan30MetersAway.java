@@ -14,6 +14,8 @@ public class BallLessThan30MetersAway<T extends GameEnv> extends BaseLogicExpres
 
 	@Override
 	public boolean eval(T env) throws LogExpException {
+		if (env.getBall() == null)
+			return false;
 		return env.getBall().getDistance()<=30;
 	}
 
