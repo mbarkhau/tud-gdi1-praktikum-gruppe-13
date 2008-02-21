@@ -34,7 +34,6 @@ public class OffensiveAI<T extends GameEnv> extends StudentHFSM<T> {
 		addState(offensiv);
 		addState(dribble);
 		addState(passee);
-
 		addState(waitForKickoff);
 		
 		// waitForKickoff "KickOff" offensiv
@@ -48,12 +47,10 @@ public class OffensiveAI<T extends GameEnv> extends StudentHFSM<T> {
 		addTransition(offensiv.getName(), passee.getName(), "hear pass request", new HasHeardRequest<T>((T) player.getEnv()));
 		
 		// dribble "verliert Ball aus Augen" offensiv
-		NotExpression<T> seeBallNOT = new NotExpression(new SeeBall<T>((T) player.getEnv()));
-		addTransition(dribble.getName(), offensiv.getName(), "lost ball of eyes", seeBallNOT);
+		addTransition(dribble.getName(), offensiv.getName(), "lost ball of eyes", new NotExpression<T>(new SeeBall<T>((T) player.getEnv())));
 		
 		// dribble "ist nicht am nächsten zum Ball" offensiv
-		NotExpression<T> isNotClosestToBall = new NotExpression(new IsClosestToBall<T>((T) player.getEnv()));
-		addTransition(dribble.getName(), offensiv.getName(), "is not closest to ball", isNotClosestToBall);
+		addTransition(dribble.getName(), offensiv.getName(), "is not closest to ball", new NotExpression<T>(new IsClosestToBall<T>((T) player.getEnv())));
 		
 		// dribble "hört Passanfrage" passee
 		addTransition(dribble.getName(), passee.getName(), "hear pass request", new HasHeardRequest<T>((T) player.getEnv()));
