@@ -21,11 +21,7 @@ public class GameEnv {
 	// Key is the flag id,
 	private Map<Integer, FieldVector> flags = new HashMap<Integer, FieldVector>();
 
-	//private Map<Integer, String> ownMsgs = new HashMap<Integer, String>();
-
-	//private Map<Integer, String> otherMsgs = new HashMap<Integer, String>();
-	
-	private List<PlayerMessage> ownMsgs = new ArrayList<PlayerMessage>();
+	private List<PlayerMessage> msgs = new ArrayList<PlayerMessage>();
 
 	private int gameMode = 0;
 
@@ -130,29 +126,46 @@ public class GameEnv {
 			if (Utils.isDirectionEqual(dir, ownPlayers.get(playerId)
 					.getDirection())) {
 				System.out.println(playerId + " said: " + msg);
-				ownMsgs.add(new PlayerMessage(playerId, msg));
+				msgs.add(new PlayerMessage(playerId, msg, true));
 				return;
 			}
 		}
-		ownMsgs.add(new PlayerMessage(-1, msg));
+		msgs.add(new PlayerMessage(-1, msg, false));
 	}
-	
+
+	/**
+	 * Finde eine nachricht eines eigenen spielers
+	 * 
+	 * @return die spielerid des sprechers oder -1, falls keiner die nachricht
+	 *         gesagt hat.
+	 */
+	public int findSpeaker(String msg) {
+		for (PlayerMessage curMsg : msgs) {
+			if (curMsg.getMsg().equals(msg) && curMsg.isOwnTeam()
+					&& curMsg.getPlayerId() != -1) {
+				return curMsg.getPlayerId();
+			}
+		}
+		return -1;
+	}
+
 	public boolean receivedMessage(String msg) {
-		for (PlayerMessage currentMsg : ownMsgs) {
-			if(currentMsg.getMsg().equals(msg)) {
+		for (PlayerMessage currentMsg : msgs) {
+			if (currentMsg.getMsg().equals(msg)) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	public void removeMessage(String msg) {
-		for (PlayerMessage currentMsg : ownMsgs) 
-		{
-			if(currentMsg.getMsg().equals(msg)) {
-				ownMsgs.remove(currentMsg);
+		PlayerMessage playerMsg = null;
+		for (PlayerMessage currentMsg : msgs) {
+			if (currentMsg.getMsg().equals(msg)) {
+				playerMsg = currentMsg;
 			}
 		}
+		msgs.remove(playerMsg);
 	}
-	
+
 }
