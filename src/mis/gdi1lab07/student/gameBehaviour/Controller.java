@@ -17,7 +17,7 @@ import atan2.model.Player;
 public class Controller extends ControllerAdaptor {
 
 	private StudentHFSM<GameEnv> hfsm;
-	
+
 	private GameEnv env = new GameEnv();
 
 	public Controller(FieldPlayer<GameEnv> p, StudentHFSM<GameEnv> hfsm) {
@@ -61,116 +61,234 @@ public class Controller extends ControllerAdaptor {
 		env.setBall(new FieldVector(dist, dir));
 	}
 
-	// TODO FLAGGEN ÄNDERN!!!
 	@Override
 	public void infoSeeFlagCenter(int id, double dist, double dir) {
-		boolean isRight = player.isTeamEast();
 		int flagId = FlagConstants.INVALD;
-		
+
 		if (id == FLAG_CENTER)
 			flagId = FlagConstants.C;
 
 		if (id == FLAG_RIGHT)
-			flagId = (isRight) ? FlagConstants.C_T : FlagConstants.C_B ;
-		
+			flagId = FlagConstants.C_O_R;
+
 		if (id == FLAG_LEFT)
-			flagId = (isRight) ? FlagConstants.C_B : FlagConstants.C_T ;
-		
+			flagId = FlagConstants.C_O_L;
+
 		env.setFlag(flagId, dist, dir);
 	}
 
-	// TODO FLAGGEN ÄNDERN!!!
 	@Override
 	public void infoSeeFlagCornerOther(int id, double dist, double dir) {
-		boolean isRight = player.isTeamEast();
 		int flagId = FlagConstants.INVALD;
 
 		if (id == FLAG_RIGHT)
-			flagId = (isRight) ? FlagConstants.L_T : FlagConstants.R_T;
-		
+			flagId = FlagConstants.T_O_R;
+
 		if (id == FLAG_LEFT)
-			flagId = (isRight) ? FlagConstants.L_B : FlagConstants.R_B;
-		
+			flagId = FlagConstants.T_O_L;
+
 		env.setFlag(flagId, dist, dir);
 	}
 
-	// TODO FLAGGEN ÄNDERN!!!
 	@Override
 	public void infoSeeFlagCornerOwn(int id, double dist, double dir) {
-		boolean isRight = player.isTeamEast();
 		int flagId = FlagConstants.INVALD;
 
 		if (id == FLAG_RIGHT)
-			flagId = (isRight) ? FlagConstants.R_T : FlagConstants.L_T;
-		
+			flagId = FlagConstants.O_O_R;
+
 		if (id == FLAG_LEFT)
-			flagId = (isRight) ? FlagConstants.R_B : FlagConstants.L_B;
-		
+			flagId = FlagConstants.O_O_L;
+
 		env.setFlag(flagId, dist, dir);
 	}
-
 
 	@Override
 	public void infoSeeFlagGoalOther(int id, double dist, double dir) {
 		int flagId = FlagConstants.INVALD;
 
 		if (id == FLAG_CENTER)
-			flagId = FlagConstants.G_T_C;
+			flagId = FlagConstants.T_G_C;
 
 		if (id == FLAG_RIGHT)
-			flagId = FlagConstants.G_T_R;
-		
+			flagId = FlagConstants.T_G_R;
+
 		if (id == FLAG_LEFT)
-			flagId = FlagConstants.G_T_L;
-		
+			flagId = FlagConstants.T_G_L;
+
 		env.setFlag(flagId, dist, dir);
 	}
-	
+
 	@Override
 	public void infoSeeFlagGoalOwn(int id, double dist, double dir) {
-		boolean isRight = player.isTeamEast();
 		int flagId = FlagConstants.INVALD;
 
 		if (id == FLAG_CENTER)
-			flagId = FlagConstants.G_O_C;
+			flagId = FlagConstants.O_G_C;
 
 		if (id == FLAG_RIGHT)
-			flagId = FlagConstants.G_O_R;
-		
+			flagId = FlagConstants.O_G_R;
+
 		if (id == FLAG_LEFT)
-			flagId = FlagConstants.G_O_L;
-		
+			flagId = FlagConstants.O_G_L;
+
 		env.setFlag(flagId, dist, dir);
 	}
 
 	@Override
 	public void infoSeeFlagLeft(int id, double dist, double dir) {
+		int flagId = FlagConstants.INVALD;
 
+		if (id == FLAG_OWN_50)
+			flagId = FlagConstants.O_O_L_50;
+
+		if (id == FLAG_OWN_40)
+			flagId = FlagConstants.O_O_L_40;
+
+		if (id == FLAG_OWN_30)
+			flagId = FlagConstants.O_O_L_30;
+
+		if (id == FLAG_OWN_20)
+			flagId = FlagConstants.O_O_L_20;
+
+		if (id == FLAG_OWN_10)
+			flagId = FlagConstants.O_O_L_10;
+
+		if (id == FLAG_OTHER_10)
+			flagId = FlagConstants.T_O_L_10;
+
+		if (id == FLAG_OTHER_20)
+			flagId = FlagConstants.T_O_L_20;
+
+		if (id == FLAG_OTHER_30)
+			flagId = FlagConstants.T_O_L_30;
+
+		if (id == FLAG_OTHER_40)
+			flagId = FlagConstants.T_O_L_40;
+
+		if (id == FLAG_OTHER_50)
+			flagId = FlagConstants.T_O_L_50;
+
+		env.setFlag(flagId, dist, dir);
 	}
 
 	@Override
 	public void infoSeeFlagOther(int id, double dist, double dir) {
+		int flagId = FlagConstants.INVALD;
 
+		if (id == FLAG_LEFT_10)
+			flagId = FlagConstants.T_B_L_10;
+
+		if (id == FLAG_LEFT_20)
+			flagId = FlagConstants.T_B_L_20;
+
+		if (id == FLAG_LEFT_30)
+			flagId = FlagConstants.T_B_L_30;
+
+		if (id == FLAG_RIGHT_10)
+			flagId = FlagConstants.T_B_R_10;
+
+		if (id == FLAG_RIGHT_20)
+			flagId = FlagConstants.T_B_R_20;
+
+		if (id == FLAG_RIGHT_30)
+			flagId = FlagConstants.T_B_R_30;
+
+		env.setFlag(flagId, dist, dir);
 	}
 
 	@Override
 	public void infoSeeFlagOwn(int id, double dist, double dir) {
+		int flagId = FlagConstants.INVALD;
 
+		if (id == FLAG_LEFT_10)
+			flagId = FlagConstants.O_B_L_10;
+
+		if (id == FLAG_LEFT_20)
+			flagId = FlagConstants.O_B_L_20;
+
+		if (id == FLAG_LEFT_30)
+			flagId = FlagConstants.O_B_L_30;
+
+		if (id == FLAG_RIGHT_10)
+			flagId = FlagConstants.O_B_R_10;
+
+		if (id == FLAG_RIGHT_20)
+			flagId = FlagConstants.O_B_R_20;
+
+		if (id == FLAG_RIGHT_30)
+			flagId = FlagConstants.O_B_R_30;
+
+		env.setFlag(flagId, dist, dir);
 	}
 
 	@Override
 	public void infoSeeFlagPenaltyOther(int id, double dist, double dir) {
+		int flagId = FlagConstants.INVALD;
 
+		if (id == FLAG_CENTER)
+			flagId = FlagConstants.O_P_C;
+
+		if (id == FLAG_RIGHT)
+			flagId = FlagConstants.O_P_R;
+
+		if (id == FLAG_LEFT)
+			flagId = FlagConstants.O_P_L;
+
+		env.setFlag(flagId, dist, dir);
 	}
 
 	@Override
 	public void infoSeeFlagPenaltyOwn(int id, double dist, double dir) {
+		int flagId = FlagConstants.INVALD;
 
+		if (id == FLAG_CENTER)
+			flagId = FlagConstants.T_P_C;
+
+		if (id == FLAG_RIGHT)
+			flagId = FlagConstants.T_P_R;
+
+		if (id == FLAG_LEFT)
+			flagId = FlagConstants.T_P_L;
+
+		env.setFlag(flagId, dist, dir);
 	}
 
 	@Override
 	public void infoSeeFlagRight(int id, double dist, double dir) {
+		int flagId = FlagConstants.INVALD;
 
+		if (id == FLAG_OWN_50)
+			flagId = FlagConstants.O_O_R_50;
+
+		if (id == FLAG_OWN_40)
+			flagId = FlagConstants.O_O_R_40;
+
+		if (id == FLAG_OWN_30)
+			flagId = FlagConstants.O_O_R_30;
+
+		if (id == FLAG_OWN_20)
+			flagId = FlagConstants.O_O_R_20;
+
+		if (id == FLAG_OWN_10)
+			flagId = FlagConstants.O_O_R_10;
+
+		if (id == FLAG_OTHER_10)
+			flagId = FlagConstants.T_O_R_10;
+
+		if (id == FLAG_OTHER_20)
+			flagId = FlagConstants.T_O_R_20;
+
+		if (id == FLAG_OTHER_30)
+			flagId = FlagConstants.T_O_R_30;
+
+		if (id == FLAG_OTHER_40)
+			flagId = FlagConstants.T_O_R_40;
+
+		if (id == FLAG_OTHER_50)
+			flagId = FlagConstants.T_O_R_50;
+
+		env.setFlag(flagId, dist, dir);
 	}
 
 	@Override
