@@ -18,9 +18,9 @@ public class SeeBall<T extends GameEnv> extends BaseLogicExpression<T> implement
 	public boolean eval(T env) throws LogExpException {
 		
 		if(env.getBall()!=null){
-			 // gibt wirklich nur dann true wenn der Ball JETZT gesehen wird
-			return(env.getBall().getAge()==0);
-		}
+			
+		return true;
+	}
 		else
 			return false;
 	}
