@@ -32,17 +32,22 @@ public class PasserAi<T extends GameEnv> extends StudentHFSM<T> {
 		addState(wait);
 		
 		
-		addTransition(walk.getName(), scout.getName(), "scouting",
+		addTransition(walk.getName(), scout.getName(), "scout",
 				new IsAtBall<T>((T) player.getEnv()));
+		
 		AndExpression<T> readyToPass = new AndExpression<T>(new HasScouted<T>(
 				(T) player.getEnv()), new IsAtBall<T>((T) player.getEnv()));
-		addTransition(scout.getName(), requestPass.getName(), "scouting",
+		
+		addTransition(scout.getName(), requestPass.getName(), "request pass",
 				readyToPass);
+		
 		addTransition(requestPass.getName(), anouncePass.getName(),
 				"anounce pass", new HasHeardAccepter<T>((T) player.getEnv()));
+		
 		addTransition(anouncePass.getName(), doPass.getName(), "pass",
 				new AcceptorHasAknowledged<T>((T) player.getEnv()));
-		addTransition(doPass.getName(), wait.getName(), "waiting",
+		
+		addTransition(doPass.getName(), wait.getName(), "wait",
 				new BallPassedByMe<T>((T) player.getEnv()));
 	}
 }

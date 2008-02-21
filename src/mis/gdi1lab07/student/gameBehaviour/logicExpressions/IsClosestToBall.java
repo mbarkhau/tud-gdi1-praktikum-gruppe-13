@@ -13,6 +13,8 @@ public class IsClosestToBall<T extends GameEnv> extends BaseLogicExpression<T> {
 
 	@Override
 	public boolean eval(T env) throws LogExpException {
+		if (env.getBall() == null)
+			return false;
 		double ownDistance = env.getBall().getDistance();
 		for (FieldVector v : env.getOwnPlayers()) {
 			if (Utils.getVectorDistance(env.getBall(), v) < ownDistance)

@@ -26,7 +26,7 @@ public class GameEnv {
 	private int gameMode = 0;
 
 	public FieldVector getBall() {
-		return ball;
+		return (ball != null && ball.getAge() < 2) ? ball : null;
 	}
 
 	public Collection<FieldVector> getOwnPlayers() {
@@ -84,6 +84,7 @@ public class GameEnv {
 				result += 360;
 
 			v.setDirection(result);
+//			v.doAge();
 		}
 	}
 
@@ -125,7 +126,7 @@ public class GameEnv {
 		for (Integer playerId : ownPlayers.keySet()) {
 			if (Utils.isDirectionEqual(dir, ownPlayers.get(playerId)
 					.getDirection())) {
-				System.out.println(playerId + " said: " + msg);
+				System.out.println("Heard " + playerId + " say " + msg);
 				msgs.add(new PlayerMessage(playerId, msg, true));
 				return;
 			}
