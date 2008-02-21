@@ -2,6 +2,7 @@ package mis.gdi1lab07.student.gameData;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -132,4 +133,23 @@ public class GameEnv {
 		}
 		ownMsgs.put(-1, msg);
 	}
+	
+	public boolean receivedMessage(String msg) {
+		for (String currentMsg : ownMsgs.values()) {
+			if(currentMsg.equals(msg)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public void removeMessage(String msg) {
+		for (String currentMsg : ownMsgs.values()) 
+		{
+			if(currentMsg.equals(msg)) {
+				ownMsgs.values().remove(currentMsg);
+			}
+		}
+	}
+	
 }
