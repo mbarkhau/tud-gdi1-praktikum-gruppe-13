@@ -1,27 +1,16 @@
 package mis.gdi1lab07.student.gameBehaviour.hfsms.OffensivePlayers;
 
 import mis.gdi1lab07.automaton.AutomatonException;
-import mis.gdi1lab07.automaton.logic.AndExpression;
-import mis.gdi1lab07.automaton.logic.NotExpression;
 import mis.gdi1lab07.student.StudentHFSM;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.AcceptPassFrom;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.AnouncePass;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.Pass;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.RequestPassTo;
-import mis.gdi1lab07.student.gameBehaviour.hfsms.Scout;
-import mis.gdi1lab07.student.gameBehaviour.hfsms.Wait;
-import mis.gdi1lab07.student.gameBehaviour.hfsms.WaitForKickoff;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.WalkToBall;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.DribblePlayers.DribblePlayerAI;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.AcceptorHasAknowledged;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.BallPassedByMe;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.BallPassedToMe;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.GameIsOn;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.HasHeardAccepter;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.HasHeardRequest;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.HasScouted;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.IsAtBall;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.IsClosestToBall;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.base.Scout;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.base.Wait;
+import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.GameIsOn;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
 import mis.gdi1lab07.student.gameData.GameEnv;
 
@@ -35,10 +24,7 @@ public class OffensivePlayerAI<T extends GameEnv> extends StudentHFSM<T> {
 	
 	public OffensivePlayerAI(FieldPlayer player) throws AutomatonException{
 		
-		
-		// 
-		StudentHFSM<T> waitForKickoff = new WaitForKickoff<T>();
-		
+		 		
 		// schaue nach vorne 
 		StudentHFSM<T> lookAhead = new LookAhead<T>(player);
 		
@@ -51,7 +37,7 @@ public class OffensivePlayerAI<T extends GameEnv> extends StudentHFSM<T> {
 		// laufe ohne Ball auf Tor zu
 		StudentHFSM<T> runAhead = new RunAhead<T>(player);
 		
-		// nähere dich Ball bis Höchstentfernung erreicht
+		// nï¿½here dich Ball bis Hï¿½chstentfernung erreicht
 		StudentHFSM<T> drawNearBall = new DrawNearBall<T>(player);
 		
 		// laufe zum Ball
@@ -67,7 +53,7 @@ public class OffensivePlayerAI<T extends GameEnv> extends StudentHFSM<T> {
 		StudentHFSM<T> wait = new Wait<T>(player);
 		
 		
-		// Hinzufügen der Zustände
+		// Hinzufï¿½gen der Zustï¿½nde
 		addState(lookAhead);
 		addState(dribbler);
 		addState(runAhead);
@@ -75,7 +61,7 @@ public class OffensivePlayerAI<T extends GameEnv> extends StudentHFSM<T> {
 		addState(scout);
 		
 		
-		setInitialState(waitForKickoff);
+		setInitialState(wait);
 		
 		//noch kopiert von PassAI
 		addState(walk);
@@ -87,7 +73,7 @@ public class OffensivePlayerAI<T extends GameEnv> extends StudentHFSM<T> {
 		
 
 		// Transitionen
-		addTransition(waitForKickoff.getName(), scout.getName(), "start scouting", new GameIsOn<T>((T) player.getEnv()));
+		addTransition(wait.getName(), scout.getName(), "start scouting", new GameIsOn<T>((T) player.getEnv()));
 		
 		
 		// noch Kopie von der PassAI

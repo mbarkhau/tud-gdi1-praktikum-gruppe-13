@@ -3,11 +3,11 @@ package mis.gdi1lab07.student.gameBehaviour.hfsms.DribblePlayers;
 import mis.gdi1lab07.automaton.AutomatonException;
 import mis.gdi1lab07.automaton.logic.NotExpression;
 import mis.gdi1lab07.student.StudentHFSM;
-import mis.gdi1lab07.student.gameBehaviour.hfsms.Scout;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.WalkToBall;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.OffensivePlayers.LookAhead;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.OffensivePlayers.ScoutForBall;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.SeeBall;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.base.Scout;
+import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.BallVisible;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
 import mis.gdi1lab07.student.gameData.GameEnv;
 
@@ -24,7 +24,7 @@ public class DribblePlayerAI<T extends GameEnv> extends StudentHFSM<T>{
 		// schaut sich nach Ball um
 		StudentHFSM<T> scoutForBall = new ScoutForBall<T>(player);
 		
-		// läuft zum Ball
+		// lï¿½uft zum Ball
 		StudentHFSM<T> walkToBall = new WalkToBall<T>(player);
 		
 		//dribbelt aufs Tor
@@ -44,10 +44,10 @@ public class DribblePlayerAI<T extends GameEnv> extends StudentHFSM<T>{
 		
 		//Transitionen:
 		// "lookAhead" <ich sehe Ball>  "walkToBall"
-		addTransition(lookAhead.getName(), walkToBall.getName(), "i see ball", new SeeBall((T) player.getEnv()));
+		addTransition(lookAhead.getName(), walkToBall.getName(), "i see ball", new BallVisible((T) player.getEnv()));
 		
 		// "lookAhead" <ich sehe Ball nicht> "scoutForBall"
-		NotExpression seeBallNOT = new NotExpression(new SeeBall((T) player.getEnv()));
+		NotExpression seeBallNOT = new NotExpression(new BallVisible((T) player.getEnv()));
 		addTransition(lookAhead.getName(), scoutForBall.getName(), "i can't see ball", seeBallNOT);
 		
 		// "scout" <hasScoutedBall> "walkToBall"
@@ -60,9 +60,9 @@ public class DribblePlayerAI<T extends GameEnv> extends StudentHFSM<T>{
 		// "dribbleOnGoal" <ich bin nicht am Ball> "DribblePlayer verlassen"
 		
 		
-		// "lookAhead" <ich höre PassAnfrage> "antworte positiv"
+		// "lookAhead" <ich hï¿½re PassAnfrage> "antworte positiv"
 		
-		// "walkToBall" <ich höre PassAnfrage> "antworte positiv"
+		// "walkToBall" <ich hï¿½re PassAnfrage> "antworte positiv"
 	}
 	
 

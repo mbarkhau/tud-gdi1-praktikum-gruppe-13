@@ -76,7 +76,7 @@ public class StudentFsmXmlPrinter<ENV> implements FSMHandler<ENV> {
 			LogicExpression<ENV> exp) throws AutomatonException {
 		if (!stateOpen)
 			throw new AutomatonException("Serialzation failed: transition must be within a state.");
-		StudentLogExpPrettyPrinter printer = new StudentLogExpPrettyPrinter();
+		StudentLogExpPrettyPrinter<ENV> printer = new StudentLogExpPrettyPrinter<ENV>();
 		try {
 			exp.serialize(printer);
 		} catch (LogExpException e) {

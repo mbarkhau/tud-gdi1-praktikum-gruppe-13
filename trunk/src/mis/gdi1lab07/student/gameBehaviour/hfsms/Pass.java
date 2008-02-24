@@ -4,15 +4,16 @@ import mis.gdi1lab07.automaton.AutomatonException;
 import mis.gdi1lab07.student.StudentHFSM;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
 import mis.gdi1lab07.student.gameData.FieldVector;
+import mis.gdi1lab07.student.gameData.GameEnv;
 import mis.gdi1lab07.student.gameData.GameMessages;
 import mis.gdi1lab07.student.gameData.Utils;
 
 /** Do the pass. */
-public class Pass<T> extends StudentHFSM<T> {
+public class Pass<T extends GameEnv> extends StudentHFSM<T> {
 
-	private final FieldPlayer player;
+	private final FieldPlayer<T> player;
 
-	public Pass(FieldPlayer player) {
+	public Pass(FieldPlayer<T> player) {
 		super();
 		this.player = player;
 	}

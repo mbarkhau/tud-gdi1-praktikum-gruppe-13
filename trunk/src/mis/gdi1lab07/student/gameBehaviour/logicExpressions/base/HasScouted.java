@@ -1,4 +1,4 @@
-package mis.gdi1lab07.student.gameBehaviour.logicExpressions;
+package mis.gdi1lab07.student.gameBehaviour.logicExpressions.base;
 
 import mis.gdi1lab07.automaton.logic.LogExpException;
 import mis.gdi1lab07.student.gameData.GameEnv;

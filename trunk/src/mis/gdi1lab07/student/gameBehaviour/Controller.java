@@ -38,6 +38,7 @@ public class Controller extends ControllerAdaptor {
 		} catch (AutomatonException e) {
 			throw new IllegalStateException(e);
 		}
+		env.cleanUp();
 	}
 
 	@Override

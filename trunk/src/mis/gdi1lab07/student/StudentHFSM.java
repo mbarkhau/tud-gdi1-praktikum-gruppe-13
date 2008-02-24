@@ -10,13 +10,14 @@ import mis.gdi1lab07.automaton.HFSM;
 import mis.gdi1lab07.automaton.HFSMHandler;
 import mis.gdi1lab07.automaton.HFSMTransition;
 import mis.gdi1lab07.automaton.logic.LogicExpression;
+import mis.gdi1lab07.student.gameData.FlagConstants;
 import utilities.LogLevel;
 import utilities.Logger;
 
 /**
  * This class must be implemented by students.
  */
-public class StudentHFSM<T> implements HFSM<T> {
+public class StudentHFSM<T> implements HFSM<T>, FlagConstants {
 
 	private String name;
 
@@ -36,7 +37,6 @@ public class StudentHFSM<T> implements HFSM<T> {
 	 * with this constructor!
 	 */
 	public StudentHFSM() {
-		this.setName(getClass().getName());
 	}
 
 	@Override
@@ -111,52 +111,56 @@ public class StudentHFSM<T> implements HFSM<T> {
 
 	@Override
 	public void serialize(HFSMHandler<T> handler) throws AutomatonException {
-		//Wird aufgerufen f�r den �u�ersten Automat. Dieser kann keine Transitionen haben.
+		// Wird aufgerufen f�r den �u�ersten Automat. Dieser kann keine
+		// Transitionen haben.
 		handler.beginState(this.name, true);
 		doSerialize(handler);
 		handler.endState();
-		
-		//Es wird ein Zustand mehr geschlossen als ge�ffnet, dies signalisiert dem Handler,
-		//dass die Serialisierung abgeschlossen ist
-		//handler.endState();
+
+		// Es wird ein Zustand mehr geschlossen als ge�ffnet, dies signalisiert
+		// dem Handler,
+		// dass die Serialisierung abgeschlossen ist
+		// handler.endState();
 
 	}
 
-	public void doSerialize(HFSMHandler<T> handler)
-			throws AutomatonException {
-		//Serialisiert die inneren Zust�nde eines HFSM
-		//Dazu wird jeder Zustand durchgegangen, und wenn dieser Kindzust�nde hat,
-		//beginState aufgerufen, sonst wird mittels State �bergeben.
-		//beginState
-		//serialisiere unterzustand
-		//end State
-		//transitionen
-		//oder
-		//state
-		//transitionen
-		
+	public void doSerialize(HFSMHandler<T> handler) throws AutomatonException {
+		// Serialisiert die inneren Zust�nde eines HFSM
+		// Dazu wird jeder Zustand durchgegangen, und wenn dieser Kindzust�nde
+		// hat,
+		// beginState aufgerufen, sonst wird mittels State �bergeben.
+		// beginState
+		// serialisiere unterzustand
+		// end State
+		// transitionen
+		// oder
+		// state
+		// transitionen
+
 		for (StudentHFSM<T> current : states.values()) {
-			if(current.hasStates()) {
-				handler.beginState(current.getName(), (initialState==current));
+			if (current.hasStates()) {
+				handler
+						.beginState(current.getName(),
+								(initialState == current));
 				current.doSerialize(handler);
 				handler.endState();
 				serializeTransitions(handler, current);
-			}
-			else {
-				handler.state(current.getName(), (initialState==current));
+			} else {
+				handler.state(current.getName(), (initialState == current));
 				serializeTransitions(handler, current);
 			}
-				
+
 		}
-		
 
 	}
-	
-//	public void serializeTransitions(HFSMHandler<T> handler) throws AutomatonException {
-//		for (HFSMTransition<T> trans : transitions) {
-//			handler.transition(this.name, trans.getTargetState().toString(), trans.getName(), trans.getExp());
-//		}
-//	}
+
+	// public void serializeTransitions(HFSMHandler<T> handler) throws
+	// AutomatonException {
+	// for (HFSMTransition<T> trans : transitions) {
+	// handler.transition(this.name, trans.getTargetState().toString(),
+	// trans.getName(), trans.getExp());
+	// }
+	// }
 
 	@Override
 	public void setLog(Logger log) {
@@ -182,10 +186,10 @@ public class StudentHFSM<T> implements HFSM<T> {
 		this.initialState = initialState;
 	}
 
+	
 	public void addTransition(String startState, String targetState,
 			String transitionName, LogicExpression<T> exp)
 			throws AutomatonException {
-		HFSMTransition<T> newTrans = new HFSMTransition<T>();
 
 		if (!states.containsKey(targetState))
 			throw new AutomatonException(
@@ -196,10 +200,37 @@ public class StudentHFSM<T> implements HFSM<T> {
 					"Couldn't create transition, missing startState "
 							+ startState);
 
+		addTransition(states.get(startState), states.get(targetState),
+				transitionName, exp);
+	}
+
+	/** Shorthand, uses exp.toString() as name for Transition. */
+	public void addTransition(StudentHFSM<T> startState,
+			StudentHFSM<T> targetState, LogicExpression<T> exp)
+			throws AutomatonException {
+		addTransition(startState, targetState, exp.toString(), exp);
+	}
+	
+	public void addTransition(StudentHFSM<T> startState,
+			StudentHFSM<T> targetState, String transitionName,
+			LogicExpression<T> exp) throws AutomatonException {
+		
+		if (!states.containsValue(targetState))
+			throw new AutomatonException(
+					"Couldn't create transition, missing targetState "
+							+ targetState);
+
+		if (!states.containsValue(startState))
+			throw new AutomatonException(
+					"Couldn't create transition, missing startState "
+							+ startState);
+
+		HFSMTransition<T> newTrans = new HFSMTransition<T>();
+
 		newTrans.setExp(exp);
 		newTrans.setName(transitionName);
-		newTrans.setStartState(states.get(startState));
-		newTrans.setTargetState(states.get(targetState));
+		newTrans.setStartState(startState);
+		newTrans.setTargetState(targetState);
 		transitions.add(newTrans);
 	}
 

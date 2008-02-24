@@ -4,13 +4,14 @@ import mis.gdi1lab07.automaton.AutomatonException;
 import mis.gdi1lab07.student.StudentHFSM;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
 import mis.gdi1lab07.student.gameData.FieldVector;
+import mis.gdi1lab07.student.gameData.GameEnv;
 
-public class FollowEnemyPlayer<T> extends StudentHFSM<T> {
+public class FollowEnemyPlayer<T extends GameEnv> extends StudentHFSM<T> {
 	
 
-	private FieldPlayer player;
+	private FieldPlayer<T> player;
 	
-	public FollowEnemyPlayer(FieldPlayer player) {
+	public FollowEnemyPlayer(FieldPlayer<T> player) {
 		super();
 		this.player = player;
 	}
@@ -18,7 +19,7 @@ public class FollowEnemyPlayer<T> extends StudentHFSM<T> {
 	private void turnToNearestPlayer() {
 		FieldVector nearestPlayer = null;
 		for (FieldVector current : player.getEnv().getOtherPlayers()) {
-			//Bestimme den am nähesten befindlichen Spieler
+			//Bestimme den am nï¿½hesten befindlichen Spieler
 			if(nearestPlayer==null)
 				nearestPlayer = current;
 			else if(current.getDistance()<nearestPlayer.getDistance()) {

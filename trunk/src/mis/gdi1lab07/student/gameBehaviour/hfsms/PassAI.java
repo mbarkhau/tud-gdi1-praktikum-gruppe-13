@@ -4,33 +4,35 @@ import mis.gdi1lab07.automaton.AutomatonException;
 import mis.gdi1lab07.automaton.logic.AndExpression;
 import mis.gdi1lab07.automaton.logic.NotExpression;
 import mis.gdi1lab07.student.StudentHFSM;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.base.Scout;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.base.Wait;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.BallPassedByMe;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.BallPassedToMe;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.GameIsOn;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.HasScouted;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.IsClosestToBall;
+import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.GameIsOn;
+import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.HasScouted;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
 import mis.gdi1lab07.student.gameData.GameEnv;
 
 public class PassAI<T extends GameEnv> extends StudentHFSM<T> {
 
-	public PassAI(FieldPlayer player) throws AutomatonException {
+	public PassAI(FieldPlayer<T> player) throws AutomatonException {
 
 		StudentHFSM<T> passer = new PasserAi<T>(player);
 		StudentHFSM<T> passee = new PasseeAi<T>(player);
 
-		StudentHFSM<T> waitForKickoff = new WaitForKickoff<T>();
+		StudentHFSM<T> wait = new Wait<T>(player);
 		StudentHFSM<T> scout = new Scout<T>(player);
 
-		setInitialState(waitForKickoff);
+		setInitialState(wait);
 
 		addState(passer);
 		addState(passee);
 
-		addState(waitForKickoff);
+		addState(wait);
 		addState(scout);
 
-		addTransition(waitForKickoff.getName(), scout.getName(),
+		addTransition(wait.getName(), scout.getName(),
 				"start scouting", new GameIsOn<T>((T) player.getEnv()));
 
 		AndExpression<T> isPasser = new AndExpression<T>(new HasScouted<T>(

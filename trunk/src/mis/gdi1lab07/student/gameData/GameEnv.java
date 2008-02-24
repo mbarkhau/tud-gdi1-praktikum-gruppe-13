@@ -185,4 +185,10 @@ public class GameEnv {
 		}
 	}
 
+	/** remove all vectors in view and hence, should be visible on the next turn. */
+	public void cleanUp() {
+		//might do more harm than good, so leaving unimplemented for now
+		
+	}
+
 }
