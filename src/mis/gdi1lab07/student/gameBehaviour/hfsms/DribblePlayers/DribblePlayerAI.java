@@ -6,7 +6,6 @@ import mis.gdi1lab07.student.StudentHFSM;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.WalkToBall;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.OffensivePlayers.LookAhead;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.OffensivePlayers.ScoutForBall;
-import mis.gdi1lab07.student.gameBehaviour.hfsms.base.Scout;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.BallVisible;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
 import mis.gdi1lab07.student.gameData.GameEnv;

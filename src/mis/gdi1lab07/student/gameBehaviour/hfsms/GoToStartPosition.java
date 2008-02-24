@@ -7,6 +7,7 @@ import mis.gdi1lab07.student.gameData.FieldVector;
 import mis.gdi1lab07.student.gameData.GameEnv;
 import mis.gdi1lab07.student.gameData.Utils;
 
+/** @deprecated */
 public class GoToStartPosition<T extends GameEnv> extends StudentHFSM<T> {
 
 	private FieldPlayer<T> player;

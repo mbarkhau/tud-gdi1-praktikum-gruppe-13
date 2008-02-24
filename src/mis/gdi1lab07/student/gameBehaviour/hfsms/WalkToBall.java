@@ -6,6 +6,7 @@ import mis.gdi1lab07.student.gameData.FieldPlayer;
 import mis.gdi1lab07.student.gameData.FieldVector;
 import mis.gdi1lab07.student.gameData.GameEnv;
 
+/** @deprecated */
 public class WalkToBall<T extends GameEnv> extends StudentHFSM<T> {
 	
 	private final FieldPlayer<T> player;

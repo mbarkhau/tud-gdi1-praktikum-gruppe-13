@@ -7,6 +7,7 @@ import mis.gdi1lab07.student.gameData.FieldVector;
 import mis.gdi1lab07.student.gameData.GameEnv;
 import mis.gdi1lab07.student.gameData.Utils;
 
+/** @deprecated */
 public class FollowBall<T extends GameEnv> extends BaseHfsm<T> {
 
 	// der große delta, ist damit der spieler nicht blöd den ball anschaut,
