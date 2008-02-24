@@ -4,7 +4,6 @@ import mis.gdi1lab07.automaton.logic.LogExpException;
 import mis.gdi1lab07.student.gameData.FieldVector;
 import mis.gdi1lab07.student.gameData.GameEnv;
 import mis.gdi1lab07.student.gameData.Utils;
-import atan2.model.ControllerAdaptor;
 
 public class FoundPlayer<T extends GameEnv> extends BaseLogicExpression<T> {
 
@@ -15,7 +14,7 @@ public class FoundPlayer<T extends GameEnv> extends BaseLogicExpression<T> {
 	@Override
 	public boolean eval(T env) throws LogExpException {
 		for (FieldVector v : env.getOwnPlayers()) {
-			if (Utils.isDirectionEqual(v.getDirection(), 0) && v.getDistance() < 100)
+			if (Utils.inDelta(v.getDirection(), 0) && v.getDistance() < 100)
 				return true;
 		}
 		return false;

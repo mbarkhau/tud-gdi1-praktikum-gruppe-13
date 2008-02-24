@@ -1,8 +1,5 @@
 package mis.gdi1lab07.student.gameData;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import atan2.model.Controller;
 import atan2.model.Player;
 
@@ -13,10 +10,6 @@ public class FieldPlayer<T extends GameEnv> implements Player {
 	private String name;
 
 	private String teamName;
-
-//	private Integer stamina = 4000;
-//
-//	private double viewOffset = 0;
 
 	private T env;
 	
@@ -57,6 +50,7 @@ public class FieldPlayer<T extends GameEnv> implements Player {
 	@Override
 	public void dash(int power) {
 		decoratedPlayer.dash(power);
+		env.dash(power);
 	}
 
 	@Override

@@ -3,7 +3,6 @@ package mis.gdi1lab07.student.gameData;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -28,9 +27,24 @@ public class GameEnv {
 	private int playerPosition = 0;
 
 	public FieldVector getBall() {
-		return (ball != null && ball.getAge() < 2) ? ball : null;
+		return (ball != null && ball.getAge() < 3) ? ball : null;
 	}
 
+	public FieldVector getOwnPlayer(int id) {
+		FieldVector p = ownPlayers.get(id);
+		return (p != null && p.getAge() < 5) ? p : null;
+	}
+
+	public FieldVector getOtherPlayer(int id) {
+		FieldVector p = otherPlayers.get(id);
+		return (p != null && p.getAge() < 5) ? p : null;
+	}
+
+	public FieldVector getFlag(int id) {
+		FieldVector f = flags.get(id);
+		return (f != null && f.getAge() < 15) ? f : null;
+	}
+	
 	public Collection<FieldVector> getOwnPlayers() {
 		return ownPlayers.values();
 	}
@@ -41,21 +55,6 @@ public class GameEnv {
 
 	public Collection<FieldVector> getFlags() {
 		return flags.values();
-	}
-
-	public FieldVector getOwnPlayer(int id) {
-		FieldVector p = ownPlayers.get(id);
-		return (p != null && p.getAge() < 2) ? p : null;
-	}
-
-	public FieldVector getOtherPlayer(int id) {
-		FieldVector p = otherPlayers.get(id);
-		return (p != null && p.getAge() < 2) ? p : null;
-	}
-
-	public FieldVector getFlag(int id) {
-		FieldVector f = flags.get(id);
-		return (f != null && f.getAge() < 2) ? f : null;
 	}
 
 	/**
@@ -71,33 +70,25 @@ public class GameEnv {
 		vectors.addAll(flags.values());
 
 		for (FieldVector v : vectors) {
-			double result = v.getDirection();
-
-			// Noramlisieren des Eingang-Winkels
-			if (angle > 180) {
-				angle -= 360;
-			} else if (angle <= -180)
-				angle += 360;
-
-			// Drehung
-			result -= angle;
-
-			// Normalisierung des Ausgang-Winkels
-			if (result > 180)
-				result -= 360;
-			else if (result <= -180)
-				result += 360;
-
-			v.setDirection(result);
-//			v.doAge();
+			Utils.turnVector(angle, v);
 		}
 	}
-
-	public void dash(double distance) {
-		ball.doAge();
-		flags = new HashMap<Integer, FieldVector>();
-		ownPlayers = new HashMap<Integer, FieldVector>();
-		otherPlayers = new HashMap<Integer, FieldVector>();
+	
+	/**
+	 * @param pow
+	 *            mit dem sich der spieler bewegt.
+	 */
+	public void dash(int power) {
+		List<FieldVector> vectors = new LinkedList<FieldVector>();
+		if (ball != null)
+			vectors.add(ball);
+		vectors.addAll(ownPlayers.values());
+		vectors.addAll(otherPlayers.values());
+		vectors.addAll(flags.values());
+		for (FieldVector v : vectors) {
+			Utils.displaceVector(power, v);
+			v.doAge();
+		}
 	}
 
 	public void setFlag(int id, double dist, double dir) {
@@ -137,7 +128,7 @@ public class GameEnv {
 
 	public void addMsg(double dir, String msg) {
 		for (Integer playerId : ownPlayers.keySet()) {
-			if (Utils.isDirectionEqual(dir, ownPlayers.get(playerId)
+			if (Utils.inDelta(dir, ownPlayers.get(playerId)
 					.getDirection())) {
 				System.out.println("Heard " + playerId + " say " + msg);
 				msgs.add(new PlayerMessage(playerId, msg, true));
@@ -180,6 +171,18 @@ public class GameEnv {
 			}
 		}
 		msgs.remove(playerMsg);
+	}
+
+	/** Age all non static vectors */
+	public void doAge() {
+		List<FieldVector> vectors = new LinkedList<FieldVector>();
+		if (ball != null)
+			vectors.add(ball);
+		vectors.addAll(ownPlayers.values());
+		vectors.addAll(otherPlayers.values());
+		for (FieldVector v : vectors) {
+			v.doAge();
+		}
 	}
 
 }

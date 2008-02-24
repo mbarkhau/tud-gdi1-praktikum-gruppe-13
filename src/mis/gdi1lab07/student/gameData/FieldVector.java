@@ -38,6 +38,19 @@ public class FieldVector {
 		return age;
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof FieldVector))
+			return false;
+		FieldVector that = (FieldVector) obj;
+		if (this.getDirection() != that.getDirection())
+			return false;
+		if (this.getDistance() != that.getDistance())
+			return false;	
+		
+		return true;
+	}
+	
 	public String toString(){
 		return "distance: " + distance + " direction: " + direction;
 	}

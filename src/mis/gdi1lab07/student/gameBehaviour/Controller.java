@@ -27,11 +27,12 @@ public class Controller extends ControllerAdaptor {
 
 	@Override
 	public void preInfo() {
-
+		
 	}
 
 	@Override
 	public void postInfo() {
+		env.doAge();
 		try {
 			hfsm.input(env);
 		} catch (AutomatonException e) {
