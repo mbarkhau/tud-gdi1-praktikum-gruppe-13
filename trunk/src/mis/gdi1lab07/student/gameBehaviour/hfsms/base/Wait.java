@@ -1,4 +1,4 @@
-package mis.gdi1lab07.student.gameBehaviour.hfsms.basic;
+package mis.gdi1lab07.student.gameBehaviour.hfsms.base;
 
 import mis.gdi1lab07.student.gameData.FieldPlayer;
 import mis.gdi1lab07.student.gameData.GameEnv;
