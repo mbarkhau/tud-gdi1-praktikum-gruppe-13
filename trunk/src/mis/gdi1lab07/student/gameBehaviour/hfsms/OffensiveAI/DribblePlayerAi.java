@@ -5,6 +5,7 @@ import mis.gdi1lab07.automaton.logic.AndExpression;
 import mis.gdi1lab07.automaton.logic.NotExpression;
 import mis.gdi1lab07.student.StudentHFSM;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.WalkToBall;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.base.LookAtBall;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.InShootDistance;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.BallInDistance;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.LookingAtBall;
@@ -17,7 +18,7 @@ public class DribblePlayerAi<T extends GameEnv> extends StudentHFSM<T> {
 	public DribblePlayerAi(FieldPlayer<T> player) throws AutomatonException{
 		// TODO Auto-generated constructor stub
 		
-		StudentHFSM<T> turnToBall = new TurnToBall<T>(player);
+		StudentHFSM<T> turnToBall = new LookAtBall<T>(player);
 		StudentHFSM<T> walkToBall = new WalkToBall<T>(player);
 		StudentHFSM<T> turnToGoal = new TurnToGoal<T>(player);
 		StudentHFSM<T> dribble = new DribbleOnGoal<T>(player);

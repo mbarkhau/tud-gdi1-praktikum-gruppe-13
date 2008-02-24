@@ -4,9 +4,10 @@ import mis.gdi1lab07.automaton.AutomatonException;
 import mis.gdi1lab07.automaton.logic.NotExpression;
 import mis.gdi1lab07.student.StudentHFSM;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.WalkToBall;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.base.LookAtBall;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.Scout;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.IsClosestToBall;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.InShootDistance;
+import mis.gdi1lab07.student.gameBehaviour.logicExpressions.IsClosestToBall;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.BallOutDistance;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.BallVisible;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.LookingAtBall;
@@ -27,7 +28,7 @@ public class OffensivePlayerAi<T extends GameEnv> extends StudentHFSM<T> {
 		StudentHFSM<T> runOnGoal = new RunOnGoal<T>(player);  // laufe ohne Ball auf Tor zu
 		StudentHFSM<T> drawNearBall = new DrawNearBall<T>(player);  // n�here dich Ball bis H�chstentfernung erreicht
 		StudentHFSM<T> walk = new WalkToBall<T>(player);  // laufe zum Ball
-		StudentHFSM<T> turnToBall = new TurnToBall<T>(player); // dreh dich zum Ball
+		StudentHFSM<T> turnToBall = new LookAtBall<T>(player); // dreh dich zum Ball
 		
 		StudentHFSM<T> dribble = new DribblePlayerAi<T>(player);
 		
