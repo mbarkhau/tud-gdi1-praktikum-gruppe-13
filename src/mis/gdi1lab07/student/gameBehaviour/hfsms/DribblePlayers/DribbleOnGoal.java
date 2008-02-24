@@ -2,15 +2,16 @@ package mis.gdi1lab07.student.gameBehaviour.hfsms.DribblePlayers;
 
 import mis.gdi1lab07.student.StudentHFSM;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
+import mis.gdi1lab07.student.gameData.GameEnv;
 
 /**
- * Lässt player in Richtung gegnerisches Tor dribeln
+ * Lï¿½sst player in Richtung gegnerisches Tor dribeln
  */
-public class DribbleOnGoal<T> extends StudentHFSM<T> {
+public class DribbleOnGoal<T extends GameEnv> extends StudentHFSM<T> {
 
-	private final FieldPlayer player;
+	private final FieldPlayer<T> player;
 
-	public DribbleOnGoal(FieldPlayer player) {
+	public DribbleOnGoal(FieldPlayer<T> player) {
 		this.player = player;
 		this.setName(getClass().getName());
 	}

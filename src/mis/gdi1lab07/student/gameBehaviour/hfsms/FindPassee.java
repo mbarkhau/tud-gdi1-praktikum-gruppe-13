@@ -8,9 +8,9 @@ import mis.gdi1lab07.student.gameData.GameEnv;
 
 public class FindPassee<T extends GameEnv> extends StudentHFSM<T> {
 
-	private final FieldPlayer player;
+	private final FieldPlayer<T> player;
 	
-	public FindPassee(FieldPlayer player) {
+	public FindPassee(FieldPlayer<T> player) {
 		super();
 		this.player = player;
 	}

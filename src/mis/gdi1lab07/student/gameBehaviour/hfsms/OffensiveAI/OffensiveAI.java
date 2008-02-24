@@ -1,22 +1,16 @@
 package mis.gdi1lab07.student.gameBehaviour.hfsms.OffensiveAI;
 
 import mis.gdi1lab07.automaton.AutomatonException;
-import mis.gdi1lab07.automaton.logic.AndExpression;
 import mis.gdi1lab07.automaton.logic.NotExpression;
 import mis.gdi1lab07.student.StudentHFSM;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.AcceptorHasAknowledged;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.BallPassedByMe;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.BallPassedToMe;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.GameIsOn;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.HasHeardAccepter;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.PasseeAi;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.base.Wait;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.HasHeardRequest;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.HasScouted;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.IsAtBall;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.IsClosestToBall;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.SeeBall;
+import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.BallVisible;
+import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.GameIsOn;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
 import mis.gdi1lab07.student.gameData.GameEnv;
-import mis.gdi1lab07.student.gameBehaviour.hfsms.*;
 
 public class OffensiveAI<T extends GameEnv> extends StudentHFSM<T> {
 
@@ -27,32 +21,32 @@ public class OffensiveAI<T extends GameEnv> extends StudentHFSM<T> {
 		StudentHFSM<T> passee = new PasseeAi<T>(player);
 		//StudentHFSM<T> backy = new BackToPositionPlayer<T>(player);
 		
-		StudentHFSM<T> waitForKickoff = new WaitForKickoff<T>();
+		StudentHFSM<T> wait = new Wait<T>(player);
 
-		setInitialState(waitForKickoff);
+		setInitialState(wait);
 
 		addState(offensiv);
 		addState(dribble);
 		addState(passee);
-		addState(waitForKickoff);
+		addState(wait);
 		
 		// waitForKickoff "KickOff" offensiv
-		addTransition(waitForKickoff.getName(), offensiv.getName(),
+		addTransition(wait.getName(), offensiv.getName(),
 				"kickoff", new GameIsOn<T>((T) player.getEnv()));
 		
-		// offensiv "ist am nähsten" dribble
+		// offensiv "ist am nï¿½hsten" dribble
 		addTransition(offensiv.getName(), dribble.getName(), "is Closest to Ball", new IsClosestToBall<T>((T) player.getEnv()));
 		
-		// offensiv "hört Passanfrage" passee
+		// offensiv "hï¿½rt Passanfrage" passee
 		addTransition(offensiv.getName(), passee.getName(), "hear pass request", new HasHeardRequest<T>((T) player.getEnv()));
 		
 		// dribble "verliert Ball aus Augen" offensiv
-		addTransition(dribble.getName(), offensiv.getName(), "lost ball of eyes", new NotExpression<T>(new SeeBall<T>((T) player.getEnv())));
+		addTransition(dribble.getName(), offensiv.getName(), "lost ball of eyes", new NotExpression<T>(new BallVisible<T>((T) player.getEnv())));
 		
-		// dribble "ist nicht am nächsten zum Ball" offensiv
+		// dribble "ist nicht am nï¿½chsten zum Ball" offensiv
 		addTransition(dribble.getName(), offensiv.getName(), "is not closest to ball", new NotExpression<T>(new IsClosestToBall<T>((T) player.getEnv())));
 		
-		// dribble "hört Passanfrage" passee
+		// dribble "hï¿½rt Passanfrage" passee
 		addTransition(dribble.getName(), passee.getName(), "hear pass request", new HasHeardRequest<T>((T) player.getEnv()));
 
 	}

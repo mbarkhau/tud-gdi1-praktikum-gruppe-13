@@ -3,6 +3,10 @@ package mis.gdi1lab07.student.gameData;
 import atan2.model.Controller;
 import atan2.model.Player;
 
+/**
+ * Decorates an {@link atan2.model.Player} so the enviroment can be updated,
+ * when commands are issued.
+ */
 public class FieldPlayer<T extends GameEnv> implements Player {
 
 	private Player decoratedPlayer;
@@ -12,7 +16,6 @@ public class FieldPlayer<T extends GameEnv> implements Player {
 	private String teamName;
 
 	private T env;
-	
 
 	public FieldPlayer(Player player, T env) {
 		this.decoratedPlayer = player;
@@ -86,7 +89,8 @@ public class FieldPlayer<T extends GameEnv> implements Player {
 
 	@Override
 	public void say(String message) {
-		System.out.println("Player " + decoratedPlayer.getNumber() + " said " + message);
+		System.out.println("Player " + decoratedPlayer.getNumber() + " said "
+				+ message);
 		decoratedPlayer.say(message);
 	}
 

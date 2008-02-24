@@ -2,17 +2,10 @@ package mis.gdi1lab07.student;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.Stack;
 
 import mis.gdi1lab07.automaton.AutomatonException;
-import mis.gdi1lab07.automaton.HFSM;
 import mis.gdi1lab07.automaton.HFSMHandler;
-import mis.gdi1lab07.automaton.HFSMTransition;
 import mis.gdi1lab07.automaton.logic.LogicExpression;
 
 /**

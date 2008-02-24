@@ -1,9 +1,6 @@
 package mis.gdi1lab07.student.tests;
 
-import static org.junit.Assert.*;
-
-import java.util.Vector;
-
+import static org.junit.Assert.assertTrue;
 import mis.gdi1lab07.student.gameData.FieldVector;
 import mis.gdi1lab07.student.gameData.GameEnv;
 

@@ -25,7 +25,7 @@ public class NotExpression<T> implements LogicExpression<T> {
 	}
 	
 	public String toString() {
-		StudentLogExpPrettyPrinter printer = new StudentLogExpPrettyPrinter();
+		StudentLogExpPrettyPrinter<T> printer = new StudentLogExpPrettyPrinter<T>();
 		try {
 			this.serialize(printer);
 		} catch (LogExpException e) {

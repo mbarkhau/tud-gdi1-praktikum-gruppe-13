@@ -2,30 +2,37 @@ package mis.gdi1lab07.student.gameBehaviour.hfsms;
 
 import mis.gdi1lab07.automaton.AutomatonException;
 import mis.gdi1lab07.student.StudentHFSM;
-import mis.gdi1lab07.student.gameData.AssocNumberPosition;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
 import mis.gdi1lab07.student.gameData.FieldVector;
+import mis.gdi1lab07.student.gameData.GameEnv;
 import mis.gdi1lab07.student.gameData.Utils;
 
-public class GoToStartPosition<T> extends StudentHFSM<T> {
+public class GoToStartPosition<T extends GameEnv> extends StudentHFSM<T> {
 
-	private FieldPlayer player;
-	
-	private int number;
-	
-	public GoToStartPosition(FieldPlayer player) {
+	private FieldPlayer<T> player;
+
+	public GoToStartPosition(FieldPlayer<T> player) {
 		super();
 		this.player = player;
-		this.number = player.getNumber();
 	}
-	
+
+	/**
+	 * If the player can use the move command, she moves randomly otherwise dash
+	 * to the flag.
+	 */
 	public void doOutput() throws AutomatonException {
-		FieldVector flagVector = player.getEnv().getFlag(AssocNumberPosition.getPositionFlag(player.getNumber()));
-		if (flagVector != null){
-			if (!Utils.isDirectionEqual(flagVector.getDirection(), 0))
-				player.turn(flagVector.getDirection());
-			player.dash(60);
+		GameEnv env = player.getEnv();
+		if (Utils.canUseMove(env.getPlayMode())) {
+			player.move(0, 0);
+		} else {
+			FieldVector flagVector = env.getFlag(Utils.getPlayerPos(player
+					.getNumber()));
+			if (flagVector != null) {
+				if (!Utils.inDelta(flagVector.getDirection(), 0))
+					player.turn(flagVector.getDirection());
+				else
+					player.dash(70);
+			}
 		}
 	}
-	
 }

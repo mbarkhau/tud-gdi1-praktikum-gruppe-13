@@ -1,26 +1,30 @@
 package mis.gdi1lab07.student.gameBehaviour.hfsms;
 
 import mis.gdi1lab07.automaton.AutomatonException;
-import mis.gdi1lab07.student.StudentHFSM;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.base.BaseHfsm;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
+import mis.gdi1lab07.student.gameData.FieldVector;
+import mis.gdi1lab07.student.gameData.GameEnv;
+import mis.gdi1lab07.student.gameData.Utils;
 
-public class FollowBall<T> extends StudentHFSM<T> {
+public class FollowBall<T extends GameEnv> extends BaseHfsm<T> {
 
-
-	private FieldPlayer player;
+	// der große delta, ist damit der spieler nicht blöd den ball anschaut,
+	// wenn er vor ihm herrollt
+	private double delta = 10;
 	
-	public FollowBall(FieldPlayer player) {
-		super();
-		this.player = player;
+	public FollowBall(FieldPlayer<T> player) {
+		super(player);
 	}
-	
-	private void turnToBall() {
-		player.turn(player.getEnv().getBall().getDirection());
-	}
-	
+
 	public void doOutput() throws AutomatonException {
-		turnToBall();
-		player.dash(50);
+		FieldVector b = player.getEnv().getBall();
+		if (b == null)
+			player.turn(90);
+		else if (!Utils.inDelta(b.getDirection(), 0, delta))
+			player.turn(b.getDirection());
+		else
+			player.dash(60);
 	}
-	
+
 }

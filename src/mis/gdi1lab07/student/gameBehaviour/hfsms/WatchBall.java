@@ -7,19 +7,20 @@ import mis.gdi1lab07.student.gameData.GameEnv;
 
 public class WatchBall<T extends GameEnv> extends StudentHFSM<T> {
 
-	private final FieldPlayer player;
+	private final FieldPlayer<T> player;
 
-	public WatchBall(FieldPlayer player) {
+	public WatchBall(FieldPlayer<T> player) {
 		super();
 		this.player = player;
 	}
 
 	@Override
 	public void doOutput() throws AutomatonException {
-		if (player.getEnv().getBall() != null)
-			player.turn(player.getEnv().getBall().getDirection());
+		GameEnv env = player.getEnv();
+		if (env.getBall() != null)
+			player.turn(env.getBall().getDirection());
 		else
-			player.turn(90);
+			player.turn(72);
 	}
 
 }

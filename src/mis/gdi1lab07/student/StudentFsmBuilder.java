@@ -3,15 +3,13 @@ package mis.gdi1lab07.student;
 import java.util.HashMap;
 import java.util.Map;
 
-import utilities.Logger;
-import utilities.StringConsoleLogger;
-
 import mis.gdi1lab07.automaton.AutomatonException;
 import mis.gdi1lab07.automaton.FSM;
 import mis.gdi1lab07.automaton.FSMBuilder;
 import mis.gdi1lab07.automaton.State;
 import mis.gdi1lab07.automaton.StateTransition;
 import mis.gdi1lab07.automaton.logic.LogicExpression;
+import utilities.StringConsoleLogger;
 
 /**
  * This class must be implemented by students.

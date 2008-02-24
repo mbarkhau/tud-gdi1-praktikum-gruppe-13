@@ -2,12 +2,21 @@ package mis.gdi1lab07.student;
 
 import java.util.Stack;
 
-import mis.gdi1lab07.automaton.logic.*;
+import mis.gdi1lab07.automaton.logic.AndExpression;
+import mis.gdi1lab07.automaton.logic.BooleanVariables;
+import mis.gdi1lab07.automaton.logic.ConstantValue;
+import mis.gdi1lab07.automaton.logic.LogExpBuilder;
+import mis.gdi1lab07.automaton.logic.LogExpException;
+import mis.gdi1lab07.automaton.logic.LogicExpression;
+import mis.gdi1lab07.automaton.logic.NotExpression;
+import mis.gdi1lab07.automaton.logic.OrExpression;
+import mis.gdi1lab07.automaton.logic.Reference;
 
 /**
  * This class must be implemented by students.
  */
-public class StudentLogExpBuilder implements LogExpBuilder<BooleanVariables> {
+public class StudentLogExpBuilder<ENV extends BooleanVariables> implements
+		LogExpBuilder<ENV> {
 
 	/**
 	 * The empty standard constructor MUST be implemented in order to run
@@ -26,17 +35,15 @@ public class StudentLogExpBuilder implements LogExpBuilder<BooleanVariables> {
 	String[] ExpressionNames = { "or", "and", "not" };
 
 	Stack<Integer> ExpressionStack;
-	Stack<LogicExpression> ObjectStack;
+	Stack<LogicExpression<ENV>> ObjectStack;
 
 	public StudentLogExpBuilder() {
-		// TODO This constructor MUST be implemented correctly!!
 		ExpressionStack = new Stack<Integer>();
-		ObjectStack = new Stack<LogicExpression>();
+		ObjectStack = new Stack<LogicExpression<ENV>>();
 	}
 
 	@Override
 	public void beginAnd() throws LogExpException {
-		// TODO Auto-generated method stub
 		combineParameters();
 		updateParamCount();
 		ExpressionStack.push(AND);
@@ -45,7 +52,6 @@ public class StudentLogExpBuilder implements LogExpBuilder<BooleanVariables> {
 
 	@Override
 	public void beginNegation() throws LogExpException {
-		// TODO Auto-generated method stub
 		combineParameters();
 		updateParamCount();
 		ExpressionStack.push(NOT);
@@ -54,7 +60,6 @@ public class StudentLogExpBuilder implements LogExpBuilder<BooleanVariables> {
 
 	@Override
 	public void beginOr() throws LogExpException {
-		// TODO Auto-generated method stub
 		combineParameters();
 		updateParamCount();
 		ExpressionStack.push(OR);
@@ -62,34 +67,31 @@ public class StudentLogExpBuilder implements LogExpBuilder<BooleanVariables> {
 
 	@Override
 	public void constFalse() throws LogExpException {
-		// TODO Auto-generated method stub
 		combineParameters();
-		ObjectStack.add(new ConstantValue(false));
+		ObjectStack.add(new ConstantValue<ENV>(false));
 		updateParamCount();
 	}
 
 	@Override
 	public void constTrue() throws LogExpException {
-		// TODO Auto-generated method stub
 		combineParameters();
-		ObjectStack.add(new ConstantValue(true));
+		ObjectStack.add(new ConstantValue<ENV>(true));
 		updateParamCount();
 
 	}
 
 	@Override
 	public void endAnd() throws LogExpException {
-		// TODO Auto-generated method stub
 		if (ExpressionStack.peek() <= PARAM_ONE)
 			throw new LogExpException("Error: And needs two parameters!");
 		else {
 			removeParamCount();
 			if (ExpressionStack.peek() == AND) {
-				LogicExpression exp1, exp2;
+				LogicExpression<ENV> exp1, exp2;
 				exp2 = ObjectStack.pop();
 				exp1 = ObjectStack.pop();
 				ExpressionStack.pop();
-				ObjectStack.push(new AndExpression(exp1, exp2));
+				ObjectStack.push(new AndExpression<ENV>(exp1, exp2));
 			} else
 				throw new LogExpException(
 						"Error: Called endAnd(), but last Expression was "
@@ -99,16 +101,15 @@ public class StudentLogExpBuilder implements LogExpBuilder<BooleanVariables> {
 
 	@Override
 	public void endNegation() throws LogExpException {
-		// TODO Auto-generated method stub
 		if (!(ExpressionStack.peek() == PARAM_ONE))
 			throw new LogExpException("Error: Not needs one parameter!");
 		else {
 			removeParamCount();
 			if (ExpressionStack.peek() == NOT) {
-				LogicExpression exp;
+				LogicExpression<ENV> exp;
 				exp = ObjectStack.pop();
 				ExpressionStack.pop();
-				ObjectStack.push(new NotExpression(exp));
+				ObjectStack.push(new NotExpression<ENV>(exp));
 			} else
 				throw new LogExpException(
 						"Error: Called endAnd(), but last Expression was "
@@ -118,17 +119,16 @@ public class StudentLogExpBuilder implements LogExpBuilder<BooleanVariables> {
 
 	@Override
 	public void endOr() throws LogExpException {
-		// TODO Auto-generated method stub
 		if (ExpressionStack.peek() <= PARAM_ONE)
 			throw new LogExpException("Error: Or needs two parameters!");
 		else {
 			removeParamCount();
 			if (ExpressionStack.peek() == OR) {
-				LogicExpression exp1, exp2;
+				LogicExpression<ENV> exp1, exp2;
 				exp2 = ObjectStack.pop();
 				exp1 = ObjectStack.pop();
 				ExpressionStack.pop();
-				ObjectStack.push(new OrExpression(exp1, exp2));
+				ObjectStack.push(new OrExpression<ENV>(exp1, exp2));
 			} else
 				throw new LogExpException(
 						"Error: Called endOr(), but last Expression was "
@@ -137,17 +137,17 @@ public class StudentLogExpBuilder implements LogExpBuilder<BooleanVariables> {
 	}
 
 	@Override
-	public LogicExpression<BooleanVariables> getLogExp() throws LogExpException {
-		// TODO Auto-generated method stub
-		if((ExpressionStack.size()==0)&&(ObjectStack.size()==1))
+	public LogicExpression<ENV> getLogExp() throws LogExpException {
+		if ((ExpressionStack.size() == 0) && (ObjectStack.size() == 1))
 			return ObjectStack.peek();
-		else throw new LogExpException("Der Ausdruck ist nicht korrekt fertiggestellt.");
+		else
+			throw new LogExpException(
+					"Der Ausdruck ist nicht korrekt fertiggestellt.");
 	}
 
 	public void variableReference(String name) throws LogExpException {
-		// TODO Auto-generated method stub
 		combineParameters();
-		ObjectStack.push(new Reference(name));
+		ObjectStack.push(new Reference<ENV>(name));
 		updateParamCount();
 
 	}
@@ -180,13 +180,14 @@ public class StudentLogExpBuilder implements LogExpBuilder<BooleanVariables> {
 		if (!ExpressionStack.empty()) {
 			if (ExpressionStack.peek() == PARAM_TWO) {
 				ExpressionStack.pop();
-				LogicExpression e2 = ObjectStack.pop(), e1 = ObjectStack.pop();
+				LogicExpression<ENV> e2 = ObjectStack.pop(), e1 = ObjectStack
+						.pop();
 				switch (ExpressionStack.peek()) {
 				case AND:
-					ObjectStack.push(new AndExpression(e1, e2));
+					ObjectStack.push(new AndExpression<ENV>(e1, e2));
 					break;
 				case OR:
-					ObjectStack.push(new OrExpression(e1, e2));
+					ObjectStack.push(new OrExpression<ENV>(e1, e2));
 					break;
 				}
 				ExpressionStack.push(PARAM_TWO);

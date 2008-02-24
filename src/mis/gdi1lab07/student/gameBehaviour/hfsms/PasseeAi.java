@@ -3,15 +3,16 @@ package mis.gdi1lab07.student.gameBehaviour.hfsms;
 import mis.gdi1lab07.automaton.AutomatonException;
 import mis.gdi1lab07.automaton.logic.ConstantValue;
 import mis.gdi1lab07.student.StudentHFSM;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.base.Wait;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.HasHeardAknowledgement;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.HasHeardRequest;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.IsAtBall;
+import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.BallInDistance;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
 import mis.gdi1lab07.student.gameData.GameEnv;
 
 public class PasseeAi<T extends GameEnv> extends StudentHFSM<T> {
 
-	public PasseeAi(FieldPlayer player) throws AutomatonException {
+	public PasseeAi(FieldPlayer<T> player) throws AutomatonException {
 
 		StudentHFSM<T> walk = new WalkToBall<T>(player);
 		StudentHFSM<T> watchBall = new WatchBall<T>(player);
@@ -32,6 +33,6 @@ public class PasseeAi<T extends GameEnv> extends StudentHFSM<T> {
 		addTransition(watchBall.getName(), walk.getName(), "goto ball",
 				new HasHeardAknowledgement<T>((T) player.getEnv()));
 		addTransition(walk.getName(), wait.getName(), "got ball",
-				new IsAtBall<T>((T) player.getEnv()));
+				new BallInDistance<T>((T) player.getEnv(), 0.5));
 	}
 }
