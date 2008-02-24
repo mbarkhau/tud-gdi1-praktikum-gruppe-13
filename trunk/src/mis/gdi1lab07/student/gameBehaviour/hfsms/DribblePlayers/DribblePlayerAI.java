@@ -15,7 +15,7 @@ import mis.gdi1lab07.student.gameData.GameEnv;
  */
 public class DribblePlayerAI<T extends GameEnv> extends StudentHFSM<T>{
 
-	public DribblePlayerAI(FieldPlayer player) throws AutomatonException{
+	public DribblePlayerAI(FieldPlayer<T> player) throws AutomatonException{
 
 		// Anfangszustand vom Dribbler
 		StudentHFSM<T> lookAhead = new LookAhead<T>(player);
@@ -43,10 +43,10 @@ public class DribblePlayerAI<T extends GameEnv> extends StudentHFSM<T>{
 		
 		//Transitionen:
 		// "lookAhead" <ich sehe Ball>  "walkToBall"
-		addTransition(lookAhead.getName(), walkToBall.getName(), "i see ball", new BallVisible((T) player.getEnv()));
+		addTransition(lookAhead.getName(), walkToBall.getName(), "i see ball", new BallVisible<T>(player.getEnv()));
 		
 		// "lookAhead" <ich sehe Ball nicht> "scoutForBall"
-		NotExpression seeBallNOT = new NotExpression(new BallVisible((T) player.getEnv()));
+		NotExpression seeBallNOT = new NotExpression<T>(new BallVisible<T>(player.getEnv()));
 		addTransition(lookAhead.getName(), scoutForBall.getName(), "i can't see ball", seeBallNOT);
 		
 		// "scout" <hasScoutedBall> "walkToBall"
