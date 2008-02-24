@@ -16,7 +16,9 @@ import mis.gdi1lab07.student.gameData.GameEnv;
 public class PasseeAi<T extends GameEnv> extends StudentHFSM<T> {
 
 	public PasseeAi(FieldPlayer<T> player) throws AutomatonException {
+		T env = player.getEnv();
 
+		// states
 		StudentHFSM<T> wait = new Wait<T>(player);
 		StudentHFSM<T> watchBall = new LookAtBall<T>(player);
 		StudentHFSM<T> acceptPass = new AcceptPassFrom<T>(player);
@@ -26,20 +28,22 @@ public class PasseeAi<T extends GameEnv> extends StudentHFSM<T> {
 		addState(watchBall);
 		addState(acceptPass);
 		addState(gotoBall);
-		
+
 		setInitialState(watchBall);
-		
-		LogicExpression<T> heardRequest = new HasHeardRequest<T>(player.getEnv());
-		LogicExpression<T> heardAck = new HasHeardAknowledgement<T>(player.getEnv());
+
+		// expressions		
+		LogicExpression<T> heardRequest = new HasHeardRequest<T>(env);
+		LogicExpression<T> heardAck = new HasHeardAknowledgement<T>(env);
 		LogicExpression<T> notHeardAck = new NotExpression<T>(heardAck);
-		LogicExpression<T> atBall = new BallInDistance<T>(player.getEnv(), 0.5);
-		
+		LogicExpression<T> atBall = new BallInDistance<T>(env, 0.5);
+
+		// transitions
 		addTransition(watchBall, acceptPass, heardRequest);
 		addTransition(watchBall, gotoBall, heardAck);
-		
+
 		addTransition(acceptPass, gotoBall, heardAck);
 		addTransition(acceptPass, watchBall, notHeardAck);
-		
+
 		addTransition(gotoBall, wait, atBall);
 	}
 }
