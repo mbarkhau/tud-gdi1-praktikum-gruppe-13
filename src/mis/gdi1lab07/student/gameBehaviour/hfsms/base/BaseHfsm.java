@@ -9,7 +9,11 @@ import mis.gdi1lab07.student.gameData.GameEnv;
 import mis.gdi1lab07.student.gameData.GameMessages;
 import mis.gdi1lab07.student.gameData.Utils;
 
-/** Base class so constants and player is available */
+/**
+ * Base class so constants and local variables are available. Intended as base
+ * class for HFSMs on the lowest level. ie. actually issue commands to the
+ * player.
+ */
 public abstract class BaseHfsm<T extends GameEnv> extends StudentHFSM<T>
 		implements FlagConstants, GameMessages {
 
@@ -18,10 +22,10 @@ public abstract class BaseHfsm<T extends GameEnv> extends StudentHFSM<T>
 	public static int POWER_RUN = 80;
 
 	public static int POWER_SPRINT = 100;
-	
+
 	/** Use for vectors which don't move */
 	public static double DELTA_STATIC = 0.5;
-	
+
 	/** Use for vectors which can move */
 	public static double DELTA_DYNAMIC = 10;
 
@@ -47,15 +51,19 @@ public abstract class BaseHfsm<T extends GameEnv> extends StudentHFSM<T>
 	public void gotoVector(FieldVector v, int power) {
 		gotoVector(v, DELTA_DYNAMIC);
 	}
-	
+
 	public void gotoVector(FieldVector v, double delta) {
 		gotoVector(v, POWER_RUN);
 	}
+
 	/**
 	 * Common logic to go to a vector, tries to align and dash, or turn so the
 	 * vector might be available next time.
-	 * @param power with which to dash
-	 * @param delta for which an angle is considered 0
+	 * 
+	 * @param power
+	 *            with which to dash
+	 * @param delta
+	 *            for which an angle is considered 0
 	 */
 	public void gotoVector(FieldVector v, int power, double delta) {
 		if (v == null)
