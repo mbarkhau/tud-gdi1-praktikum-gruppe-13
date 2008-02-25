@@ -20,7 +20,7 @@ public class KickToPlayer<T extends GameEnv> extends BaseHfsm<T> {
 	@Override
 	public void doOutput() throws AutomatonException {
 		if (passeeId != -1)
-			passeeId = env.findSpeaker(GameMessages.ACCEPT_PASS);
+			passeeId = env.findSpeaker(GameMessages.PASS_RESPONSE);
 			
 		FieldVector p = env.getOwnPlayer(passeeId);
 		if (p != null)

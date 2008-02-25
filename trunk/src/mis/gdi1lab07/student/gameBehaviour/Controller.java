@@ -27,7 +27,7 @@ public class Controller extends ControllerAdaptor {
 
 	@Override
 	public void preInfo() {
-		
+		env.doTick();
 	}
 
 	@Override

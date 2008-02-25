@@ -1,7 +1,7 @@
 package mis.gdi1lab07.student;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +27,7 @@ public class StudentHFSM<T> implements HFSM<T>, FlagConstants {
 
 	private Map<String, StudentHFSM<T>> states = new HashMap<String, StudentHFSM<T>>();
 
-	private List<HFSMTransition<T>> transitions = new ArrayList<HFSMTransition<T>>();
+	private List<HFSMTransition<T>> transitions = new LinkedList<HFSMTransition<T>>();
 
 	private Logger log;
 
