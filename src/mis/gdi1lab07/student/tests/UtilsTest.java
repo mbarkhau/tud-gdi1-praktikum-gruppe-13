@@ -4,6 +4,7 @@ package mis.gdi1lab07.student.tests;
 import static org.junit.Assert.assertTrue;
 
 import mis.gdi1lab07.student.gameData.FieldVector;
+import mis.gdi1lab07.student.gameData.GameMessages;
 import mis.gdi1lab07.student.gameData.Utils;
 
 import org.junit.Before;
@@ -73,5 +74,12 @@ public class UtilsTest {
 		assertTrue(Utils.inDelta(-4, -5, 3));
 		assertTrue(Utils.inDelta(-1, 1, 3));
 		assertTrue(Utils.inDelta(1, -1, 3));
+	}
+	
+	@Test
+	public void testFindPlayerId(){
+		assertTrue(1 == Utils.findPlayerId(GameMessages.PASS_ACK + 1));
+		assertTrue(2 == Utils.findPlayerId(GameMessages.PASS_RESPONSE + 2));
+		assertTrue(22 == Utils.findPlayerId(GameMessages.PASS_ACK + 22));
 	}
 }
