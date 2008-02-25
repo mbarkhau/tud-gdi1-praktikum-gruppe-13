@@ -18,8 +18,6 @@ public class OffensiveAI<T extends GameEnv> extends StudentHFSM<T> {
 
 	public OffensiveAI(FieldPlayer player) throws AutomatonException {
 		
-		
-		
 		StudentHFSM<T> offensiv = new OffensivePlayerAi<T>(player);
 		StudentHFSM<T> dribble = new DribblePlayerAi<T>(player);
 		StudentHFSM<T> passee = new PasseeAi<T>(player);
@@ -38,29 +36,28 @@ public class OffensiveAI<T extends GameEnv> extends StudentHFSM<T> {
 		//addState(goToBall);
 		
 		// wait "KickOff" offensiv
-		addTransition(waiting.getName(), offensiv.getName(),
-				"kickoff", new GameIsOn<T>((T) player.getEnv()));
+		addTransition(waiting, offensiv, new GameIsOn<T>((T) player.getEnv()));
 		
 		
 		// offensiv/dribble "Spielunterbrechung" waitForKickoff
 		// TODO muss noch hinzugef�gt werden, im Gesamtkonzept dann
 		
 		// offensiv "ist am n�hsten" dribble
-		addTransition(offensiv.getName(), dribble.getName(), "is Closest to Ball", new IsClosestToBall<T>((T) player.getEnv()));
+		addTransition(offensiv, dribble, new IsClosestToBall<T>((T) player.getEnv()));
 		
 		// offensiv "h�rt Passanfrage" passee
-		addTransition(offensiv.getName(), passee.getName(), "hear pass request", new HasHeardRequest<T>((T) player.getEnv()));
+		addTransition(offensiv, passee, new HasHeardRequest<T>((T) player.getEnv()));
 		
 
 		// dribble "sieht Ball nicht oder sieht ihn und ist nicht am n�chsten zum Ball" offensiv
-		addTransition(dribble.getName(), offensiv.getName(), "is not closest to ball", new OrExpression<T>(
+		addTransition(dribble, offensiv, new OrExpression<T>(
 				new NotExpression<T>(new SeeBall<T>((T) player.getEnv())),
 				new AndExpression<T>(
 						new SeeBall<T>((T) player.getEnv()),
 						new NotExpression<T>(new IsClosestToBall<T>((T) player.getEnv())))));
 		
 		// dribble "h�rt Passanfrage" passee
-		addTransition(dribble.getName(), passee.getName(), "hear pass request", new HasHeardRequest<T>((T) player.getEnv()));
+		addTransition(dribble, passee, new HasHeardRequest<T>((T) player.getEnv()));
 
 	}
 }
