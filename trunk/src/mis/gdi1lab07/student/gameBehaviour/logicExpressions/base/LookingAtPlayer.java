@@ -1,5 +1,7 @@
 package mis.gdi1lab07.student.gameBehaviour.logicExpressions.base;
 
+import java.util.Collection;
+
 import mis.gdi1lab07.automaton.logic.LogExpException;
 import mis.gdi1lab07.student.gameData.FieldVector;
 import mis.gdi1lab07.student.gameData.GameEnv;
@@ -22,6 +24,16 @@ public class LookingAtPlayer<T extends GameEnv> extends BaseLogicExpression<T> {
 		FieldVector p = (ownTeam) ? env.getOwnPlayer(playerId) : env
 				.getOtherPlayer(playerId);
 
+		if (p == null) {
+			// irgend ein spieler ist im sichtfeld
+			Collection<FieldVector> players = (ownTeam) ? env.getOwnPlayers()
+					: env.getOtherPlayers();
+			for (FieldVector current : players){
+				if (Utils.inDelta(current.getDirection(), 0, 25))
+					return true;
+			}	
+		}
+		
 		return (p != null) && Utils.inDelta(p.getDirection(), 0, 25);
 	}
 

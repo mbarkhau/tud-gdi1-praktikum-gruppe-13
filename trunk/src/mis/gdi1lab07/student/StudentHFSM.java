@@ -41,10 +41,10 @@ public class StudentHFSM<T> implements HFSM<T>, FlagConstants {
 
 	@Override
 	public void doOutput() throws AutomatonException {
-		if(log==null)
+		if (log == null)
 			System.out.println(name);
 		else
-		log.log(LogLevel.Info, name);
+			log.log(LogLevel.Info, name);
 	}
 
 	@Override
