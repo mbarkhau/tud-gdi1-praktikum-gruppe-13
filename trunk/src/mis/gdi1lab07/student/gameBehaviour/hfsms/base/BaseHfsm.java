@@ -7,6 +7,7 @@ import mis.gdi1lab07.student.gameData.FieldVector;
 import mis.gdi1lab07.student.gameData.FlagConstants;
 import mis.gdi1lab07.student.gameData.GameEnv;
 import mis.gdi1lab07.student.gameData.GameMessages;
+import mis.gdi1lab07.student.gameData.HfsmParamConstants;
 import mis.gdi1lab07.student.gameData.Utils;
 
 /**
@@ -15,7 +16,7 @@ import mis.gdi1lab07.student.gameData.Utils;
  * player.
  */
 public abstract class BaseHfsm<T extends GameEnv> extends StudentHFSM<T>
-		implements FlagConstants, GameMessages {
+		implements FlagConstants, GameMessages, HfsmParamConstants {
 
 	public static int POWER_WALK = 60;
 

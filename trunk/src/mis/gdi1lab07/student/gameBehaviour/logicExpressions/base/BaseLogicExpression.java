@@ -6,9 +6,10 @@ import mis.gdi1lab07.automaton.logic.LogicExpression;
 import mis.gdi1lab07.student.gameData.FlagConstants;
 import mis.gdi1lab07.student.gameData.GameEnv;
 import mis.gdi1lab07.student.gameData.GameMessages;
+import mis.gdi1lab07.student.gameData.HfsmParamConstants;
 
 public abstract class BaseLogicExpression<T extends GameEnv> implements
-		LogicExpression<T>, FlagConstants, GameMessages {
+		LogicExpression<T>, FlagConstants, GameMessages, HfsmParamConstants {
 
 	protected final T env;
 
