@@ -18,6 +18,6 @@ public class PassAck<T extends GameEnv> extends StudentHFSM<T> {
 
 	@Override
 	public void doOutput() throws AutomatonException {
-		player.say(GameMessages.ANNOUNCE_PASS);
+		player.say(GameMessages.PASS_ACK);
 	}
 }

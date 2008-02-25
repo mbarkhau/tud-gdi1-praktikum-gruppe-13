@@ -25,6 +25,18 @@ public class GameEnv {
 	private int gameMode = 0;
 	
 	private int playerId = 0;
+	
+	private int tick = 0;
+
+	private HashMap<Integer, Object> hfsmParams = new HashMap<Integer, Object>();
+	
+	public Object getHfsmParam(Integer key) {
+		return hfsmParams.get(key);
+	}
+	
+	public void setHfsmParam(Integer key, Object value){
+		hfsmParams.put(key, value);
+	}
 
 	public FieldVector getBall() {
 		return (ball != null && ball.getAge() < 3) ? ball : null;
@@ -131,11 +143,11 @@ public class GameEnv {
 			if (Utils.inDelta(dir, ownPlayers.get(playerId)
 					.getDirection())) {
 				System.out.println("Heard " + playerId + " say " + msg);
-				msgs.add(new PlayerMessage(playerId, msg, true));
+				msgs.add(new PlayerMessage(playerId, msg, true, tick));
 				return;
 			}
 		}
-		msgs.add(new PlayerMessage(-1, msg, false));
+		msgs.add(new PlayerMessage(-1, msg, false, tick));
 	}
 
 	/**
@@ -191,4 +203,15 @@ public class GameEnv {
 		
 	}
 
+	public int getTick() {
+		return tick;
+	}
+	
+	public void doTick() {
+		tick++;
+	}
+	
+	public void resetTick() {
+		tick = 0;
+	}
 }

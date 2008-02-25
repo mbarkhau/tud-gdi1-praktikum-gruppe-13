@@ -17,6 +17,6 @@ public class PassRespond<T> extends StudentHFSM<T> {
 	
 	@Override
 	public void doOutput() throws AutomatonException {
-		player.say(GameMessages.ACCEPT_PASS);
+		player.say(GameMessages.PASS_RESPONSE);
 	}
 }

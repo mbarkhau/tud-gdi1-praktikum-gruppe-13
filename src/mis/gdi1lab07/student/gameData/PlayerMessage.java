@@ -2,44 +2,27 @@ package mis.gdi1lab07.student.gameData;
 
 public class PlayerMessage {
 
-	private int playerId;
+	private final int playerId;
 	
-	private String msg;
+	private final String msg;
 	
-	private boolean ownTeam;
+	private final boolean ownTeam;
 	
-	public PlayerMessage(int playerId, String msg, boolean ownTeam) {
+	private final int tick;
+	
+	public PlayerMessage(int playerId, String msg, boolean ownTeam, int tick) {
 		this.playerId = playerId;
 		this.msg = msg;
 		this.ownTeam = ownTeam;
+		this.tick = tick;
 	}
 
-	/**
-	 * @return the playerId
-	 */
 	public int getPlayerId() {
 		return playerId;
 	}
 
-	/**
-	 * @param playerId the playerId to set
-	 */
-	public void setPlayerId(int playerId) {
-		this.playerId = playerId;
-	}
-
-	/**
-	 * @return the msg
-	 */
 	public String getMsg() {
 		return msg;
-	}
-
-	/**
-	 * @param msg the msg to set
-	 */
-	public void setMsg(String msg) {
-		this.msg = msg;
 	}
 
 	public boolean isOwnTeam() {
@@ -49,5 +32,9 @@ public class PlayerMessage {
 	public String toString(){
 		return "player "+ playerId + " said " + msg;
 	}
-	
+
+	public int getTick() {
+		return tick;
+	}
+
 }
