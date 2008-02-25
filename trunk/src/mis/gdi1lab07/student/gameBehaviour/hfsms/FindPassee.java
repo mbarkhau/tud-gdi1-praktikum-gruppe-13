@@ -15,10 +15,11 @@ public class FindPassee<T extends GameEnv> extends BaseHfsm<T> {
 	@Override
 	public void doOutput() throws AutomatonException {
 		for (FieldVector v : env.getOwnPlayers()) {
-			if (true) { //TODO: pick a random player
+			if (true) {
 				player.turn(v.getDirection());
 				return;
 			}
-		} 
+		}
+		player.turn(90);
 	}
 }
