@@ -19,6 +19,7 @@ public class RunOnGoal<T> extends StudentHFSM<T> {
 	
 	@Override
 	public void doOutput() throws AutomatonException {
+		System.out.println(player.getNumber()+": Run on goal (dash 80)");
 		this.player.dash(80);
 	}
 	

@@ -19,7 +19,8 @@ public class DribbleOnGoal<T> extends StudentHFSM<T> {
 	//TODO Player soll aufs Tor dribblen, d.h. den Ball vorlegen
 	@Override
 	public void doOutput() throws AutomatonException{
-		this.player.kick(20, 0);
+		System.out.println(player.getName()+": Dribble on goal. (kick 15)");
+		this.player.kick(15, 0);
 	}
 	
 }
