@@ -3,6 +3,7 @@ package mis.gdi1lab07.student.gameBehaviour.hfsms;
 import mis.gdi1lab07.automaton.AutomatonException;
 import mis.gdi1lab07.student.StudentHFSM;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.OffensiveAI.OffensiveAI;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.base.Wait;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.BallPassedByMe;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.BallPassedToMe;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.HasHeardRequest;
@@ -17,7 +18,8 @@ public class SuperAI<T extends GameEnv> extends StudentHFSM<T> {
 		StudentHFSM<T> pass = new PasseeAi<T>(player);
 		StudentHFSM<T> passer = new PasserAi<T>(player);
 		StudentHFSM<T> offensive = new OffensiveAI<T>(player);
-
+		StudentHFSM<T> wait = new Wait<T>(player);
+		
 		defense.setName("Defense");
 		addState(defense);
 		pass.setName("Pass annehmen");
@@ -26,6 +28,8 @@ public class SuperAI<T extends GameEnv> extends StudentHFSM<T> {
 		addState(passer);
 		offensive.setName("Offensive");
 		addState(offensive);
+		wait.setName("Wait");
+		addState(wait);
 		
 		setInitialState(defense);
 		
