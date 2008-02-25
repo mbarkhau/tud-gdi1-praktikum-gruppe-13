@@ -52,16 +52,19 @@ public class StudentHFSM<T> implements HFSM<T>, FlagConstants {
 		HFSM<T> nextState = null;
 		for (HFSMTransition<T> trans : transitions) {
 			if (trans.getStartState() == stateHFSM && trans.eval(context)) {
-				if (nextState != null)
-					throw new AutomatonException(
-							"Multiple transitions for this input.");
-
+				if (nextState != null){
+					String errMsg = "Multiple transitions for this input.\n";
+					errMsg += "Transition: " + trans.getStartState() + " -> " + trans.getTargetState();
+					throw new AutomatonException(errMsg);
+				}
 				nextState = trans.getTargetState();
 
 			}
 		}
 		if (nextState != null) { // Eine feuernde Transition
 			nextState.reset();
+			log.log(LogLevel.Info, "Transition: " + stateHFSM + " -> " + nextState);
+			System.out.println("Transition: " + stateHFSM + " -> " + nextState);
 			stateHFSM = nextState;
 			output();
 			return nextState;

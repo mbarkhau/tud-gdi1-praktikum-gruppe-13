@@ -21,7 +21,7 @@ public class PassAi<T extends GameEnv> extends StudentHFSM<T> {
 	public PassAi(FieldPlayer<T> player) throws AutomatonException {
 		T env = player.getEnv();
 		int flagId = Utils.getPlayerPos(player.getNumber());
-		
+
 		StudentHFSM<T> passer = new PasserAi<T>(player);
 		StudentHFSM<T> passee = new PasseeAi<T>(player);
 		StudentHFSM<T> scout = new Scout<T>(player);
@@ -51,9 +51,7 @@ public class PassAi<T extends GameEnv> extends StudentHFSM<T> {
 		addTransition(scout, passer, isPasser);
 		addTransition(passee, passer, isPasser);
 		
-		addTransition(scout, passee, isPassee);
-		addTransition(passer, passee, isPassee);
-		
+		addTransition(scout, passee, isPassee);		
 		
 		addTransition(passer, gotoPos, returnToPos);
 		addTransition(passee, gotoPos, returnToPos);

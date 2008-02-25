@@ -28,6 +28,7 @@ public class Controller extends ControllerAdaptor {
 	@Override
 	public void preInfo() {
 		env.doTick();
+		env.setPlayerId(player.getNumber());
 	}
 
 	@Override

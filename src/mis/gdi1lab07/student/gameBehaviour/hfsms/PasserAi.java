@@ -26,7 +26,6 @@ public class PasserAi<T extends GameEnv> extends BaseHfsm<T> {
 		StudentHFSM<T> kickToPlayer = new KickToPlayer<T>(player);
 		StudentHFSM<T> request = new PassRequest<T>(player);
 		StudentHFSM<T> acknowledge = new PassAck<T>(player);
-		StudentHFSM<T> findPassee = new FindPassee<T>(player);
 		StudentHFSM<T> lookAtPassee = new LookAtPlayer<T>(player, true, -1);
 
 		setInitialState(scout);
@@ -36,8 +35,8 @@ public class PasserAi<T extends GameEnv> extends BaseHfsm<T> {
 		addState(kickToPlayer);
 		addState(request);
 		addState(acknowledge);
-		addState(findPassee);
 		addState(lookAtPassee);
+		
 		
 		LogicExpression<T> atBall = new BallInDistance<T>(env, 1);
 		LogicExpression<T> notAtBall = new NotExpression<T>(atBall);
@@ -45,33 +44,30 @@ public class PasserAi<T extends GameEnv> extends BaseHfsm<T> {
 		LogicExpression<T> anyPlayerVisible = new LookingAtPlayer<T>(env, true, -2);
 		LogicExpression<T> noPlayerVisible = new NotExpression<T>(anyPlayerVisible);
 		
-		LogicExpression<T> canRequest = new AndExpression<T>(atBall, anyPlayerVisible);
+		LogicExpression<T> heardResponse = new HeardResponse<T>(env);
+		LogicExpression<T> notheardResponse = new NotExpression<T>(heardResponse);
+		
+		LogicExpression<T> canRequest = new AndExpression<T>(new AndExpression<T>(atBall, anyPlayerVisible), notheardResponse);
 		LogicExpression<T> cannotRequest = new AndExpression<T>(atBall, noPlayerVisible);
 		
-		LogicExpression<T> heardResponse = new HeardResponse<T>(env);
 		
 		LogicExpression<T> canPassToPlayer = new AndExpression<T>(atBall, heardResponse);
-
-		LogicExpression<T> passeeVisible = new LookingAtPlayer<T>(env, true, -2);
 		
 		LogicExpression<T> passedByMe = new BallPassedByMe<T>(env);
 		
 
 		addTransition(scout, gotoBall, notAtBall);
-		
 		addTransition(kickToPlayer, gotoBall, notAtBall);
 		addTransition(request, gotoBall, notAtBall);
 		addTransition(acknowledge, gotoBall, notAtBall);
-		addTransition(findPassee, gotoBall, notAtBall);
 		addTransition(lookAtPassee, gotoBall, notAtBall);
 		
-		addTransition(gotoBall, findPassee, cannotRequest);
+		addTransition(gotoBall, scout, cannotRequest);
+		addTransition(scout, request, canRequest);
 		addTransition(gotoBall, request, canRequest);
 
-		addTransition(findPassee, lookAtPassee, canPassToPlayer);
-		addTransition(request, lookAtPassee, canPassToPlayer);
-		
-		addTransition(lookAtPassee, acknowledge, passeeVisible);
+		addTransition(request, acknowledge, canPassToPlayer);
+		addTransition(scout, acknowledge, canPassToPlayer);
 		
 		addTransition(acknowledge, kickToPlayer, canPassToPlayer);
 		

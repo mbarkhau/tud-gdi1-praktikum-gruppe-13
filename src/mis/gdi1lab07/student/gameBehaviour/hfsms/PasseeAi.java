@@ -7,7 +7,7 @@ import mis.gdi1lab07.student.StudentHFSM;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.BaseHfsm;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.GotoBall;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.LookAtBall;
-import mis.gdi1lab07.student.gameBehaviour.hfsms.base.Wait;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.base.Scout;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.HasHeardAck;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.HasHeardRequest;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.BallInDistance;
@@ -20,16 +20,16 @@ public class PasseeAi<T extends GameEnv> extends BaseHfsm<T> {
 		super(player);
 
 		// states
-		StudentHFSM<T> wait = new Wait<T>(player);
+		StudentHFSM<T> scout = new Scout<T>(player);
 		StudentHFSM<T> watchBall = new LookAtBall<T>(player);
 		StudentHFSM<T> acceptPass = new PassRespond<T>(player);
 		StudentHFSM<T> gotoBall = new GotoBall<T>(player);
 
-		addState(wait);
+		addState(scout);
 		addState(watchBall);
 		addState(acceptPass);
 		addState(gotoBall);
-		setInitialState(watchBall);
+		setInitialState(scout);
 		
 		// expressions		
 		LogicExpression<T> heardRequest = new HasHeardRequest<T>(env);
@@ -38,11 +38,11 @@ public class PasseeAi<T extends GameEnv> extends BaseHfsm<T> {
 		LogicExpression<T> atBall = new BallInDistance<T>(env, 0.5);
 		
 		// transitions
-		addTransition(watchBall, acceptPass, heardRequest);
+		addTransition(scout, acceptPass, heardRequest);
 		addTransition(watchBall, gotoBall, heardAck);
 		addTransition(acceptPass, gotoBall, heardAck);
-		addTransition(acceptPass, watchBall, notHeardAck);
-		addTransition(gotoBall, wait, atBall);
+		addTransition(acceptPass, scout, notHeardAck);
+		addTransition(gotoBall, scout, atBall);
 	}
 
 	@Override

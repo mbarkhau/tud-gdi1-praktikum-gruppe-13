@@ -22,9 +22,15 @@ public class KickToPlayer<T extends GameEnv> extends BaseHfsm<T> {
 			passeeId = env.findSpeaker(GameMessages.PASS_RESPONSE);
 			
 		FieldVector p = env.getOwnPlayer(passeeId);
-		if (p != null)
+		if (p != null){
 			player.kick(Utils.convertDistToPow(p.getDistance()), 
 				p.getDirection());
+			env.setHfsmParam(PASSER_HAS_PASSED, new Boolean(true));
+			System.out.println(env.getTick() + " kicked to " + passeeId + " at " + p);
+		} else {
+			player.turn(90);
+			System.out.println(env.getTick() + " kick failed " + passeeId + ", no player");			
+		}
 	}
 	
 }
