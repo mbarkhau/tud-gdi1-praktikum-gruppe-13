@@ -6,6 +6,7 @@ import mis.gdi1lab07.automaton.logic.NotExpression;
 import mis.gdi1lab07.student.StudentHFSM;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.OffensiveAI.OffensiveAI;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.OffensiveAI.TurnToGoal;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.base.GoToStartPosition;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.GotoFlag;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.LookAtBall;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.LookAtFlag;
@@ -39,21 +40,14 @@ public class SuperAI<T extends GameEnv> extends StudentHFSM<T> {
 		StudentHFSM<T> offense = new OffensiveAI<T>(player);
 		StudentHFSM<T> goalie = new GoalieAi<T>(player);
 		StudentHFSM<T> wait = new Wait<T>(player);
-		StudentHFSM<T> backToStart = new GotoFlag<T>(player, Utils.getPlayerPos(number));
+		StudentHFSM<T> backToStart = new GoToStartPosition<T>(player);
 		
-		defense.setName("Defense");
 		addState(defense);
-		pass.setName("Pass annehmen");
 		addState(pass);
-		passer.setName("Passen");
 		addState(passer);
-		offense.setName("Offensive");
 		addState(offense);
-		wait.setName("Wait");
 		addState(wait);
-		backToStart.setName("Back to start");
 		addState(backToStart);
-		goalie.setName("Goalie");
 		addState(goalie);
 		
 		setInitialState(backToStart);
@@ -85,7 +79,9 @@ public class SuperAI<T extends GameEnv> extends StudentHFSM<T> {
 		addTransition(pass, passer,new BallPassedToMe<T>((T) player.getEnv()));
 		addTransition(offense, pass, new HasHeardRequest<T>((T) player.getEnv()));
 		
-		if(number<7)
+		if(number==1)
+			addTransition(passer, goalie, new BallPassedByMe<T>((T) player.getEnv()));
+		if(number>1 && number<7)
 			addTransition(passer, defense, new BallPassedByMe<T>((T) player.getEnv()));
 		if(number>6)
 			addTransition(passer, offense, new BallPassedByMe<T>((T) player.getEnv()));
