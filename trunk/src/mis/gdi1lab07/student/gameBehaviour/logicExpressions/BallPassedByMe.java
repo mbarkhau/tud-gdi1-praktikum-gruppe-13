@@ -15,7 +15,7 @@ public class BallPassedByMe<T extends GameEnv> extends BaseLogicExpression<T>
 	@Override
 	public boolean eval(T env) throws LogExpException {
 		Boolean hasPassed = (Boolean)env.getHfsmParam(PASSER_HAS_PASSED);
-		return hasPassed.booleanValue();
+		return (hasPassed != null) && hasPassed.booleanValue();
 	}
 
 }
