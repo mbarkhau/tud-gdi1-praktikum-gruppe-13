@@ -20,7 +20,7 @@ public class Shoot<T> extends StudentHFSM<T> implements FlagConstants{
 	
 	public void doOutput() throws AutomatonException{
 		System.out.println(this.player.getNumber()+" shoots (kick 100)");
-		double playerTurnRandom = 0.8+0.15*Math.random(); // Zahl zw. 0.0 und 1.0
+		double playerTurnRandom = 0.75+0.15*Math.random(); // Zahl zw. 0.0 und 1.0
 		if(Math.random()<0.5){
 			playerTurnRandom *= player.getEnv().getFlag(T_G_L).getDirection();
 		}
