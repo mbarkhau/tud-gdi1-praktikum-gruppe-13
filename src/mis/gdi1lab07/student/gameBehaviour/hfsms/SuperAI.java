@@ -45,7 +45,7 @@ public class SuperAI<T extends GameEnv> extends StudentHFSM<T> {
 		int number = player.getNumber();
 		
 		if(number==1){
-			addTransition(wait, defense, new GameIsOn<T>((T) player.getEnv()));
+			addTransition(wait, goalie, new GameIsOn<T>((T) player.getEnv()));
 		}
 		else{
 			if(number<7){
@@ -60,11 +60,16 @@ public class SuperAI<T extends GameEnv> extends StudentHFSM<T> {
 		addTransition(offense, backToStart, new NotExpression<T>(new GameIsOn<T>((T) player.getEnv())));
 		addTransition(pass, backToStart, new NotExpression<T>(new GameIsOn<T>((T) player.getEnv())));
 		addTransition(passer, backToStart, new NotExpression<T>(new GameIsOn<T>((T) player.getEnv())));
-		
 		addTransition(defense, pass, new HasHeardRequest<T>((T) player.getEnv()));
 		addTransition(pass, passer,new BallPassedToMe<T>((T) player.getEnv()));
-		addTransition(passer, defense, new BallPassedByMe<T>((T) player.getEnv()));
 		addTransition(offense, pass, new HasHeardRequest<T>((T) player.getEnv()));
+		
+		if(number<7)
+			addTransition(passer, defense, new BallPassedByMe<T>((T) player.getEnv()));
+		if(number>6)
+			addTransition(passer, offense, new BallPassedByMe<T>((T) player.getEnv()));
+
+		
 		
 	}
 	
