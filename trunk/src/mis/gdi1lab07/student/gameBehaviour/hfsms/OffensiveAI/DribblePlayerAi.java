@@ -23,12 +23,9 @@ public class DribblePlayerAi<T extends GameEnv> extends StudentHFSM<T> {
 		StudentHFSM<T> turnToGoal = new TurnToGoal<T>(player);
 		StudentHFSM<T> dribble = new DribbleOnGoal<T>(player);
 		StudentHFSM<T> shoot = new Shoot<T>(player);
-		StudentHFSM<T> walkTB2 = new GotoBall<T>(player);
 		
+		setInitialState(walkToBall);
 		
-		setInitialState(walkTB2);
-		
-		addState(walkTB2);
 		addState(turnToBall);
 		addState(walkToBall);
 		addState(turnToGoal);
