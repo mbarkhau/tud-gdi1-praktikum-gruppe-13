@@ -18,16 +18,21 @@ import mis.gdi1lab07.student.gameBehaviour.logicExpressions.SeeBall;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
 import mis.gdi1lab07.student.gameData.GameEnv;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.*;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.base.GotoBall;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.Wait;
 
 public class OffensiveAI<T extends GameEnv> extends StudentHFSM<T> {
 
 	public OffensiveAI(FieldPlayer player) throws AutomatonException {
-
+		
+		
+		
 		StudentHFSM<T> offensiv = new OffensivePlayerAi<T>(player);
 		StudentHFSM<T> dribble = new DribblePlayerAi<T>(player);
 		StudentHFSM<T> passee = new PasseeAi<T>(player);
 		//StudentHFSM<T> backy = new BackToPositionPlayer<T>(player);
+		//StudentHFSM<T> goToBall = new GotoBall<T>(player);
+		
 		
 		StudentHFSM<T> waiting = new Wait<T>(player);
 
@@ -37,9 +42,9 @@ public class OffensiveAI<T extends GameEnv> extends StudentHFSM<T> {
 		addState(dribble);
 		addState(passee);
 		addState(waiting);
+		//addState(goToBall);
 		
-		
-		// waitForKickoff "KickOff" offensiv
+		// wait "KickOff" offensiv
 		addTransition(waiting.getName(), offensiv.getName(),
 				"kickoff", new GameIsOn<T>((T) player.getEnv()));
 		
