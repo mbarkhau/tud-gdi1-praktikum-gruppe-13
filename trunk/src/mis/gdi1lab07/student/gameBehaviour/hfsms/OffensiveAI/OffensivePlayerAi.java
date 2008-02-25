@@ -30,7 +30,6 @@ public class OffensivePlayerAi<T extends GameEnv> extends StudentHFSM<T> {
 		StudentHFSM<T> drawNearBall = new DrawNearBall<T>(player);  // n�here dich Ball bis H�chstentfernung erreicht
 		StudentHFSM<T> gotoBall = new GotoBall<T>(player);  // laufe zum Ball
 		StudentHFSM<T> turnToBall = new TurnToBall<T>(player); // dreh dich zum Ball
-		//StudentHFSM<T> dribble = new DribblePlayerAi<T>(player);
 		
 		setInitialState(lookAhead);
 		
@@ -48,10 +47,6 @@ public class OffensivePlayerAi<T extends GameEnv> extends StudentHFSM<T> {
 		// lookAhead "weiss wo Ball ist und ist nicht am naechsten" TurnToGoal
 		addTransition(lookAhead, turnToGoal, (new AndExpression(
 									new SeeBall((T) player.getEnv()),new NotExpression(new IsClosestToBall<T>((T) player.getEnv())))));
-		
-		// lookAhead "ist am naechsten zum Ball" DRIBBLE PLAYER
-		//addTransition(lookAhead.getName(), dribble.getName(), "is closest to Ball", (new AndExpression(
-			//						new SeeBall((T) player.getEnv()),new IsClosestToBall<T>((T) player.getEnv()))));
 		
 		// Scout "Ball gefunden" lookAhead
 		addTransition(scout.getName(), lookAhead.getName(), "found ball", new SeeBall<T>((T) player.getEnv()));
@@ -92,35 +87,6 @@ public class OffensivePlayerAi<T extends GameEnv> extends StudentHFSM<T> {
 		addTransition(drawNearBall.getName(), lookAhead.getName(), "lost ball off eyes", new NotExpression<T>(new SeeBall<T>((T) player.getEnv())));
 		
 		// drawNearBall "nicht mehr zu weit weg von Ball" lookAhead
-		addTransition(drawNearBall.getName(), lookAhead.getName(), "not to far from ball", new NotExpression(new TooFarFromBall<T>((T) player.getEnv())));
-		
-		
+		addTransition(drawNearBall.getName(), lookAhead.getName(), "not to far from ball", new NotExpression(new TooFarFromBall<T>((T) player.getEnv())));		
 	}
 }
-
-
-
-//public class PasseeAi<T extends GameEnv> extends StudentHFSM<T> {
-
-//	public PasseeAi(FieldPlayer player) throws AutomatonException {
-
-//		StudentHFSM<T> walk = new WalkToBall<T>(player);
-//		StudentHFSM<T> watchBall = new WatchBall<T>(player);
-//		StudentHFSM<T> acceptPass = new AcceptPassFrom<T>(player);
-//		StudentHFSM<T> wait = new Wait<T>(player);
-//
-//		setInitialState(watchBall);
-//
-//		addState(watchBall);
-//		addState(walk);
-//		addState(acceptPass);
-//		addState(wait);
-//
-//		addTransition(watchBall.getName(), acceptPass.getName(), "accept pass",
-//				new HasHeardRequest<T>((T) player.getEnv()));
-//		addTransition(acceptPass.getName(), walk.getName(), "goto ball",
-//				new HasHeardAknowledgement<T>((T) player.getEnv()));
-//		addTransition(walk.getName(), wait.getName(), "got ball",
-//				new IsAtBall<T>((T) player.getEnv()));
-//	}
-//}
