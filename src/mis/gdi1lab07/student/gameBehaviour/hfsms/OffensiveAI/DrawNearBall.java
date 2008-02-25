@@ -3,11 +3,10 @@ package mis.gdi1lab07.student.gameBehaviour.hfsms.OffensiveAI;
 import mis.gdi1lab07.automaton.AutomatonException;
 import mis.gdi1lab07.student.StudentHFSM;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
-import mis.gdi1lab07.student.gameData.GameEnv;
 
-/** Nï¿½hert sich dem Ball an, da die Entfernung zu groï¿½ ist (siehe Aufg. 5.1, Hinweis 2.4)
+/** Nähert sich dem Ball an, da die Entfernung zu groß ist (siehe Aufg. 5.1, Hinweis 2.4)
  */
-public class DrawNearBall<T extends GameEnv> extends StudentHFSM<T> {
+public class DrawNearBall<T> extends StudentHFSM<T> {
 
 	private final FieldPlayer player;
 
@@ -18,10 +17,11 @@ public class DrawNearBall<T extends GameEnv> extends StudentHFSM<T> {
 		
 	}
 	
-	//TODO Player soll sich dem Ball nï¿½hern bis die Entfernung klein genug ist.
+	//TODO Player soll sich dem Ball nähern bis die Entfernung klein genug ist.
 
 	@Override
 	public void doOutput() throws AutomatonException {
+		System.out.println(player.getName()+": Draw near ball (dash 80)");
 		this.player.dash(80);
 	}
 }
