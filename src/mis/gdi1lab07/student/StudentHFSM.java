@@ -174,7 +174,7 @@ public class StudentHFSM<T> implements HFSM<T>, FlagConstants {
 	}
 
 	public String getName() {
-		return name;
+		return (name != null) ? name : getClass().getName();
 	}
 
 	public void setName(String name) {

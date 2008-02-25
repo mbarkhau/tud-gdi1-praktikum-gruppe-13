@@ -1,37 +1,31 @@
 package mis.gdi1lab07.student.gameBehaviour.hfsms.OffensiveAI;
 
 
-import mis.gdi1lab07.student.StudentHFSM;
-import mis.gdi1lab07.student.gameData.FieldPlayer;
 import mis.gdi1lab07.automaton.AutomatonException;
 import mis.gdi1lab07.automaton.logic.AndExpression;
 import mis.gdi1lab07.automaton.logic.NotExpression;
 import mis.gdi1lab07.student.StudentHFSM;
-import mis.gdi1lab07.student.gameBehaviour.hfsms.Scout;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.WalkToBall;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.HasHeardRequest;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.BallInDistance;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.base.Scout;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.IsClosestToBall;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.LookingAtBall;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.IsInGoalDirection;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.IsInShootDistance;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.SeeBall;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.TooFarFromBall;
+import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.LookingAtBall;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
 import mis.gdi1lab07.student.gameData.GameEnv;
 
 
-
 public class OffensivePlayerAi<T extends GameEnv> extends StudentHFSM<T> {
 
-	public OffensivePlayerAi(FieldPlayer player) throws AutomatonException{
-		
+	public OffensivePlayerAi(FieldPlayer player) throws AutomatonException {
 		
 		StudentHFSM<T> lookAhead = new LookAhead<T>(player);  // macht nichts
 		StudentHFSM<T> scout = new Scout<T>(player);  // suche den Ball
 		StudentHFSM<T> turnToGoal = new TurnToGoal<T>(player); // Player dreht sich Richtung Tor
 		StudentHFSM<T> runOnGoal = new RunOnGoal<T>(player);  // laufe ohne Ball auf Tor zu
-		StudentHFSM<T> drawNearBall = new DrawNearBall<T>(player);  // nähere dich Ball bis Höchstentfernung erreicht
+		StudentHFSM<T> drawNearBall = new DrawNearBall<T>(player);  // nï¿½here dich Ball bis Hï¿½chstentfernung erreicht
 		StudentHFSM<T> walk = new WalkToBall<T>(player);  // laufe zum Ball
 		StudentHFSM<T> turnToBall = new TurnToBall<T>(player); // dreh dich zum Ball
 		//StudentHFSM<T> dribble = new DribblePlayerAi<T>(player);
@@ -46,14 +40,14 @@ public class OffensivePlayerAi<T extends GameEnv> extends StudentHFSM<T> {
 		addState(turnToBall);
 		addState(drawNearBall);
 		
-		// lookAhead "weiß nicht wo Ball ist" Scout
+		// lookAhead "weiï¿½ nicht wo Ball ist" Scout
 		addTransition(lookAhead.getName(), scout.getName(), "don't know where ball", new NotExpression(new SeeBall((T) player.getEnv())));
 		
-		// lookAhead "weiß wo Ball ist und ist nicht am nähsten" TurnToGoal
+		// lookAhead "weiï¿½ wo Ball ist und ist nicht am nï¿½hsten" TurnToGoal
 		addTransition(lookAhead.getName(), turnToGoal.getName(), "not closest", (new AndExpression(
 									new SeeBall((T) player.getEnv()),new NotExpression(new IsClosestToBall<T>((T) player.getEnv())))));
 		
-		// lookAhead "ist am nächsten zum Ball" DRIBBLE PLAYER
+		// lookAhead "ist am nï¿½chsten zum Ball" DRIBBLE PLAYER
 		//addTransition(lookAhead.getName(), dribble.getName(), "is closest to Ball", (new AndExpression(
 			//						new SeeBall((T) player.getEnv()),new IsClosestToBall<T>((T) player.getEnv()))));
 		

@@ -23,18 +23,18 @@ public class GameEnv {
 	private List<PlayerMessage> msgs = new ArrayList<PlayerMessage>();
 
 	private int gameMode = 0;
-	
+
 	private int playerId = 0;
-	
+
 	private int tick = 0;
 
 	private HashMap<Integer, Object> hfsmParams = new HashMap<Integer, Object>();
-	
+
 	public Object getHfsmParam(Integer key) {
 		return hfsmParams.get(key);
 	}
-	
-	public void setHfsmParam(Integer key, Object value){
+
+	public void setHfsmParam(Integer key, Object value) {
 		hfsmParams.put(key, value);
 	}
 
@@ -56,7 +56,7 @@ public class GameEnv {
 		FieldVector f = flags.get(id);
 		return (f != null && f.getAge() < 15) ? f : null;
 	}
-	
+
 	public Collection<FieldVector> getOwnPlayers() {
 		return ownPlayers.values();
 	}
@@ -85,7 +85,7 @@ public class GameEnv {
 			Utils.turnVector(angle, v);
 		}
 	}
-	
+
 	/**
 	 * @param pow
 	 *            mit dem sich der spieler bewegt.
@@ -129,19 +129,22 @@ public class GameEnv {
 	public void setPlayMode(int gameMode) {
 		this.gameMode = gameMode;
 	}
-	
+
 	public void setPlayerId(int playerId) {
 		this.playerId = playerId;
 	}
-	
+
+	public int getPlayerId() {
+		return playerId;
+	}
+
 	public int getPlayerPosition() {
 		return Utils.getPlayerPos(playerId);
 	}
 
 	public void addMsg(double dir, String msg) {
 		for (Integer playerId : ownPlayers.keySet()) {
-			if (Utils.inDelta(dir, ownPlayers.get(playerId)
-					.getDirection())) {
+			if (Utils.inDelta(dir, ownPlayers.get(playerId).getDirection())) {
 				System.out.println("Heard " + playerId + " say " + msg);
 				msgs.add(new PlayerMessage(playerId, msg, true, tick));
 				return;
@@ -158,7 +161,7 @@ public class GameEnv {
 	 */
 	public int findSpeaker(String msg) {
 		for (PlayerMessage curMsg : msgs) {
-			if (curMsg.getMsg().equals(msg) && curMsg.isOwnTeam()
+			if (curMsg.getMsg().startsWith(msg) && curMsg.isOwnTeam()
 					&& curMsg.getPlayerId() != -1) {
 				return curMsg.getPlayerId();
 			}
@@ -168,7 +171,8 @@ public class GameEnv {
 
 	public boolean receivedMessage(String msg) {
 		for (PlayerMessage currentMsg : msgs) {
-			if (currentMsg.getMsg().equals(msg)) {
+			if (((tick - currentMsg.getTick()) < 5)
+					&& currentMsg.getMsg().startsWith(msg)) {
 				return true;
 			}
 		}
@@ -199,18 +203,18 @@ public class GameEnv {
 
 	/** remove all vectors in view and hence, should be visible on the next turn. */
 	public void cleanUp() {
-		//might do more harm than good, so leaving unimplemented for now
-		
+		// might do more harm than good, so leaving unimplemented for now
+
 	}
 
 	public int getTick() {
 		return tick;
 	}
-	
+
 	public void doTick() {
 		tick++;
 	}
-	
+
 	public void resetTick() {
 		tick = 0;
 	}

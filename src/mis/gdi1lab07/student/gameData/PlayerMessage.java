@@ -17,6 +17,13 @@ public class PlayerMessage {
 		this.tick = tick;
 	}
 
+	private int findPlayerId(String msg){
+		for (int i = 0; i < GameMessages.ALL.length; i++) {
+			
+		}
+		return -1;
+	}
+	
 	public int getPlayerId() {
 		return playerId;
 	}

@@ -14,6 +14,6 @@ public class PassRequest<T extends GameEnv> extends BaseHfsm<T> {
 	
 	@Override
 	public void doOutput() throws AutomatonException {
-		player.say(PASS_REQUEST);
+		player.say(PASS_REQUEST + env.getPlayerId());
 	}
 }
