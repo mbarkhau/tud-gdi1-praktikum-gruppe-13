@@ -5,9 +5,9 @@ import mis.gdi1lab07.automaton.logic.AndExpression;
 import mis.gdi1lab07.automaton.logic.NotExpression;
 import mis.gdi1lab07.student.StudentHFSM;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.WalkToBall;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.IsAtBall;
+import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.BallInDistance;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.IsClosestToBall;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.IsInBallDirection;
+import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.LookingAtBall;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.IsInGoalDirection;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.IsInShootDistance;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
@@ -33,10 +33,10 @@ public class DribblePlayerAi<T extends GameEnv> extends StudentHFSM<T> {
 		addState(shoot);
 		
 		// turnToBall "in Richtung Ball" WalkToBall
-		addTransition(turnToBall.getName(), walkToBall.getName(), "is in ball direction", new IsInBallDirection<T>((T) player.getEnv()));
+		addTransition(turnToBall.getName(), walkToBall.getName(), "is in ball direction", new LookingAtBall<T>((T) player.getEnv()));
 		
 		// walkToBall "ist am Ball" turnToGoal
-		addTransition(walkToBall.getName(), turnToGoal.getName(), "is at ball", new IsAtBall<T>((T) player.getEnv()));
+		addTransition(walkToBall.getName(), turnToGoal.getName(), "is at ball", new BallInDistance<T>((T) player.getEnv(), 0.5));
 		
 		// turnToGoal "inRichtungTor und in Schussdistanz" shoot
 		AndExpression<T> isInShootMood = new AndExpression<T>(new IsInGoalDirection<T>((T) player.getEnv()), new IsInShootDistance<T>((T) player.getEnv()));
@@ -48,7 +48,7 @@ public class DribblePlayerAi<T extends GameEnv> extends StudentHFSM<T> {
 		addTransition(turnToGoal.getName(), dribble.getName(), "is not in shoot distance", isNotInShootMood);
 		
 		// dribble "ist nicht am Ball" turnToBall
-		NotExpression<T> isAtBallNOT = new NotExpression(new IsAtBall<T>((T) player.getEnv()));
+		NotExpression<T> isAtBallNOT = new NotExpression(new BallInDistance<T>((T) player.getEnv(),0.5));
 		addTransition(dribble.getName(), turnToBall.getName(), "is not at ball", isAtBallNOT);
 		
 		

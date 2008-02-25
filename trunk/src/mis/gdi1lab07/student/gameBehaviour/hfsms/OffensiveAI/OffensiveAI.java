@@ -8,16 +8,17 @@ import mis.gdi1lab07.student.StudentHFSM;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.AcceptorHasAknowledged;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.BallPassedByMe;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.BallPassedToMe;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.GameIsOn;
+import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.GameIsOn;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.HasHeardAccepter;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.HasHeardRequest;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.HasScouted;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.IsAtBall;
+import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.HasScouted;
+import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.BallInDistance;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.IsClosestToBall;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.SeeBall;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
 import mis.gdi1lab07.student.gameData.GameEnv;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.*;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.base.Wait;
 
 public class OffensiveAI<T extends GameEnv> extends StudentHFSM<T> {
 
@@ -28,18 +29,18 @@ public class OffensiveAI<T extends GameEnv> extends StudentHFSM<T> {
 		StudentHFSM<T> passee = new PasseeAi<T>(player);
 		//StudentHFSM<T> backy = new BackToPositionPlayer<T>(player);
 		
-		StudentHFSM<T> waitForKickoff = new WaitForKickoff<T>();
+		StudentHFSM<T> waiting = new Wait<T>(player);
 
-		setInitialState(waitForKickoff);
+		setInitialState(waiting);
 
 		addState(offensiv);
 		addState(dribble);
 		addState(passee);
-		addState(waitForKickoff);
+		addState(waiting);
 		
 		
 		// waitForKickoff "KickOff" offensiv
-		addTransition(waitForKickoff.getName(), offensiv.getName(),
+		addTransition(waiting.getName(), offensiv.getName(),
 				"kickoff", new GameIsOn<T>((T) player.getEnv()));
 		
 		
