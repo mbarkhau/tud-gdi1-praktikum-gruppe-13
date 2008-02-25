@@ -14,12 +14,7 @@ public class BallPassedToMe<T extends GameEnv> extends BaseLogicExpression<T> im
 
 	@Override
 	public boolean eval(T env) throws LogExpException {
-		if(env.receivedMessage(PASS_ACK)) {
-			env.removeMessage(PASS_ACK);
-			return true;
-		}
-		else
-			return false;
+		return (env.receivedMessage(PASS_ACK));
 	}
 
 }
