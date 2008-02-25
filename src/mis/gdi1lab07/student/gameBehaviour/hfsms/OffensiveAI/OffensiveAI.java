@@ -23,8 +23,6 @@ public class OffensiveAI<T extends GameEnv> extends StudentHFSM<T> {
 		StudentHFSM<T> passee = new PasseeAi<T>(player);
 		//StudentHFSM<T> backy = new BackToPositionPlayer<T>(player);
 		//StudentHFSM<T> goToBall = new GotoBall<T>(player);
-		
-		
 		StudentHFSM<T> waiting = new Wait<T>(player);
 
 		setInitialState(waiting);
@@ -38,14 +36,13 @@ public class OffensiveAI<T extends GameEnv> extends StudentHFSM<T> {
 		// wait "KickOff" offensiv
 		addTransition(waiting, offensiv, new GameIsOn<T>((T) player.getEnv()));
 		
-		
 		// offensiv/dribble "Spielunterbrechung" waitForKickoff
 		// TODO muss noch hinzugef�gt werden, im Gesamtkonzept dann
 		
-		// offensiv "ist am n�hsten" dribble
+		// offensiv "ist am naechsten" dribble
 		addTransition(offensiv, dribble, new IsClosestToBall<T>((T) player.getEnv()));
 		
-		// offensiv "h�rt Passanfrage" passee
+		// offensiv "hoert Passanfrage" passee
 		addTransition(offensiv, passee, new HasHeardRequest<T>((T) player.getEnv()));
 		
 
