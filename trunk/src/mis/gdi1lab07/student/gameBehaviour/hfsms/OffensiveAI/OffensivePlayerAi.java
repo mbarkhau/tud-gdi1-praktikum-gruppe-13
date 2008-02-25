@@ -42,14 +42,14 @@ public class OffensivePlayerAi<T extends GameEnv> extends StudentHFSM<T> {
 		addState(turnToBall);
 		addState(drawNearBall);
 		
-		// lookAhead "wei� nicht wo Ball ist" Scout
+		// lookAhead "weiss nicht wo Ball ist" Scout
 		addTransition(lookAhead, scout, new NotExpression(new SeeBall((T) player.getEnv())));
 		
-		// lookAhead "wei� wo Ball ist und ist nicht am n�hsten" TurnToGoal
+		// lookAhead "weiss wo Ball ist und ist nicht am naechsten" TurnToGoal
 		addTransition(lookAhead, turnToGoal, (new AndExpression(
 									new SeeBall((T) player.getEnv()),new NotExpression(new IsClosestToBall<T>((T) player.getEnv())))));
 		
-		// lookAhead "ist am n�chsten zum Ball" DRIBBLE PLAYER
+		// lookAhead "ist am naechsten zum Ball" DRIBBLE PLAYER
 		//addTransition(lookAhead.getName(), dribble.getName(), "is closest to Ball", (new AndExpression(
 			//						new SeeBall((T) player.getEnv()),new IsClosestToBall<T>((T) player.getEnv()))));
 		
@@ -72,14 +72,21 @@ public class OffensivePlayerAi<T extends GameEnv> extends StudentHFSM<T> {
 		// runOnGoal "verliert ball aus Augen" lookAhead
 		addTransition(runOnGoal.getName(), lookAhead.getName(), "lost ball off eyes", new NotExpression(new SeeBall<T>((T) player.getEnv())));
 		
-		// runOnGoal "ist nahe genug an Tor" lookAhead
-		addTransition(runOnGoal.getName(), lookAhead.getName(), "is close enough to goal", new IsInShootDistance<T>((T) player.getEnv()));
+		// runOnGoal "sieht Ball UND nicht zu weit weg vom Ball UND nahe genug an Tor" lookAhead
+		addTransition(runOnGoal.getName(), lookAhead.getName(), "is close enough to goal", new AndExpression<T>(
+				new SeeBall<T>((T) player.getEnv()), new AndExpression<T>(
+							new NotExpression<T>(new TooFarFromBall<T>((T) player.getEnv())),
+							new IsInShootDistance<T>((T) player.getEnv()))));
 		
-		// runOnGoal "zu weit weg von Ball" turnToBall
-		addTransition(runOnGoal.getName(), turnToBall.getName(), "to far from ball", new TooFarFromBall<T>((T) player.getEnv()));
+		// runOnGoal "sieht Ball UND zu weit weg von Ball" turnToBall
+		addTransition(runOnGoal.getName(), turnToBall.getName(), "to far from ball", new AndExpression<T>(
+				new SeeBall<T>((T) player.getEnv()),new TooFarFromBall<T>((T) player.getEnv())));
 		
 		// turnToBall "schaut Richtung Ball" drawNearBall
 		addTransition(turnToBall.getName(), drawNearBall.getName(), "is in Ball direction", new LookingAtBall<T>((T) player.getEnv()));
+		
+		// turnToBall "sieht Ball nicht mehr" lookAhead
+		addTransition(turnToBall.getName(), lookAhead.getName(), "lost ball off eyes", new NotExpression<T>(new SeeBall<T>((T) player.getEnv())));
 		
 		// drawNearBall "verliert Ball aus Augen" lookAhead
 		addTransition(drawNearBall.getName(), lookAhead.getName(), "lost ball off eyes", new NotExpression<T>(new SeeBall<T>((T) player.getEnv())));
