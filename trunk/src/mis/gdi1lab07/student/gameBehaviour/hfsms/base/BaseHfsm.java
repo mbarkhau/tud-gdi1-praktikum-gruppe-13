@@ -69,7 +69,7 @@ public abstract class BaseHfsm<T extends GameEnv> extends StudentHFSM<T>
 	public void gotoVector(FieldVector v, int power, double delta) {
 		if (v == null)
 			player.turn(90);
-		else if (Utils.inDelta(v.getDirection(), 0, delta))
+		else if (!Utils.inDelta(v.getDirection(), 0, delta))
 			player.turn(v.getDirection());
 		else
 			this.player.dash(power);
