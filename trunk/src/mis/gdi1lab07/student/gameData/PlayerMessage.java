@@ -6,22 +6,14 @@ public class PlayerMessage {
 	
 	private final String msg;
 	
-	private final boolean ownTeam;
 	
 	private final int tick;
 	
-	public PlayerMessage(int playerId, String msg, boolean ownTeam, int tick) {
-		this.playerId = playerId;
+	public PlayerMessage(int playerId, String msg, int tick) {
+		this.playerId = (playerId != -1) ? playerId : Utils.findPlayerId(msg);
 		this.msg = msg;
-		this.ownTeam = ownTeam;
 		this.tick = tick;
-	}
-
-	private int findPlayerId(String msg){
-		for (int i = 0; i < GameMessages.ALL.length; i++) {
-			
-		}
-		return -1;
+		System.out.println(this);
 	}
 	
 	public int getPlayerId() {
@@ -33,11 +25,11 @@ public class PlayerMessage {
 	}
 
 	public boolean isOwnTeam() {
-		return ownTeam;
+		return Utils.findPlayerId(msg) != -1;
 	}
 	
 	public String toString(){
-		return "player "+ playerId + " said " + msg;
+		return tick + "  " + playerId + " said " + msg;
 	}
 
 	public int getTick() {

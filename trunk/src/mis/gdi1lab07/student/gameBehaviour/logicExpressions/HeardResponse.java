@@ -15,7 +15,7 @@ public class HeardResponse<T extends GameEnv> extends BaseLogicExpression<T> imp
 
 	@Override
 	public boolean eval(T env) throws LogExpException {
-		int speaker = (env.findSpeaker(PASS_RESPONSE));
+		int speaker = env.findSpeaker(PASS_RESPONSE);
 		if (speaker != -1){
 			env.setHfsmParam(PASSER_RESPONSE_PLAYER_ID, speaker);
 			return true;

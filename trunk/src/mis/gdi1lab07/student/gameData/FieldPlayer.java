@@ -90,8 +90,7 @@ public class FieldPlayer<T extends GameEnv> implements Player {
 
 	@Override
 	public void say(String message) {
-		System.out.println("Player " + decoratedPlayer.getNumber() + " said "
-				+ message);
+		System.out.println(env.getTick() + " " + getNumber() + " says " + message);
 		decoratedPlayer.say(message);
 	}
 

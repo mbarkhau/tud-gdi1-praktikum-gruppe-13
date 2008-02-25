@@ -143,14 +143,15 @@ public class GameEnv {
 	}
 
 	public void addMsg(double dir, String msg) {
-		for (Integer playerId : ownPlayers.keySet()) {
-			if (Utils.inDelta(dir, ownPlayers.get(playerId).getDirection())) {
-				System.out.println("Heard " + playerId + " say " + msg);
-				msgs.add(new PlayerMessage(playerId, msg, true, tick));
-				return;
+		int speakerId = -1;
+		for (Integer curId : ownPlayers.keySet()) {
+			if (Utils.inDelta(dir, ownPlayers.get(curId).getDirection())) {
+				speakerId = curId;
 			}
 		}
-		msgs.add(new PlayerMessage(-1, msg, false, tick));
+		PlayerMessage newMsg = new PlayerMessage(speakerId, msg, tick);
+
+		msgs.add(newMsg);
 	}
 
 	/**
