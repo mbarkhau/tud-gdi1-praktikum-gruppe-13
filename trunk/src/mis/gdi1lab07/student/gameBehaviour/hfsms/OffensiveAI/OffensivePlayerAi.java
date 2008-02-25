@@ -8,9 +8,11 @@ import mis.gdi1lab07.automaton.logic.NotExpression;
 import mis.gdi1lab07.student.StudentHFSM;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.Scout;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.WalkToBall;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.base.GotoBall;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.HasHeardAknowledgement;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.HasHeardRequest;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.BallInDistance;
+import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.BallVisible;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.IsClosestToBall;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.LookingAtBall;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.IsInGoalDirection;
@@ -32,7 +34,7 @@ public class OffensivePlayerAi<T extends GameEnv> extends StudentHFSM<T> {
 		StudentHFSM<T> turnToGoal = new TurnToGoal<T>(player); // Player dreht sich Richtung Tor
 		StudentHFSM<T> runOnGoal = new RunOnGoal<T>(player);  // laufe ohne Ball auf Tor zu
 		StudentHFSM<T> drawNearBall = new DrawNearBall<T>(player);  // nähere dich Ball bis Höchstentfernung erreicht
-		StudentHFSM<T> walk = new WalkToBall<T>(player);  // laufe zum Ball
+		StudentHFSM<T> walk = new GotoBall<T>(player);  // laufe zum Ball
 		StudentHFSM<T> turnToBall = new TurnToBall<T>(player); // dreh dich zum Ball
 		//StudentHFSM<T> dribble = new DribblePlayerAi<T>(player);
 		
@@ -47,18 +49,18 @@ public class OffensivePlayerAi<T extends GameEnv> extends StudentHFSM<T> {
 		addState(drawNearBall);
 		
 		// lookAhead "weiß nicht wo Ball ist" Scout
-		addTransition(lookAhead.getName(), scout.getName(), "don't know where ball", new NotExpression(new SeeBall((T) player.getEnv())));
+		addTransition(lookAhead.getName(), scout.getName(), "don't know where ball", new NotExpression(new BallVisible((T) player.getEnv())));
 		
 		// lookAhead "weiß wo Ball ist und ist nicht am nähsten" TurnToGoal
 		addTransition(lookAhead.getName(), turnToGoal.getName(), "not closest", (new AndExpression(
-									new SeeBall((T) player.getEnv()),new NotExpression(new IsClosestToBall<T>((T) player.getEnv())))));
+									new BallVisible((T) player.getEnv()),new NotExpression(new IsClosestToBall<T>((T) player.getEnv())))));
 		
 		// lookAhead "ist am nächsten zum Ball" DRIBBLE PLAYER
 		//addTransition(lookAhead.getName(), dribble.getName(), "is closest to Ball", (new AndExpression(
 			//						new SeeBall((T) player.getEnv()),new IsClosestToBall<T>((T) player.getEnv()))));
 		
 		// Scout "Ball gefunden" lookAhead
-		addTransition(scout.getName(), lookAhead.getName(), "found ball", new SeeBall<T>((T) player.getEnv()));
+		addTransition(scout.getName(), lookAhead.getName(), "found ball", new BallVisible<T>((T) player.getEnv()));
 				
 		// turnToGoal "(nicht in Schussdistanz, sieht Ball) und: in Tor-Richtung " runOnGoal
 		addTransition(turnToGoal.getName(), runOnGoal.getName(), "is in Goal Direction", new AndExpression(
@@ -97,27 +99,3 @@ public class OffensivePlayerAi<T extends GameEnv> extends StudentHFSM<T> {
 
 
 
-//public class PasseeAi<T extends GameEnv> extends StudentHFSM<T> {
-
-//	public PasseeAi(FieldPlayer player) throws AutomatonException {
-
-//		StudentHFSM<T> walk = new WalkToBall<T>(player);
-//		StudentHFSM<T> watchBall = new WatchBall<T>(player);
-//		StudentHFSM<T> acceptPass = new AcceptPassFrom<T>(player);
-//		StudentHFSM<T> wait = new Wait<T>(player);
-//
-//		setInitialState(watchBall);
-//
-//		addState(watchBall);
-//		addState(walk);
-//		addState(acceptPass);
-//		addState(wait);
-//
-//		addTransition(watchBall.getName(), acceptPass.getName(), "accept pass",
-//				new HasHeardRequest<T>((T) player.getEnv()));
-//		addTransition(acceptPass.getName(), walk.getName(), "goto ball",
-//				new HasHeardAknowledgement<T>((T) player.getEnv()));
-//		addTransition(walk.getName(), wait.getName(), "got ball",
-//				new IsAtBall<T>((T) player.getEnv()));
-//	}
-//}
