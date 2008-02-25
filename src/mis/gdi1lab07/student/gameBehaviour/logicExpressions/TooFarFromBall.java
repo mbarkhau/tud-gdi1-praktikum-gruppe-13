@@ -18,22 +18,14 @@ public class TooFarFromBall<T extends GameEnv> extends BaseLogicExpression<T> {
 	//TODO Ballentfernung evtl ändern
 	@Override
 	public boolean eval(T env) throws LogExpException {
-		//System.out.print("Too Far from Ball? ");
 		if (env.getBall()!=null){
 			if (env.getBall().getDistance()>20){
-				System.out.println("To far from ball"+true);
 				return true;
 			}
 			else{
-				//System.out.println(false);
 				return false;
 			}
-			}
-		System.out.println(false+" can't see it"); 
+		}
 			return true;
-	
-	
-	
 	}
-	
 }
