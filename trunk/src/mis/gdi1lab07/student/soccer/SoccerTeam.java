@@ -2,7 +2,7 @@ package mis.gdi1lab07.student.soccer;
 
 import mis.gdi1lab07.automaton.AutomatonException;
 import mis.gdi1lab07.student.StudentHFSM;
-import mis.gdi1lab07.student.gameBehaviour.hfsms.OffensiveAI.OffensiveAI;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.PassAi;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
 import mis.gdi1lab07.student.gameData.GameEnv;
 import utilities.ConsoleLogger;
@@ -37,7 +37,7 @@ public class SoccerTeam extends Team {
 		fieldPlayer.setTeamName(this.getTeamName());
 		p.setNumber(i);
 		try {
-			StudentHFSM<GameEnv> hfsm = new OffensiveAI<GameEnv>(fieldPlayer);
+			StudentHFSM<GameEnv> hfsm = new PassAi<GameEnv>(fieldPlayer);
 			hfsm.setName("passPlayer");
 			hfsm.setLog(new ConsoleLogger("passPlayerLog"));
 			hfsm.reset();

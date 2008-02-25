@@ -4,6 +4,7 @@ import mis.gdi1lab07.automaton.AutomatonException;
 import mis.gdi1lab07.automaton.logic.LogicExpression;
 import mis.gdi1lab07.automaton.logic.NotExpression;
 import mis.gdi1lab07.student.StudentHFSM;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.base.BaseHfsm;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.GotoBall;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.LookAtBall;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.Wait;
@@ -13,10 +14,10 @@ import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.BallInDistance;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
 import mis.gdi1lab07.student.gameData.GameEnv;
 
-public class PasseeAi<T extends GameEnv> extends StudentHFSM<T> {
+public class PasseeAi<T extends GameEnv> extends BaseHfsm<T> {
 
 	public PasseeAi(FieldPlayer<T> player) throws AutomatonException {
-		T env = player.getEnv();
+		super(player);
 
 		// states
 		StudentHFSM<T> wait = new Wait<T>(player);
@@ -42,5 +43,15 @@ public class PasseeAi<T extends GameEnv> extends StudentHFSM<T> {
 		addTransition(acceptPass, gotoBall, heardAck);
 		addTransition(acceptPass, watchBall, notHeardAck);
 		addTransition(gotoBall, wait, atBall);
+	}
+
+	@Override
+	public void doOutput() throws AutomatonException {
+		// noop
+	}
+	
+	@Override
+	public void reset() throws AutomatonException {
+		super.reset();
 	}
 }
