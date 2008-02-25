@@ -28,7 +28,6 @@ public class OffensiveAI<T extends GameEnv> extends StudentHFSM<T> {
 		addState(offensiv);
 		addState(dribble);
 		addState(waiting);
-		//addState(goToBall);
 		
 		// wait "KickOff" offensiv
 		addTransition(waiting, offensiv, new GameIsOn<T>((T) player.getEnv()));
