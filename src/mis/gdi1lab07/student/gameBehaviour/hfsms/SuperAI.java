@@ -2,6 +2,7 @@ package mis.gdi1lab07.student.gameBehaviour.hfsms;
 
 import mis.gdi1lab07.automaton.AutomatonException;
 import mis.gdi1lab07.student.StudentHFSM;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.OffensiveAI.OffensiveAI;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.BallPassedByMe;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.BallPassedToMe;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.HasHeardRequest;
@@ -15,7 +16,7 @@ public class SuperAI<T extends GameEnv> extends StudentHFSM<T> {
 		StudentHFSM<T> defense = new DefenseAI<T>(player);
 		StudentHFSM<T> pass = new PasseeAi<T>(player);
 		StudentHFSM<T> passer = new PasserAi<T>(player);
-		
+		StudentHFSM<T> offensive = new OffensiveAI<T>(player);
 
 		defense.setName("Defense");
 		addState(defense);
@@ -23,12 +24,15 @@ public class SuperAI<T extends GameEnv> extends StudentHFSM<T> {
 		addState(pass);
 		passer.setName("Passen");
 		addState(passer);
+		offensive.setName("Offensive");
+		addState(offensive);
 		
 		setInitialState(defense);
 		
 		addTransition(defense.getName(), pass.getName(), "switch pass", new HasHeardRequest<T>((T) player.getEnv()));
 		addTransition(pass.getName(), passer.getName(), "passer",new BallPassedToMe<T>((T) player.getEnv()));
 		addTransition(passer.getName(), defense.getName(), "deff", new BallPassedByMe<T>((T) player.getEnv()));
+		addTransition(offensive.getName(), pass.getName(), "become a passee", new HasHeardRequest<T>((T) player.getEnv()));
 		
 	}
 	
