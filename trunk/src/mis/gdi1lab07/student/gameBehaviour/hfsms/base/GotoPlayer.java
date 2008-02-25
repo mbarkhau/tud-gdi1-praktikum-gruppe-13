@@ -26,6 +26,7 @@ public class GotoPlayer<T extends GameEnv> extends BaseHfsm<T> {
 		this.ownTeam = ownTeam;
 		this.playerId = playerId;
 	}
+	
 
 	@Override
 	public void doOutput() throws AutomatonException {
