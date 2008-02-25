@@ -1,56 +1,76 @@
 package mis.gdi1lab07.student.gameBehaviour.hfsms;
 
 import mis.gdi1lab07.automaton.AutomatonException;
+import mis.gdi1lab07.automaton.logic.AndExpression;
+import mis.gdi1lab07.automaton.logic.LogicExpression;
+import mis.gdi1lab07.automaton.logic.NotExpression;
 import mis.gdi1lab07.student.StudentHFSM;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.base.GotoBall;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.base.LookAtPlayer;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.Scout;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.Wait;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.AcceptorHasAknowledged;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.BallPassedByMe;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.HasHeardAccepter;
+import mis.gdi1lab07.student.gameBehaviour.logicExpressions.HeardResponse;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.BallInDistance;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.HasScouted;
+import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.LookingAtPlayer;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.PlayerInDistance;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
 import mis.gdi1lab07.student.gameData.GameEnv;
 
 public class PasserAi<T extends GameEnv> extends StudentHFSM<T> {
-	
+
 	public PasserAi(FieldPlayer<T> player) throws AutomatonException {
+		T env = player.getEnv();
 
-		StudentHFSM<T> walk = new WalkToBall<T>(player);
 		StudentHFSM<T> scout = new Scout<T>(player);
+		StudentHFSM<T> gotoBall = new GotoBall<T>(player);
+		StudentHFSM<T> kickToPlayer = new KickToPlayer<T>(player);
+		StudentHFSM<T> request = new PassRequest<T>(player);
+		StudentHFSM<T> acknowledge = new PassAck<T>(player);
 		StudentHFSM<T> findPassee = new FindPassee<T>(player);
-		StudentHFSM<T> requestPass = new RequestPassTo<T>(player);
-		StudentHFSM<T> anouncePass = new AnouncePass<T>(player);
-		StudentHFSM<T> doPass = new Pass<T>(player);
-		StudentHFSM<T> wait = new Wait<T>(player);
+		StudentHFSM<T> lookAtPassee = new LookAtPlayer<T>(player, true, -1);
 
-		setInitialState(walk);
-		
-		addState(walk);
+		setInitialState(scout);
+
 		addState(scout);
+		addState(gotoBall);
+		addState(kickToPlayer);
+		addState(request);
+		addState(acknowledge);
 		addState(findPassee);
-		addState(requestPass);
-		addState(anouncePass);
-		addState(doPass);
-		addState(wait);
+		addState(lookAtPassee);
 		
-		addTransition(walk.getName(), scout.getName(), "scout",
-				new BallInDistance<T>((T) player.getEnv(), 0.5));
+		LogicExpression<T> hasScouted = new HasScouted<T>(env);
+		LogicExpression<T> atBall = new BallInDistance<T>(env, 1);
+		LogicExpression<T> notAtBall = new NotExpression<T>(atBall);
+		LogicExpression<T> anyPlayerVisible = new LookingAtPlayer<T>(env, true, -1);
+		LogicExpression<T> noPlayerVisible = new NotExpression<T>(anyPlayerVisible); 
+		LogicExpression<T> canRequest = new AndExpression<T>(atBall, anyPlayerVisible);
+		LogicExpression<T> cannotRequest = new AndExpression<T>(atBall, noPlayerVisible);
+		LogicExpression<T> passeeVisible = new LookingAtPlayer<T>(env, true, -1);
+		LogicExpression<T> playerInPassingDist = new PlayerInDistance<T>(env, true,	80);
 		
-		addTransition(scout.getName(), findPassee.getName(), "find passee",
-				new HasScouted<T>((T) player.getEnv()));
+		LogicExpression<T> heardResponse = new HeardResponse<T>(env);
+		LogicExpression<T> canPassToPlayer = new AndExpression<T>(atBall, playerInPassingDist);
 		
-		addTransition(findPassee.getName(), requestPass.getName(), "request pass",
-				new PlayerInDistance<T>((T) player.getEnv(), true, 80));
+		LogicExpression<T> notHeardResponse = new NotExpression<T>(heardResponse);
 		
-		addTransition(requestPass.getName(), anouncePass.getName(),
-				"anounce pass", new HasHeardAccepter<T>((T) player.getEnv()));
+		LogicExpression<T> passedByMe = new BallPassedByMe<T>(env);
 		
-		addTransition(anouncePass.getName(), doPass.getName(), "pass",
-				new AcceptorHasAknowledged<T>((T) player.getEnv()));
+
+		addTransition(scout, gotoBall, notAtBall);
 		
-		addTransition(doPass.getName(), wait.getName(), "wait",
-				new BallPassedByMe<T>((T) player.getEnv()));
+		addTransition(kickToPlayer, gotoBall, notAtBall);
+		addTransition(request, gotoBall, notAtBall);
+		addTransition(acknowledge, gotoBall, notAtBall);
+		addTransition(findPassee, gotoBall, notAtBall);
+		addTransition(lookAtPassee, gotoBall, notAtBall);
+		
+		addTransition(gotoBall, findPassee, cannotRequest);
+		addTransition(gotoBall, request, canRequest);
+		
+		
+		addTransition(gotoBall, scout,	passedByMe);
 	}
 }

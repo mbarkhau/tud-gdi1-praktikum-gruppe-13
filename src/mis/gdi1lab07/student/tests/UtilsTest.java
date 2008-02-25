@@ -65,4 +65,13 @@ public class UtilsTest {
 		
 //		System.out.println(v1);
 	}
+	
+	@Test
+	public void testInDelta(){
+		assertTrue(Utils.inDelta(2, 4));
+		assertTrue(Utils.inDelta(2, 4, 3));
+		assertTrue(Utils.inDelta(-4, -5, 3));
+		assertTrue(Utils.inDelta(-1, 1, 3));
+		assertTrue(Utils.inDelta(1, -1, 3));
+	}
 }

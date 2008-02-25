@@ -33,9 +33,9 @@ public class SoccerTeam extends Team {
 
 	@Override
 	public Controller getNewController(int i, Player p) {
+		p.setNumber(i);
 		FieldPlayer<GameEnv> fieldPlayer = new FieldPlayer<GameEnv>(p, new GameEnv());
 		fieldPlayer.setTeamName(this.getTeamName());
-		p.setNumber(i);
 		try {
 			StudentHFSM<GameEnv> passHFSM = new GoalieAi<GameEnv>(fieldPlayer);
 			passHFSM.setName("passPlayer");

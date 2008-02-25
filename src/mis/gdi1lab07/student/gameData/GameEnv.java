@@ -24,7 +24,7 @@ public class GameEnv {
 
 	private int gameMode = 0;
 	
-	private int playerPosition = 0;
+	private int playerId = 0;
 
 	public FieldVector getBall() {
 		return (ball != null && ball.getAge() < 3) ? ball : null;
@@ -118,12 +118,12 @@ public class GameEnv {
 		this.gameMode = gameMode;
 	}
 	
-	public void setPlayerPosition(int position) {
-		playerPosition = position;
+	public void setPlayerId(int playerId) {
+		this.playerId = playerId;
 	}
 	
 	public int getPlayerPosition() {
-		return playerPosition;
+		return Utils.getPlayerPos(playerId);
 	}
 
 	public void addMsg(double dir, String msg) {

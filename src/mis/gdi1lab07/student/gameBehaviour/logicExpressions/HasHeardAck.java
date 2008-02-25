@@ -5,11 +5,12 @@ import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.BaseLogicExpres
 import mis.gdi1lab07.student.gameData.GameEnv;
 import mis.gdi1lab07.student.gameData.GameMessages;
 
-public class HasHeardAknowledgement<T extends GameEnv> extends BaseLogicExpression<T> implements GameMessages {
+/** Trigger if a passer has issued an ack for pass */
+public class HasHeardAck<T extends GameEnv> extends BaseLogicExpression<T> implements GameMessages {
 
 	//Passender Spieler hat Antwort von annehmendem Spieler erhalten
 
-	public HasHeardAknowledgement(T env) {
+	public HasHeardAck(T env) {
 		super(env);
 	}
 

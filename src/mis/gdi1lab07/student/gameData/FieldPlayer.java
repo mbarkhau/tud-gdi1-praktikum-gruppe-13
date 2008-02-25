@@ -20,6 +20,7 @@ public class FieldPlayer<T extends GameEnv> implements Player {
 	public FieldPlayer(Player player, T env) {
 		this.decoratedPlayer = player;
 		this.env = env;
+		this.env.setPlayerId(player.getNumber());
 	}
 
 	public String getName() {
@@ -97,7 +98,7 @@ public class FieldPlayer<T extends GameEnv> implements Player {
 	@Override
 	public void setNumber(int num) {
 		decoratedPlayer.setNumber(num);
-
+		this.env.setPlayerId(num);
 	}
 
 	@Override

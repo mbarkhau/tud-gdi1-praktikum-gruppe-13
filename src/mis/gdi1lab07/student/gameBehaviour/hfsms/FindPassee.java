@@ -1,23 +1,20 @@
 package mis.gdi1lab07.student.gameBehaviour.hfsms;
 
 import mis.gdi1lab07.automaton.AutomatonException;
-import mis.gdi1lab07.student.StudentHFSM;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.base.BaseHfsm;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
 import mis.gdi1lab07.student.gameData.FieldVector;
 import mis.gdi1lab07.student.gameData.GameEnv;
 
-public class FindPassee<T extends GameEnv> extends StudentHFSM<T> {
+public class FindPassee<T extends GameEnv> extends BaseHfsm<T> {
 
-	private final FieldPlayer<T> player;
-	
 	public FindPassee(FieldPlayer<T> player) {
-		super();
-		this.player = player;
+		super(player);
 	}
 	
 	@Override
 	public void doOutput() throws AutomatonException {
-		for (FieldVector v : player.getEnv().getOwnPlayers()) {
+		for (FieldVector v : env.getOwnPlayers()) {
 			if (true) { //TODO: pick a random player
 				player.turn(v.getDirection());
 				return;
