@@ -5,6 +5,7 @@ import mis.gdi1lab07.automaton.logic.AndExpression;
 import mis.gdi1lab07.automaton.logic.NotExpression;
 import mis.gdi1lab07.student.StudentHFSM;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.WalkToBall;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.base.GotoBall;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.BallInDistance;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.IsClosestToBall;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.LookingAtBall;
@@ -17,15 +18,17 @@ public class DribblePlayerAi<T extends GameEnv> extends StudentHFSM<T> {
 
 	public DribblePlayerAi(FieldPlayer player) throws AutomatonException{
 		// TODO Auto-generated constructor stub
-		
 		StudentHFSM<T> turnToBall = new TurnToBall<T>(player);
-		StudentHFSM<T> walkToBall = new WalkToBall<T>(player);
+		StudentHFSM<T> walkToBall = new GotoBall<T>(player);
 		StudentHFSM<T> turnToGoal = new TurnToGoal<T>(player);
 		StudentHFSM<T> dribble = new DribbleOnGoal<T>(player);
 		StudentHFSM<T> shoot = new Shoot<T>(player);
+		StudentHFSM<T> walkTB2 = new GotoBall<T>(player);
 		
-		setInitialState(turnToBall);
 		
+		setInitialState(walkTB2);
+		
+		addState(walkTB2);
 		addState(turnToBall);
 		addState(walkToBall);
 		addState(turnToGoal);
@@ -50,11 +53,6 @@ public class DribblePlayerAi<T extends GameEnv> extends StudentHFSM<T> {
 		// dribble "ist nicht am Ball" turnToBall
 		NotExpression<T> isAtBallNOT = new NotExpression(new BallInDistance<T>((T) player.getEnv(),0.5));
 		addTransition(dribble.getName(), turnToBall.getName(), "is not at ball", isAtBallNOT);
-		
-		
-		
-		
-	
 	}
 
 }
