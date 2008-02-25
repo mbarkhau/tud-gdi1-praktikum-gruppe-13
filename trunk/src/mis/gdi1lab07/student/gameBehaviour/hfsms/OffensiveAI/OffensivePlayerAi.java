@@ -88,7 +88,5 @@ public class OffensivePlayerAi<T extends GameEnv> extends StudentHFSM<T> {
 		
 		// drawNearBall "nicht mehr zu weit weg von Ball" lookAhead
 		addTransition(drawNearBall, lookAhead, new NotExpression(new TooFarFromBall<T>((T) player.getEnv())));
-		
-		
 	}
 }
