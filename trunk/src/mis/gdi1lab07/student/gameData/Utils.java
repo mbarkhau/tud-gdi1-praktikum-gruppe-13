@@ -138,13 +138,14 @@ public class Utils implements FlagConstants {
 	 */
 	public static FieldVector predictVector(FieldVector a, FieldVector b, double ticks){
 		
-		double distA_B = getVectorDistance(a, b);
-		double distA_C = distA_B * (ticks + 1);
-		double angleA_P_B = addAngles(a.getDir(), b.getDir());
-		double angleB_A_P = asin((b.getDist() * sin(angleA_P_B)) / distA_C);
+		double distAB = getVectorDistance(a, b);
+		double distAC = distAB * (ticks + 1);
+		double angleAPB = addAngles(a.getDir(), b.getDir());
+		double angleBAP = asin((b.getDist() * sin(angleAPB)) / distAC);
 		
-		double distC = Math.sqrt(sqr(a.getDist()) + sqr(distA_C) - 2 * a.getDist() * distA_C * cos(angleB_A_P));
-		double dirC = asin((distA_C * sin(angleB_A_P) / distC)) - a.getDir();
+		double distC = Math.sqrt(sqr(a.getDist()) + sqr(distAC) - 2 * a.getDist() * distAC * cos(angleBAP));
+		double dirC = asin((distAC * sin(angleBAP) / distC));
+		dirC += (a.getDir() < 0) ? a.getDir() : - a.getDir(); 
 		return new FieldVector(distC, dirC);
 	}
 	

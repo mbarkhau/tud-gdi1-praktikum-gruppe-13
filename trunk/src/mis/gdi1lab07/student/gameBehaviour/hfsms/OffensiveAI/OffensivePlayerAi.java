@@ -32,7 +32,7 @@ public class OffensivePlayerAi<T extends GameEnv> extends StudentHFSM<T> {
 		StudentHFSM<T> runOnGoal = new RunOnGoal<T>(player);  // laufe ohne Ball auf Tor zu
 		StudentHFSM<T> drawNearBall = new DrawNearBall<T>(player);  // nï¿½here dich Ball bis Hï¿½chstentfernung erreicht
 		StudentHFSM<T> turnToBall = new TurnToBall<T>(player); // dreh dich zum Ball
-		StudentHFSM<T> goBack = new GotoFlag<T>(player, player.getEnv().getPlayerPosition());
+		StudentHFSM<T> goBack = new GotoFlag<T>(player, player.getEnv().getHomePos());
 		
 		setInitialState(lookAhead);
 		
@@ -49,14 +49,14 @@ public class OffensivePlayerAi<T extends GameEnv> extends StudentHFSM<T> {
 		
 		// lookAhead "weiss wo Ball ist, zu weit vom Ball und nicht an Startposition" goBack
 		addTransition(lookAhead, goBack, new AndExpression<T>(
-							new NotExpression<T>(new FlagInDistance<T>(player.getEnv(), player.getEnv().getPlayerPosition(), 25)),
+							new NotExpression<T>(new FlagInDistance<T>(player.getEnv(), player.getEnv().getHomePos(), 25)),
 							new AndExpression<T>(
 									new SeeBall<T>((T) player.getEnv()), 
 									new TooFarFromBall<T>((T) player.getEnv()))));
 		
 		// lookAhead "weiss wo Ball ist, zu weit vom Ball und an Startposition" drawNearBall
 		addTransition(lookAhead, turnToBall, new AndExpression<T>(
-							new FlagInDistance<T>(player.getEnv(), player.getEnv().getPlayerPosition(), 10),
+							new FlagInDistance<T>(player.getEnv(), player.getEnv().getHomePos(), 10),
 							new AndExpression<T>(
 									new SeeBall<T>((T) player.getEnv()), 
 									new TooFarFromBall<T>((T) player.getEnv()))));
@@ -112,8 +112,8 @@ public class OffensivePlayerAi<T extends GameEnv> extends StudentHFSM<T> {
 											new NotExpression<T>(new TooFarFromBall<T>((T) player.getEnv())),
 											new NotExpression<T>(new LookingAtBall<T>((T) player.getEnv())))));
 		
-		// goBack "ist zurück" lookAhead
-		addTransition(goBack, lookAhead, new FlagInDistance<T>(player.getEnv(), player.getEnv().getPlayerPosition(), 8));
+		// goBack "ist zurï¿½ck" lookAhead
+		addTransition(goBack, lookAhead, new FlagInDistance<T>(player.getEnv(), player.getEnv().getHomePos(), 8));
 		
 	}
 }

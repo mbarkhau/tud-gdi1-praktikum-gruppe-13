@@ -63,8 +63,8 @@ public class StudentHFSM<T> implements HFSM<T>, FlagConstants {
 		}
 		if (nextState != null) { // Eine feuernde Transition
 			nextState.reset();
-			log.log(LogLevel.Info, "Transition: " + stateHFSM + " -> " + nextState);
-			System.out.println("Transition: " + stateHFSM + " -> " + nextState);
+//			log.log(LogLevel.Info, "Transition: " + stateHFSM + " -> " + nextState);
+//			System.out.println("Transition: " + stateHFSM + " -> " + nextState);
 			stateHFSM = nextState;
 			output();
 			return nextState;
