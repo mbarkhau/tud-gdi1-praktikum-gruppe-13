@@ -47,22 +47,17 @@ public class OffensivePlayerAi<T extends GameEnv> extends StudentHFSM<T> {
 		
 		SeeBall<T> seeBall = new SeeBall<T>(player.getEnv());
 		NotExpression<T> notSeeBall = new NotExpression<T>(seeBall);
-		
 		LookingAtBall<T> lookingAtBall = new LookingAtBall<T>((T) player.getEnv());
 		NotExpression<T> notLookingAtBall = new NotExpression<T>(lookingAtBall);
-		
 		IsInGoalDirection<T> inGoalDir = new IsInGoalDirection<T>(player.getEnv());
 		NotExpression<T> notInGoalDir = new NotExpression<T>(inGoalDir);
-		
 		TooFarFromBall<T> tooFarFromBall = new TooFarFromBall<T>(player.getEnv());
 		NotExpression<T> notTooFarFromBall = new NotExpression<T>(tooFarFromBall);
-	
 		IsInShootDistance<T> inShootDist = new IsInShootDistance<T>((T) player.getEnv());
 		NotExpression<T> notInShootDist = new NotExpression<T>(inShootDist);
+
 		
-		OrExpression<T> notInGoalDirOrTooFarFromBall = new OrExpression<T>(notInGoalDir, tooFarFromBall);
 		AndExpression<T> seeBallAndNotTooFarFromBall = new AndExpression<T>(seeBall, notTooFarFromBall);
-		AndExpression<T> seeBallAndNotTooFarFromBallAndInShootDist = new AndExpression<T>(seeBallAndNotTooFarFromBall, inShootDist);
 		OrExpression<T> notLookingAtBallOrNotTooFarFromBall = new OrExpression<T>(notLookingAtBall, notTooFarFromBall);
 		AndExpression<T> seeBallAndTooFarFromBall = new AndExpression<T>(seeBall, notTooFarFromBall);
 		AndExpression<T> seeBallAndInGoalDir = new AndExpression<T>(seeBall, inGoalDir);
@@ -88,15 +83,26 @@ public class OffensivePlayerAi<T extends GameEnv> extends StudentHFSM<T> {
 		addTransition(turnToGoal, lookAhead, notSeeBall);
 		
 		
-		// runOnGoal "sieht Ball und (ist nicht in Tor-Richtung oder zu weit weg von Ball" lookAhead
-		addTransition(runOnGoal, lookAhead, new AndExpression<T>(seeBall, notInGoalDirOrTooFarFromBall));
-		addTransition(runOnGoal, lookAhead, seeBallAndNotTooFarFromBallAndInShootDist);
-		addTransition(runOnGoal, lookAhead, notSeeBall);
+
+		// runOnGoal "sieht Ball und ((ist nicht in Tor-Richtung und nicht zu weit weg vom Ball) oder zu weit weg von Ball)" lookAhead
+		//addTransition(runOnGoal, lookAhead, new AndExpression<T>(
+			//	seeBall, 
+				//new OrExpression<T>(inGoalDir, tooFarFromBall)));
 		
+		//addTransition(runOnGoal, lookAhead, seeBallAndNotTooFarFromBallAndInShootDist);
+		//addTransition(runOnGoal, lookAhead, notSeeBall);
+
+		// BOOLSCHER TERM VEREINFACHT
+		addTransition(runOnGoal, lookAhead, new OrExpression<T>(
+				new AndExpression<T>(
+						new OrExpression<T>(
+								new OrExpression<T>(inGoalDir, tooFarFromBall),
+								notInShootDist),
+						seeBall),
+				notSeeBall));
 		
 		addTransition(turnToBall, drawNearBall, notLookingAtBall);
 		addTransition(turnToBall, lookAhead, notSeeBall);
-
 		
 		addTransition(drawNearBall, lookAhead, notSeeBall);
 		addTransition(drawNearBall, lookAhead, new AndExpression<T>(seeBall, notLookingAtBallOrNotTooFarFromBall));
@@ -104,6 +110,5 @@ public class OffensivePlayerAi<T extends GameEnv> extends StudentHFSM<T> {
 		
 		// goBack "ist zurueck" lookAhead
 		addTransition(goBack, lookAhead, new FlagInDistance<T>(player.getEnv(), player.getEnv().getHomePos(), 8));
-		
 	}
 }
