@@ -36,10 +36,10 @@ public class DribblePlayerAi<T extends GameEnv> extends StudentHFSM<T> {
 		addState(dribble);
 		addState(shoot);
 		
-		// turnToBall "in Richtung Ball" WalkToBall
+		// turnToBall "in Richtung Ball" gotoBall
 		addTransition(turnToBall.getName(), gotoBall.getName(), "is in ball direction", new LookingAtBall<T>(player.getEnv()));
 		
-		// walkToBall "ist am Ball" turnToGoal
+		// gotoBall "ist am Ball" turnToGoal
 		addTransition(gotoBall.getName(), turnToGoal.getName(), "is at ball", new BallInDistance<T>(player.getEnv(),0.5));
 		
 		// turnToGoal "inRichtungTor und in Schussdistanz" shoot
