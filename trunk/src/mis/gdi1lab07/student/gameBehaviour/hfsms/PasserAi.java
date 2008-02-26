@@ -82,9 +82,4 @@ public class PasserAi<T extends GameEnv> extends BaseHfsm<T> {
 		super.reset();
 		env.setHfsmParam(PASSER_HAS_PASSED, new Boolean(false));
 	}
-
-	@Override
-	public void doOutput() throws AutomatonException {
-		//noop
-	}
 }

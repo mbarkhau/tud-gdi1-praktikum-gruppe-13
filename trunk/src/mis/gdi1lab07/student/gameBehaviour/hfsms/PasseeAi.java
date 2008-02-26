@@ -44,14 +44,4 @@ public class PasseeAi<T extends GameEnv> extends BaseHfsm<T> {
 		addTransition(acceptPass, scout, notHeardAck);
 		addTransition(gotoBall, scout, atBall);
 	}
-
-	@Override
-	public void doOutput() throws AutomatonException {
-		// noop
-	}
-	
-	@Override
-	public void reset() throws AutomatonException {
-		super.reset();
-	}
 }

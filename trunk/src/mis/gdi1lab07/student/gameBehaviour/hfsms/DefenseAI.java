@@ -27,7 +27,7 @@ public class DefenseAI<T extends GameEnv> extends BaseHfsm<T> {
 		StudentHFSM<T> goBack = new GotoFlag<T>(player, env.getHomePos());
 		StudentHFSM<T> gotoEnemy = new GotoPlayer<T>(player, false, -1);
 		StudentHFSM<T> gotoBall = new GotoBall<T> (player);
-		StudentHFSM<T> pass = new PassAi<T> (player);
+		StudentHFSM<T> passer = new PasserAi<T> (player);
 		StudentHFSM<T> watchBall = new LookAtBall<T> (player);
 		StudentHFSM<T> scout = new Scout<T> (player);
 		
@@ -38,7 +38,7 @@ public class DefenseAI<T extends GameEnv> extends BaseHfsm<T> {
 		addState(gotoEnemy);
 		addState(gotoBall);
 		addState(watchBall);
-		addState(pass);
+		addState(passer);
 		
 		LogicExpression<T> hasScouted = new HasScouted<T>(env);
 		LogicExpression<T> hasNotScouted = new NotExpression<T>(hasScouted);
@@ -53,7 +53,7 @@ public class DefenseAI<T extends GameEnv> extends BaseHfsm<T> {
 		LogicExpression<T> enemyNotNear = new NotExpression<T>(enemyNear);
 		LogicExpression<T> enemyVeryNear = new PlayerInDistance<T>(env, false, 10);
 		
-		LogicExpression<T> atHome = new FlagInDistance<T>(env, env.getHomePos(), 8);
+		LogicExpression<T> atHome = new FlagInDistance<T>(env, env.getHomePos(), 3);
 		LogicExpression<T> notAtHome = new NotExpression<T>(atHome);
 		
 		
@@ -75,12 +75,11 @@ public class DefenseAI<T extends GameEnv> extends BaseHfsm<T> {
 
 		LogicExpression<T> shouldPass = new AndExpression<T>(hasBall, hasScouted);
 		
-		
 		addTransition(scout, goBack, shouldGoHome);
 		addTransition(gotoEnemy, goBack, shouldGoHome);
 		addTransition(gotoBall, goBack, shouldGoHome);
 		addTransition(watchBall, goBack, shouldGoHome);
-		addTransition(pass, goBack, shouldGoHome);
+		addTransition(passer, goBack, shouldGoHome);
 		
 		addTransition(goBack, scout, hasNotScouted);
 		addTransition(watchBall, scout, hasNotScouted);
@@ -91,20 +90,16 @@ public class DefenseAI<T extends GameEnv> extends BaseHfsm<T> {
 
 		addTransition(scout, watchBall, shouldWatchBall);
 		addTransition(goBack, watchBall, shouldWatchBall);
-		addTransition(pass, watchBall, shouldWatchBall);
+		addTransition(passer, watchBall, shouldWatchBall);
 
 		addTransition(watchBall, gotoBall, shouldGotoBall);
 		addTransition(scout, gotoBall, shouldGotoBall);
 		addTransition(gotoEnemy, gotoBall, shouldGotoBall);
 
-		addTransition(gotoBall, pass, shouldPass);
-		addTransition(gotoEnemy, pass, shouldPass);
-		addTransition(watchBall, pass, shouldPass);
-		addTransition(scout, pass, shouldPass);
+		addTransition(gotoBall, passer, shouldPass);
+		addTransition(gotoEnemy, passer, shouldPass);
+		addTransition(watchBall, passer, shouldPass);
+		addTransition(scout, passer, shouldPass);
 	}
-
-	@Override
-	public void doOutput() throws AutomatonException {
-		// noop		
-	}
+	
 }

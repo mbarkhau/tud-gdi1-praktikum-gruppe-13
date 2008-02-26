@@ -10,9 +10,4 @@ public class Wait<T extends GameEnv> extends BaseHfsm<T> {
 	public Wait(FieldPlayer<T> player){
 		super(player);
 	}
-
-	@Override
-	public void doOutput() throws AutomatonException {
-		//noop
-	}
 }

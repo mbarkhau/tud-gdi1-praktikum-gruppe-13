@@ -10,7 +10,7 @@ import mis.gdi1lab07.student.gameData.Utils;
 
 public class GoToStartPosition<T extends GameEnv> extends BaseHfsm<T> implements Formations{
 
-	private int power = POWER_WALK;
+	private int power = POWER_RUN;
 	
 	String formation;
 	
@@ -23,14 +23,11 @@ public class GoToStartPosition<T extends GameEnv> extends BaseHfsm<T> implements
 	 * to the flag.
 	 */
 	public void doOutput() throws AutomatonException {
-	if (Utils.canUseMove(env.getPlayMode())) {
-			player.move(getX(player.getNumber()), 
-						getY(player.getNumber()));
-		} 
-		else {
-			FieldVector f = env.getFlag(Utils.getPlayerPos(player
-					.getNumber()));
-			gotoVector(f, power, 10);
+		if (Utils.canUseMove(env.getPlayMode())) {
+			player.move(getX(player.getNumber()), getY(player.getNumber()));
+		} else {
+			FieldVector f = env.getFlag(Utils.getPlayerPos(player.getNumber()));
+			gotoVector(f, power, DELTA_STATIC);
 		}
 	}
 	
