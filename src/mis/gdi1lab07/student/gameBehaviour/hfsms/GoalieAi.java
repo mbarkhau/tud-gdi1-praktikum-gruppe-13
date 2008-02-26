@@ -2,6 +2,7 @@ package mis.gdi1lab07.student.gameBehaviour.hfsms;
 
 import mis.gdi1lab07.automaton.AutomatonException;
 import mis.gdi1lab07.automaton.logic.AndExpression;
+import mis.gdi1lab07.automaton.logic.LogExpException;
 import mis.gdi1lab07.automaton.logic.LogicExpression;
 import mis.gdi1lab07.automaton.logic.NotExpression;
 import mis.gdi1lab07.automaton.logic.OrExpression;
@@ -24,6 +25,8 @@ import mis.gdi1lab07.student.gameData.GameEnv;
 
 public class GoalieAi<T extends GameEnv> extends BaseHfsm<T> {
 
+	//TODO: Erkennung, ob im Strafraum oder nicht!
+	
 	public GoalieAi(FieldPlayer<T> player) throws AutomatonException {
 		super(player);
 		
@@ -36,8 +39,9 @@ public class GoalieAi<T extends GameEnv> extends BaseHfsm<T> {
 		StudentHFSM<T> passer = new PassAi<T>(player);
 		StudentHFSM<T> kick = new Shoot<T>(player);
 		kick.setName("kick");
-		StudentHFSM<T> gotoBall = new GotoBall<T>(player);
+		GotoBall<T> gotoBall = new GotoBall<T>(player);
 		gotoBall.setName("gotoBall");
+		gotoBall.setPower(120);
 
 		addState(scout);
 		addState(gotoGoal);
@@ -71,11 +75,12 @@ public class GoalieAi<T extends GameEnv> extends BaseHfsm<T> {
 		LogicExpression<T> ballInGrabDist = new BallInDistance<T>(env, 2);
 		
 		//Goalie darf Ball nehmen, wenn er im Strafraum ist und der Ball weniger als 2 Meter entfernt ist
-		LogicExpression<T> readyToGrab = new AndExpression<T>(isInPenaltyArea, ballInGrabDist);
+//		LogicExpression<T> readyToGrab = new AndExpression<T>(isInPenaltyArea, ballInGrabDist);
+		LogicExpression<T> readyToGrab = ballInGrabDist;
 		
 		//Feind attackiert, sobald er und der Ball weniger als 20 Meter vom Tor entfernt sind
 		LogicExpression<T> ballInDangerDist = new BallInDistance<T>(env, 20);
-		LogicExpression<T> playerInDangerDist = new PlayerInDistance<T>(env, false, 50);
+		LogicExpression<T> playerInDangerDist = new PlayerInDistance<T>(env, false, 20);
 		LogicExpression<T> enemyAttacks = new AndExpression<T>(ballInDangerDist, playerInDangerDist);
 		
 		//Goalie hat Ball gefangen, er ist somit weniger als 1 Meter entfernt
@@ -100,8 +105,12 @@ public class GoalieAi<T extends GameEnv> extends BaseHfsm<T> {
 		addTransition(gotoGoal, scout, atGoal);
 	}
 	
-	public void doOutput() {
+	public void doOutput(){
 		System.out.println("Goalie-Status: " + this.getCurrentState().toString());
+		
+		
+		if(env.getBall()!=null)
+		System.out.println("Distance to Ball: " + env.getBall().getDist());
 	}
 	
 }
