@@ -6,7 +6,7 @@ import atan2.model.Team;
  * This class starts a soccer team and connects it to a running soccer server. <br />
  * Take care of using correct command line arguments.
  */
-public class SoccerTeamRun {
+public class SoccerTeamBRun {
 
 	// team size
 	private static final int TEAM_SIZE = 11;
@@ -28,7 +28,7 @@ public class SoccerTeamRun {
 
 			// no command line arguments given
 			if(args.length == 0) {
-				t = new SoccerTeam("TeamA", 6000, "localhost", TEAM_SIZE);
+				t = new SoccerTeam("Team2", 6000, "localhost", TEAM_SIZE);
 			}
 
 			// team name given
