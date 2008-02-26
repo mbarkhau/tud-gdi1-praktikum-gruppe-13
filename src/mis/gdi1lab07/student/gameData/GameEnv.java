@@ -138,7 +138,7 @@ public class GameEnv {
 		return playerId;
 	}
 
-	public int getPlayerPosition() {
+	public int getHomePos() {
 		return Utils.getPlayerPos(playerId);
 	}
 
@@ -155,12 +155,14 @@ public class GameEnv {
 	}
 
 	/**
-	 * Finde eine nachricht eines eigenen spielers
+	 * Finde eine nachricht eines eigenen spielers, der am weitesten forne ist und
 	 * 
 	 * @return die spielerid des sprechers oder -1, falls keiner die nachricht
 	 *         gesagt hat.
 	 */
 	public int findSpeaker(String msg) {
+		
+		
 		for (PlayerMessage curMsg : msgs) {
 			if (curMsg.getMsg().startsWith(msg) && curMsg.isOwnTeam()
 					&& curMsg.getPlayerId() != -1) {
