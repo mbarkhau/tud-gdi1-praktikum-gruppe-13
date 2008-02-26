@@ -44,13 +44,13 @@ public class DribblePlayerAi<T extends GameEnv> extends StudentHFSM<T> {
 		AndExpression<T> isInShootMood = new AndExpression<T>(new IsInGoalDirection<T>(player.getEnv()), new IsInShootDistance<T>((T) player.getEnv()));
 		addTransition(turnToGoal.getName(), shoot.getName(), "is in shoot distance", isInShootMood);
 		
-		// turnToGoal "inRichtungTor und au�erhalb Schussdistanz" dribble
+		// turnToGoal "inRichtungTor und ausserhalb Schussdistanz" dribble
 		AndExpression<T> isNotInShootMood = 
 				new AndExpression<T>(new IsInGoalDirection<T>(player.getEnv()), new NotExpression<T>(new IsInShootDistance<T>((T) player.getEnv())));
 		addTransition(turnToGoal.getName(), dribble.getName(), "is not in shoot distance", isNotInShootMood);
 		
 		// dribble "ist nicht am Ball" turnToBall
-		NotExpression<T> isAtBallNOT = new NotExpression(new BallInDistance<T>(player.getEnv(),0.5));
+		NotExpression<T> isAtBallNOT = new NotExpression<T>(new BallInDistance<T>(player.getEnv(),0.5));
 		addTransition(dribble.getName(), turnToBall.getName(), "is not at ball", isAtBallNOT);
 		
 		
