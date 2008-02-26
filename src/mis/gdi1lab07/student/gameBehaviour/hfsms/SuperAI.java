@@ -12,6 +12,7 @@ import mis.gdi1lab07.student.gameBehaviour.logicExpressions.BallPassedToMe;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.HasHeardRequest;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.FlagInDistance;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.GameIsOn;
+import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.PlayOn;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
 import mis.gdi1lab07.student.gameData.GameEnv;
 import mis.gdi1lab07.student.gameData.Utils;
@@ -31,6 +32,7 @@ public class SuperAI<T extends GameEnv> extends StudentHFSM<T> {
 		StudentHFSM<T> wait = new Wait<T>(player);
 		StudentHFSM<T> backToStart = new GoToStartPosition<T>(player);
 		
+
 		addState(defense);
 		addState(passee);
 		addState(passer);
@@ -57,7 +59,7 @@ public class SuperAI<T extends GameEnv> extends StudentHFSM<T> {
 														new BallPassedByMe<T>((T) player.getEnv())));
 			}
 			else{
-				addTransition(wait, offense, new GameIsOn<T>((T) player.getEnv()));
+				addTransition(wait, offense, new PlayOn<T>((T) player.getEnv()));
 				addTransition(passer, offense, new AndExpression<T>(
 														new GameIsOn<T>((T) player.getEnv()), 
 														new BallPassedByMe<T>((T) player.getEnv())));
