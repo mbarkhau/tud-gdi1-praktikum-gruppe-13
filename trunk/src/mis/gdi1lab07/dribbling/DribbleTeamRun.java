@@ -17,7 +17,7 @@ public class DribbleTeamRun {
 	 *          of the specified name and connects to a SoccerServer at the specified host.
 	 */
 
-	private static final int TEAM_SIZE = 1;
+	private static final int TEAM_SIZE = 11;
 
 	// the port of the robocup server
 	private static final int PORT = 6000;

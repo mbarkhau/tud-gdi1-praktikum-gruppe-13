@@ -38,7 +38,7 @@ public class SoccerTeam extends Team {
 		fieldPlayer.setTeamName(this.getTeamName());
 		fieldPlayer.setNumber(i);
 		try {
-			StudentHFSM<GameEnv> hfsm = new PassAi<GameEnv>(fieldPlayer);
+			StudentHFSM<GameEnv> hfsm = new SuperAI<GameEnv>(fieldPlayer);
 			hfsm.setName("passPlayer");
 			hfsm.setLog(new ConsoleLogger("passPlayerLog"));
 			hfsm.reset();

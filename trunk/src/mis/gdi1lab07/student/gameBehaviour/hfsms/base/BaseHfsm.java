@@ -18,9 +18,9 @@ import mis.gdi1lab07.student.gameData.Utils;
 public abstract class BaseHfsm<T extends GameEnv> extends StudentHFSM<T>
 		implements FlagConstants, GameMessages, HfsmParamConstants {
 
-	public static int POWER_WALK = 60;
+	public static int POWER_WALK = 70;
 
-	public static int POWER_RUN = 80;
+	public static int POWER_RUN = 85;
 
 	public static int POWER_SPRINT = 100;
 
