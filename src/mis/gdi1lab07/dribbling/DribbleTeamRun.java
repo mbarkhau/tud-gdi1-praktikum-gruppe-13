@@ -17,7 +17,7 @@ public class DribbleTeamRun {
 	 *          of the specified name and connects to a SoccerServer at the specified host.
 	 */
 
-	private static final int TEAM_SIZE = 11;
+	private static final int TEAM_SIZE = 4;
 
 	// the port of the robocup server
 	private static final int PORT = 6000;
@@ -25,7 +25,7 @@ public class DribbleTeamRun {
 	// hostname accepts hostname AND IP's like "192.168.0.15"
 	private static String hostname = "127.0.0.1";
 
-	private static String teamname = "TeamA";
+	private static String teamname = "Team1";
 
 	public static void main(String[] args) {
 		if(args.length == 1)
