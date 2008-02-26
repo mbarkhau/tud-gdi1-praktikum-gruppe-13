@@ -24,7 +24,7 @@ public class SuperAI<T extends GameEnv> extends StudentHFSM<T> {
 		int number = player.getNumber();
 		
 		StudentHFSM<T> defense = new DefenseAI<T>(player);
-		StudentHFSM<T> pass = new PasseeAi<T>(player);
+		StudentHFSM<T> passee = new PasseeAi<T>(player);
 		StudentHFSM<T> passer = new PasserAi<T>(player);
 		StudentHFSM<T> offense = new OffensiveAI<T>(player);
 		StudentHFSM<T> goalie = new GoalieAi<T>(player);
@@ -32,7 +32,7 @@ public class SuperAI<T extends GameEnv> extends StudentHFSM<T> {
 		StudentHFSM<T> backToStart = new GoToStartPosition<T>(player);
 		
 		addState(defense);
-		addState(pass);
+		addState(passee);
 		addState(passer);
 		addState(offense);
 		addState(wait);
@@ -40,10 +40,7 @@ public class SuperAI<T extends GameEnv> extends StudentHFSM<T> {
 		addState(goalie);
 		
 		setInitialState(wait);
-		
-		if(number!=1)
-			addTransition(backToStart, wait, new GameIsOn<T>((T) player.getEnv()));
-		
+			
 		if(number==1){
 			addTransition(backToStart, wait, new FlagInDistance<T>((T) player.getEnv(), Utils.getPlayerPos(number),1));
 			addTransition(wait, goalie, new GameIsOn<T>((T) player.getEnv()));
@@ -51,27 +48,28 @@ public class SuperAI<T extends GameEnv> extends StudentHFSM<T> {
 					new GameIsOn<T>((T) player.getEnv()), new BallPassedByMe<T>((T) player.getEnv())));
 		}
 		else{
-			if(number<7){
-			addTransition(wait, defense, new GameIsOn<T>((T) player.getEnv()));
-			addTransition(passer, defense, new AndExpression<T>(
-					new GameIsOn<T>((T) player.getEnv()), new BallPassedByMe<T>((T) player.getEnv())));
+			addTransition(backToStart, wait, new GameIsOn<T>((T) player.getEnv()));
 			
+			if(number<7){
+				addTransition(wait, defense, new GameIsOn<T>((T) player.getEnv()));
+				addTransition(passer, defense, new AndExpression<T>(
+														new GameIsOn<T>((T) player.getEnv()), 
+														new BallPassedByMe<T>((T) player.getEnv())));
 			}
 			else{
-			addTransition(wait, offense, new GameIsOn<T>((T) player.getEnv()));
-			addTransition(passer, offense, new AndExpression<T>(
-					new GameIsOn<T>((T) player.getEnv()), new BallPassedByMe<T>((T) player.getEnv())));
-
+				addTransition(wait, offense, new GameIsOn<T>((T) player.getEnv()));
+				addTransition(passer, offense, new AndExpression<T>(
+														new GameIsOn<T>((T) player.getEnv()), 
+														new BallPassedByMe<T>((T) player.getEnv())));
 			}
 		}
-		
 		addTransition(wait, backToStart, new NotExpression<T>(new GameIsOn<T>((T) player.getEnv())));
 		addTransition(defense, backToStart, new NotExpression<T>(new GameIsOn<T>((T) player.getEnv())));
 		addTransition(offense, backToStart, new NotExpression<T>(new GameIsOn<T>((T) player.getEnv())));
-		addTransition(pass, backToStart, new NotExpression<T>(new GameIsOn<T>((T) player.getEnv())));
+		addTransition(passee, backToStart, new NotExpression<T>(new GameIsOn<T>((T) player.getEnv())));
 		addTransition(passer, backToStart, new NotExpression<T>(new GameIsOn<T>((T) player.getEnv())));
-		addTransition(defense, pass, new AndExpression<T>(new GameIsOn<T>((T) player.getEnv()),new HasHeardRequest<T>((T) player.getEnv())));
-		addTransition(pass, passer, new AndExpression<T>(new GameIsOn<T>((T) player.getEnv()), new BallPassedToMe<T>((T) player.getEnv())));
-		addTransition(offense, pass, new AndExpression<T>(new GameIsOn<T>((T) player.getEnv()), new HasHeardRequest<T>((T) player.getEnv())));			
+		addTransition(defense, passee, new AndExpression<T>(new GameIsOn<T>((T) player.getEnv()),new HasHeardRequest<T>((T) player.getEnv())));
+		addTransition(passee, passer, new AndExpression<T>(new GameIsOn<T>((T) player.getEnv()), new BallPassedToMe<T>((T) player.getEnv())));
+		addTransition(offense, passee, new AndExpression<T>(new GameIsOn<T>((T) player.getEnv()), new HasHeardRequest<T>((T) player.getEnv())));			
 	}	
 }
