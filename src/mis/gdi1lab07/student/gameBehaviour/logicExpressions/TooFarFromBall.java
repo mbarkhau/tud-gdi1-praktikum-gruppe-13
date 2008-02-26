@@ -19,7 +19,7 @@ public class TooFarFromBall<T extends GameEnv> extends BaseLogicExpression<T> {
 	@Override
 	public boolean eval(T env) throws LogExpException {
 		if (env.getBall()!=null){
-			if (env.getBall().getDistance()>20){
+			if (env.getBall().getDist()>20){
 				return true;
 			}
 			else{
