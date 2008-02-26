@@ -28,12 +28,10 @@ public class OffensivePlayerAi<T extends GameEnv> extends StudentHFSM<T> {
 		StudentHFSM<T> turnToGoal = new LookAtFlag<T>(player, FlagConstants.T_G_C); // Player dreht sich Richtung Tor
 		StudentHFSM<T> runOnGoal = new RunOnGoal<T>(player);  // laufe ohne Ball auf Tor zu
 		StudentHFSM<T> drawNearBall = new DrawNearBall<T>(player);  // n�here dich Ball bis H�chstentfernung erreicht
-		StudentHFSM<T> gotoBall = new GotoBall<T>(player);  // laufe zum Ball
 		StudentHFSM<T> turnToBall = new TurnToBall<T>(player); // dreh dich zum Ball
 		
 		setInitialState(lookAhead);
 		
-		//addState(dribble);
 		addState(lookAhead);
 		addState(scout);
 		addState(turnToGoal);
@@ -42,30 +40,30 @@ public class OffensivePlayerAi<T extends GameEnv> extends StudentHFSM<T> {
 		addState(drawNearBall);
 		
 		// lookAhead "weiss nicht wo Ball ist" Scout
-		addTransition(lookAhead, scout, new NotExpression(new SeeBall((T) player.getEnv())));
+		addTransition(lookAhead, scout, new NotExpression<T>(new SeeBall<T>((T) player.getEnv())));
 		
 		// lookAhead "weiss wo Ball ist und ist nicht am naechsten" TurnToGoal
-		addTransition(lookAhead, turnToGoal, (new AndExpression(
-									new SeeBall((T) player.getEnv()),new NotExpression(new IsClosestToBall<T>((T) player.getEnv())))));
+		addTransition(lookAhead, turnToGoal, (new AndExpression<T>(
+									new SeeBall<T>((T) player.getEnv()),new NotExpression<T>(new IsClosestToBall<T>((T) player.getEnv())))));
 		
 		// Scout "Ball gefunden" lookAhead
 		addTransition(scout, lookAhead, new SeeBall<T>((T) player.getEnv()));
 				
 		// turnToGoal "(nicht in Schussdistanz, sieht Ball) und: in Tor-Richtung " runOnGoal
-		addTransition(turnToGoal, runOnGoal, new AndExpression(
+		addTransition(turnToGoal, runOnGoal, new AndExpression<T>(
 				new NotExpression<T>(new IsInShootDistance<T>((T) player.getEnv())),
-				new AndExpression(
+				new AndExpression<T>(
 						new SeeBall<T>((T) player.getEnv()), new IsInGoalDirection<T>((T) player.getEnv()))));
 		
 		// turnToGoal "verliert ball aus Augen" lookAhead
-		addTransition(turnToGoal, lookAhead, new NotExpression(new SeeBall<T>((T) player.getEnv())) );
+		addTransition(turnToGoal, lookAhead, new NotExpression<T>(new SeeBall<T>((T) player.getEnv())) );
 		
 		// runOnGoal "ist nicht in Tor-Richtung" turnToGoal
 		addTransition(runOnGoal, turnToGoal, new AndExpression<T>
-								(new SeeBall<T>((T)player.getEnv()),new NotExpression(new IsInGoalDirection<T>((T) player.getEnv()))));
+								(new SeeBall<T>((T)player.getEnv()),new NotExpression<T>(new IsInGoalDirection<T>((T) player.getEnv()))));
 		
 		// runOnGoal "verliert ball aus Augen" lookAhead
-		addTransition(runOnGoal, lookAhead, new NotExpression(new SeeBall<T>((T) player.getEnv())));
+		addTransition(runOnGoal, lookAhead, new NotExpression<T>(new SeeBall<T>((T) player.getEnv())));
 		
 		// runOnGoal "sieht Ball UND nicht zu weit weg vom Ball UND nahe genug an Tor" lookAhead
 		addTransition(runOnGoal, lookAhead, new AndExpression<T>(
@@ -87,6 +85,6 @@ public class OffensivePlayerAi<T extends GameEnv> extends StudentHFSM<T> {
 		addTransition(drawNearBall, lookAhead, new NotExpression<T>(new SeeBall<T>((T) player.getEnv())));
 		
 		// drawNearBall "nicht mehr zu weit weg von Ball" lookAhead
-		addTransition(drawNearBall, lookAhead, new NotExpression(new TooFarFromBall<T>((T) player.getEnv())));
+		addTransition(drawNearBall, lookAhead, new NotExpression<T>(new TooFarFromBall<T>((T) player.getEnv())));
 	}
 }
