@@ -22,8 +22,8 @@ public class FollowBall<T extends GameEnv> extends BaseHfsm<T> {
 		FieldVector b = player.getEnv().getBall();
 		if (b == null)
 			player.turn(90);
-		else if (!Utils.inDelta(b.getDirection(), 0, delta))
-			player.turn(b.getDirection());
+		else if (!Utils.inDelta(b.getDir(), 0, delta))
+			player.turn(b.getDir());
 		else
 			player.dash(60);
 	}

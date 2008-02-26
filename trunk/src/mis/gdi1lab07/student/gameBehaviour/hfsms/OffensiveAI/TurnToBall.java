@@ -28,8 +28,8 @@ public class TurnToBall<T> extends StudentHFSM<T> {
 			this.player.turn(90);
 		}
 		else{
-			System.out.println(" TURN TO BALL "+bally.getDirection()+"");
-			this.player.turn(bally.getDirection());
+			System.out.println(" TURN TO BALL "+bally.getDir()+"");
+			this.player.turn(bally.getDir());
 		}
 	}
 

@@ -7,7 +7,7 @@ import mis.gdi1lab07.student.gameData.FieldPlayer;
 import mis.gdi1lab07.student.gameData.FieldVector;
 import mis.gdi1lab07.student.gameData.FlagConstants;
 /**
- * Lässt player aufs Tor schiessen
+ * Lï¿½sst player aufs Tor schiessen
  */
 public class Shoot<T> extends StudentHFSM<T> implements FlagConstants{
 
@@ -22,13 +22,13 @@ public class Shoot<T> extends StudentHFSM<T> implements FlagConstants{
 		System.out.println(this.player.getNumber()+" shoots (kick 100)");
 		double playerTurn = 0.7+0.2*Math.random(); // Zahl zw. 0.0 und 1.0
 		if(Math.random()<0.5){
-			playerTurn *= player.getEnv().getFlag(T_G_L).getDirection();
+			playerTurn *= player.getEnv().getFlag(T_G_L).getDir();
 		}
 		else{
-			playerTurn *= player.getEnv().getFlag(T_G_R).getDirection();
+			playerTurn *= player.getEnv().getFlag(T_G_R).getDir();
 		}
 		for (FieldVector p : player.getEnv().getOtherPlayers()) {
-			if(Math.abs(p.getDirection()-playerTurn)<0.5){
+			if(Math.abs(p.getDir()-playerTurn)<0.5){
 				playerTurn = -playerTurn;
 				break;
 			}

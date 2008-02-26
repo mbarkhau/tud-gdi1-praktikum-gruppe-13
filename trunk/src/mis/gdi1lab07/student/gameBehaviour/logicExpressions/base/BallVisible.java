@@ -14,7 +14,7 @@ public class BallVisible<T extends GameEnv> extends BaseLogicExpression<T> {
 	@Override
 	public boolean eval(T env) throws LogExpException {
 		FieldVector b = env.getBall() ; 
-		return (b != null) && Math.abs(b.getDirection()) < 45;
+		return (b != null) && Math.abs(b.getDir()) < 45;
 	}
 
 }

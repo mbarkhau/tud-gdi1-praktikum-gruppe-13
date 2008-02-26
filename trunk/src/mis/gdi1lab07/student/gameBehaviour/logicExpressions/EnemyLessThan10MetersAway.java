@@ -21,7 +21,7 @@ public class EnemyLessThan10MetersAway<T extends GameEnv> extends
 	@Override
 	public boolean eval(T env) throws LogExpException {
 		for (FieldVector current : env.getOtherPlayers()) {
-			if (current.getDistance() <= 10)
+			if (current.getDist() <= 10)
 				return true;
 		}
 		return false;

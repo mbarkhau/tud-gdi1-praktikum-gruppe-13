@@ -16,7 +16,7 @@ public class FindPassee<T extends GameEnv> extends BaseHfsm<T> {
 	public void doOutput() throws AutomatonException {
 		for (FieldVector v : env.getOwnPlayers()) {
 			if (true) {
-				player.turn(v.getDirection());
+				player.turn(v.getDir());
 				return;
 			}
 		}

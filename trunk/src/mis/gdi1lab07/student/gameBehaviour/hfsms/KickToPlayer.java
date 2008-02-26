@@ -23,8 +23,8 @@ public class KickToPlayer<T extends GameEnv> extends BaseHfsm<T> {
 			
 		FieldVector p = env.getOwnPlayer(passeeId);
 		if (p != null){
-			player.kick(Utils.convertDistToPow(p.getDistance()), 
-				p.getDirection());
+			player.kick(Utils.convertDistToPow(p.getDist()), 
+				p.getDir());
 			env.setHfsmParam(PASSER_HAS_PASSED, new Boolean(true));
 			System.out.println(env.getTick() + " kicked to " + passeeId + " at " + p);
 		} else {

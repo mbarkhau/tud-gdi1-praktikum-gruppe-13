@@ -17,7 +17,7 @@ public class IsInGoalDirection<T extends GameEnv> extends BaseLogicExpression<T>
 	public boolean eval(T env) throws LogExpException {
 		
 		if(env.getFlag(FlagConstants.T_G_C)!=null){
-			if(env.getFlag(FlagConstants.T_G_C).getDirection()<Math.abs(1.5)){
+			if(env.getFlag(FlagConstants.T_G_C).getDir()<Math.abs(1.5)){
 				return true;
 			}
 		}

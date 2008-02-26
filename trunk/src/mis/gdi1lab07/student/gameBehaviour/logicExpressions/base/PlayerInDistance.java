@@ -26,7 +26,7 @@ public class PlayerInDistance<T extends GameEnv> extends BaseLogicExpression<T> 
 				.getOtherPlayers();
 		
 		for (FieldVector v : players) {
-			if (Utils.inDelta(v.getDirection(), 0) && v.getDistance() < dist)
+			if (Utils.inDelta(v.getDir(), 0) && v.getDist() < dist)
 				return true;
 		}
 		return false;

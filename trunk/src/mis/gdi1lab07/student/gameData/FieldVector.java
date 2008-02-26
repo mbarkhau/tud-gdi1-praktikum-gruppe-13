@@ -13,7 +13,7 @@ public class FieldVector {
 		this.direction = direction;
 	}
 	
-	public double getDistance() {
+	public double getDist() {
 		return distance;
 	}
 
@@ -21,7 +21,7 @@ public class FieldVector {
 		this.distance = distance;
 	}
 
-	public double getDirection() {
+	public double getDir() {
 		return direction;
 	}
 
@@ -43,9 +43,9 @@ public class FieldVector {
 		if (!(obj instanceof FieldVector))
 			return false;
 		FieldVector that = (FieldVector) obj;
-		if (this.getDirection() != that.getDirection())
+		if (this.getDir() != that.getDir())
 			return false;
-		if (this.getDistance() != that.getDistance())
+		if (this.getDist() != that.getDist())
 			return false;	
 		
 		return true;

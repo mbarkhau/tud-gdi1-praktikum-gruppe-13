@@ -20,12 +20,12 @@ public class TestGameEnv {
 	public void testTurn() {
 		FieldVector ball = env.getBall();
 		env.turn(20);
-		assertTrue(ball.getDirection() == 30);
+		assertTrue(ball.getDir() == 30);
 		env.turn(180);
-		assertTrue(ball.getDirection() == -150);
+		assertTrue(ball.getDir() == -150);
 		env.turn(-230);
 		System.out.println(ball);
-		assertTrue(ball.getDirection() == 80);
+		assertTrue(ball.getDir() == 80);
 	}
 
 }

@@ -35,12 +35,12 @@ public class LookAtPlayer<T extends GameEnv> extends BaseHfsm<T> {
 					: env.getOtherPlayers();
 			for (FieldVector current : players)
 				if (p == null
-						|| current.getDistance() < p.getDistance())
+						|| current.getDist() < p.getDist())
 					p = current;
 		}
 		
 		if (p != null)
-			player.turn(p.getDirection());
+			player.turn(p.getDir());
 		else
 			player.turn(90);
 	}
