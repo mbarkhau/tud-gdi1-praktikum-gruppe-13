@@ -35,5 +35,4 @@ public class DribbleOnGoal<T> extends StudentHFSM<T> {
 		if(!opponentIsInWay)
 			this.player.kick(20, 0);
 	}
-	
 }
