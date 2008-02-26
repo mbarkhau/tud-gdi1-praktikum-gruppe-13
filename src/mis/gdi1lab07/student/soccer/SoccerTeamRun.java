@@ -9,7 +9,7 @@ import atan2.model.Team;
 public class SoccerTeamRun {
 
 	// team size
-	private static final int TEAM_SIZE = 5;
+	private static final int TEAM_SIZE = 11;
 
 	/**
 	 * Creates a team and connects to a SoccerServer.
