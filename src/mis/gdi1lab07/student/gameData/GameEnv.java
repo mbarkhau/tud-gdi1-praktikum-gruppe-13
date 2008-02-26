@@ -190,7 +190,7 @@ public class GameEnv {
 		}
 		return false;
 	}
-
+	
 	public boolean receivedMessage(String msg) {
 		for (PlayerMessage currentMsg : msgs) {
 			if (((tick - currentMsg.getTick()) < 5)

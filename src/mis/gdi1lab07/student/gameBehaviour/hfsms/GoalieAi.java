@@ -97,11 +97,4 @@ public class GoalieAi<T extends GameEnv> extends BaseHfsm<T> {
 		addTransition(gotoGoal, scout, atGoal);
 	}
 
-	@Override
-	public void doOutput() throws AutomatonException {
-		// noop
-		
-		System.out.println("Goalie-Status: " + this.getCurrentState().toString());
-	}
-
 }

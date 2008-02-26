@@ -18,9 +18,9 @@ import mis.gdi1lab07.student.gameData.Utils;
 public abstract class BaseHfsm<T extends GameEnv> extends StudentHFSM<T>
 		implements FlagConstants, GameMessages, HfsmParamConstants {
 
-	public static int POWER_WALK = 70;
+	public static int POWER_WALK = 65;
 
-	public static int POWER_RUN = 85;
+	public static int POWER_RUN = 80;
 
 	public static int POWER_SPRINT = 100;
 
@@ -43,7 +43,12 @@ public abstract class BaseHfsm<T extends GameEnv> extends StudentHFSM<T>
 	}
 
 	@Override
-	public abstract void doOutput() throws AutomatonException;
+	public void doOutput() throws AutomatonException {
+		if (Utils.DEBUG_LEVEL == Utils.DBG_ALL)
+			System.out.println(env.getTick() + " PlayerId "
+					+ player.getNumber() + " State: "
+					+ this.getCurrentState().toString());
+	}
 
 	public void gotoVector(FieldVector v) {
 		gotoVector(v, POWER_RUN, DELTA_DYNAMIC);
