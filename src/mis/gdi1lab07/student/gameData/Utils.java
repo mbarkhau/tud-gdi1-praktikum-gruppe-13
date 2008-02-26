@@ -73,8 +73,8 @@ public class Utils implements FlagConstants {
 		// Wei�t jedem Spieler anhand seiner ID eine Position zu, zu der er
 		// geht, wenn seine Defensiv-KI zur Startposition geht.
 
-		int[] positions = { INVALD, O_G_C, T_P_L, T_P_C, T_P_C, T_P_R, T_P_C, T_P_C,
-				C_O_L, C_O_R, C, C };
+		int[] positions = { INVALD, O_G_C, T_P_L, T_P_C, T_P_C, T_P_C, T_P_R, 
+				C_O_L, C_O_R, C, C, C };
 		if (playerNr > 11 || playerNr < 1)
 			return INVALD;
 
