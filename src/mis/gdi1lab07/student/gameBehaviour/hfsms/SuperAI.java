@@ -39,7 +39,7 @@ public class SuperAI<T extends GameEnv> extends StudentHFSM<T> {
 		addState(backToStart);
 		addState(goalie);
 		
-		setInitialState(backToStart);
+		setInitialState(wait);
 		
 		if(number!=1)
 			addTransition(backToStart, wait, new GameIsOn<T>((T) player.getEnv()));
@@ -65,6 +65,7 @@ public class SuperAI<T extends GameEnv> extends StudentHFSM<T> {
 			}
 		}
 		
+		addTransition(wait, backToStart, new NotExpression<T>(new GameIsOn<T>((T) player.getEnv())));
 		addTransition(defense, backToStart, new NotExpression<T>(new GameIsOn<T>((T) player.getEnv())));
 		addTransition(offense, backToStart, new NotExpression<T>(new GameIsOn<T>((T) player.getEnv())));
 		addTransition(pass, backToStart, new NotExpression<T>(new GameIsOn<T>((T) player.getEnv())));
