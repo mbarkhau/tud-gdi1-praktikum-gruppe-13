@@ -38,6 +38,13 @@ public class FieldPlayer<T extends GameEnv> implements Player {
 	public Boolean getGoalie() {
 		return decoratedPlayer.getController().isGoalie();
 	}
+	
+	/**
+	 * Wenn Nummer 1, dann soll Spieler Goalie werden. Wichtig für Konstruktor
+	 */
+	public boolean isThisNumberAGoalie() {
+		return getNumber()==1;
+	}
 
 	// Decorated Methods
 
