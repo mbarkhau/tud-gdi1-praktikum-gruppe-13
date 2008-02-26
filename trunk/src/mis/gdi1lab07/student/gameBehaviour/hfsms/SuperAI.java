@@ -33,6 +33,7 @@ public class SuperAI<T extends GameEnv> extends StudentHFSM<T> {
 	public SuperAI(FieldPlayer<T> player) throws AutomatonException{
 		
 		int number = player.getNumber();
+
 		
 		StudentHFSM<T> defense = new DefenseAI<T>(player);
 		StudentHFSM<T> pass = new PasseeAi<T>(player);
@@ -62,7 +63,6 @@ public class SuperAI<T extends GameEnv> extends StudentHFSM<T> {
 		else{
 			if(number<7){
 			addTransition(wait, defense, new GameIsOn<T>((T) player.getEnv()));
-
 			}
 			else{
 			addTransition(wait, offense, new GameIsOn<T>((T) player.getEnv()));
