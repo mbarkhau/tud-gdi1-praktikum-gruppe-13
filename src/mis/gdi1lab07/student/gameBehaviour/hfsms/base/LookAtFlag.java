@@ -19,7 +19,7 @@ public class LookAtFlag<T extends GameEnv> extends BaseHfsm<T> {
 		if (f == null)
 			this.player.turn(90);
 		else
-			this.player.turn(f.getDirection());
+			this.player.turn(f.getDir());
 	}
 
 }

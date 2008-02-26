@@ -20,7 +20,7 @@ public class LookingAtBall<T extends GameEnv> extends BaseLogicExpression<T> {
 	@Override
 	public boolean eval(T env) throws LogExpException {
 		FieldVector b = env.getBall();
-		return (b != null) && Utils.inDelta(b.getDirection(), 0, DELTA);
+		return (b != null) && Utils.inDelta(b.getDir(), 0, DELTA);
 	}
 
 }

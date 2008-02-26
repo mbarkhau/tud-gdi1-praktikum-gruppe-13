@@ -19,7 +19,7 @@ public class BallInDistance<T extends GameEnv> extends BaseLogicExpression<T> im
 	@Override
 	public boolean eval(T env) throws LogExpException {
 		FieldVector ball = env.getBall(); 
-		return (ball != null) && ball.getDistance() < dist;
+		return (ball != null) && ball.getDist() < dist;
 	}
 
 }

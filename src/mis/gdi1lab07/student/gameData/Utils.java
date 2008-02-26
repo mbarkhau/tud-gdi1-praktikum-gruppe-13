@@ -4,11 +4,9 @@ import atan2.model.ControllerAdaptor;
 
 public class Utils implements FlagConstants {
 
-	// TODO: prüfe ob das ausreicht (ungenauigkeit von richtungen könnte zu groß
-	// sein)
-	public static double DIR_DELTA = 3;
+	public static double DIR_DELTA = 2;
 
-	public static double KICK_DIST_POW_FACTOR = 2.5;
+	public static double KICK_DIST_POW_FACTOR = 2;
 
 	public static double DASH_POW_DIST_FACTOR = 0.01;
 
@@ -16,20 +14,16 @@ public class Utils implements FlagConstants {
 	public static double getVectorDistance(FieldVector a, FieldVector b) {
 		if (a == null || b == null)
 			return 9999;
-		return getVectorDistance(a.getDistance(), a.getDirection(), b
-				.getDistance(), b.getDirection());
+		return getVectorDistance(a.getDist(), a.getDir(), b
+				.getDist(), b.getDir());
 	}
 
 	public static double getVectorDistance(double distanceA, double angleA,
 			double distanceB, double angleB) {
-		double angleAB = 0;
-		if ((angleA > 0 && angleB > 0) || (angleA < 0 && angleB < 0))
-			angleAB = Math.abs(angleA - angleB);
-		else
-			angleAB = Math.abs(angleA) + Math.abs(angleB);
+		double angleAB = addAngles(angleA, angleB);
 
-		return Math.sqrt(Math.pow(distanceA, 2) + Math.pow(distanceB, 2) - 2
-				* distanceA * distanceB * Math.cos(Math.toRadians(angleAB)));
+		return Math.sqrt(sqr(distanceA) + sqr(distanceB) - 2
+				* distanceA * distanceB * cos(angleAB));
 	}
 
 	/** @return whether two values are very close too each other. */
@@ -83,7 +77,7 @@ public class Utils implements FlagConstants {
 
 	/** Turn the vector by angle and return the modified vector */
 	public static FieldVector turnVector(double angle, FieldVector v) {
-		double result = v.getDirection();
+		double result = v.getDir();
 
 		// Noramlisieren des Eingang-Winkels
 		if (angle > 180) {
@@ -109,21 +103,21 @@ public class Utils implements FlagConstants {
 	 * vector.
 	 */
 	public static FieldVector displaceVector(int pow, FieldVector v) {
-		double a1 = v.getDirection();
-		double d1 = v.getDistance();
+		double a1 = v.getDir();
+		double d1 = v.getDist();
 		// die verschiebung in y richtung
 		double deltaY = convertPowToDist(pow);
 
 		// Noramlisieren des Eingang-Winkels
 		double an = (a1 >= 0) ? 90 - a1 : Math.abs(a1) + 90;
-		double y1 = Math.sin(Math.toRadians(an)) * d1;
+		double y1 = sin(an) * d1;
 		double y2 = y1 - deltaY;
-		double x = Math.cos(Math.toRadians(an)) * d1;
-		double a2 = Math.toDegrees(Math.atan(y2 / x));
+		double x = cos(an) * d1;
+		double a2 = atan(y2 / x);
 		a2 = (a1 >= 0) ? 90 - a2 : -(90 + a2);
 
 		v.setDirection(a2);
-		v.setDistance(Math.sqrt(Math.pow(x, 2) + Math.pow(y2, 2)));
+		v.setDistance(Math.sqrt(sqr(x) + sqr(y2)));
 		return v;
 	}
 
@@ -136,5 +130,55 @@ public class Utils implements FlagConstants {
 			}
 		}
 		return -1;
+	}
+	
+	/** 
+	 * Calculate where a vector will be, according to two vectors last seen.
+	 * @param ticks to predict into the future
+	 */
+	public static FieldVector predictVector(FieldVector a, FieldVector b, double ticks){
+		
+		double distA_B = getVectorDistance(a, b);
+		double distA_C = distA_B * (ticks + 1);
+		double angleA_P_B = addAngles(a.getDir(), b.getDir());
+		double angleB_A_P = asin((b.getDist() * sin(angleA_P_B)) / distA_C);
+		
+		double distC = Math.sqrt(sqr(a.getDist()) + sqr(distA_C) - 2 * a.getDist() * distA_C * cos(angleB_A_P));
+		double dirC = asin((distA_C * sin(angleB_A_P) / distC)) - a.getDir();
+		return new FieldVector(distC, dirC);
+	}
+	
+	// helper methods
+	
+	public static double sqr(double a){
+		return Math.pow(a, 2);
+	}
+
+	public static double sin(double a){
+		return Math.sin(Math.toRadians(a));
+	}
+	
+	public static double asin(double a){
+		return Math.toDegrees(Math.asin(a));
+	}
+	
+	public static double cos(double a){
+		return Math.cos(Math.toRadians(a));
+	}
+	
+	public static double acos(double a){
+		return Math.toDegrees(Math.acos(a));
+	}
+	
+	public static double tan(double a){
+		return Math.tan(Math.toRadians(a));
+	}
+	
+	public static double atan(double a){
+		return Math.toDegrees(Math.atan(a));
+	}
+	
+	public static double addAngles(double a, double b){
+		return ((a > 0 && b > 0) || (a < 0 && b < 0)) ?	Math.abs(a - b) : Math.abs(a) + Math.abs(b);
 	}
 }

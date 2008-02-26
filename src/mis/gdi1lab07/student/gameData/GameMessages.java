@@ -1,7 +1,5 @@
 package mis.gdi1lab07.student.gameData;
 
-import java.util.LinkedList;
-import java.util.List;
 
 public interface GameMessages {
 

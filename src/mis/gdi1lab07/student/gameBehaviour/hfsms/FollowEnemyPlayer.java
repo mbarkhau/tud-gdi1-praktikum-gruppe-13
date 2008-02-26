@@ -23,11 +23,11 @@ public class FollowEnemyPlayer<T extends GameEnv> extends StudentHFSM<T> {
 			//Bestimme den am n�hesten befindlichen Spieler
 			if(nearestPlayer==null)
 				nearestPlayer = current;
-			else if(current.getDistance()<nearestPlayer.getDistance()) {
+			else if(current.getDist()<nearestPlayer.getDist()) {
 				nearestPlayer = current;
 			}
 		}
-		player.turn(nearestPlayer.getDirection());
+		player.turn(nearestPlayer.getDir());
 	}
 	
 	public void doOutput() throws AutomatonException {

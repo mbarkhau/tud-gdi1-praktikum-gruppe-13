@@ -24,7 +24,7 @@ public class LookingAtFlag<T extends GameEnv> extends BaseLogicExpression<T> {
 	@Override
 	public boolean eval(T env) throws LogExpException {
 		FieldVector f = env.getFlag(flagId);
-		return (f != null) && Utils.inDelta(f.getDirection(), 0, DELTA);
+		return (f != null) && Utils.inDelta(f.getDir(), 0, DELTA);
 	}
 
 }

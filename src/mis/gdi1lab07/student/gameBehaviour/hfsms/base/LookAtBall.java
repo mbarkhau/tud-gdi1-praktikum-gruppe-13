@@ -15,7 +15,7 @@ public class LookAtBall<T extends GameEnv> extends BaseHfsm<T> {
 	public void doOutput() throws AutomatonException {
 		FieldVector b = this.player.getEnv().getBall();
 		if (b != null)
-			this.player.turn(b.getDirection());
+			this.player.turn(b.getDir());
 		else 
 			this.player.turn(90);
 	}

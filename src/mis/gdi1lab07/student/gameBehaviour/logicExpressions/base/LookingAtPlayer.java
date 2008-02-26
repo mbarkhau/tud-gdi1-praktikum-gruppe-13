@@ -29,12 +29,12 @@ public class LookingAtPlayer<T extends GameEnv> extends BaseLogicExpression<T> {
 			Collection<FieldVector> players = (ownTeam) ? env.getOwnPlayers()
 					: env.getOtherPlayers();
 			for (FieldVector current : players){
-				if (Utils.inDelta(current.getDirection(), 0, 25))
+				if (Utils.inDelta(current.getDir(), 0, 25))
 					return true;
 			}	
 		}
 		
-		return (p != null) && Utils.inDelta(p.getDirection(), 0, 25);
+		return (p != null) && Utils.inDelta(p.getDir(), 0, 25);
 	}
 
 	public void setPlayerId(int playerId) {

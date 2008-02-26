@@ -20,7 +20,7 @@ public class FlagInDistance<T extends GameEnv> extends BaseLogicExpression<T> {
 	@Override
 	public boolean eval(T env) throws LogExpException {
 		FieldVector f = env.getFlag(flagId); 
-		return (f != null) && f.getDistance() < dist;
+		return (f != null) && f.getDist() < dist;
 	}
 
 }

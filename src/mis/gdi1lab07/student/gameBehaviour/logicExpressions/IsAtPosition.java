@@ -21,7 +21,7 @@ public class IsAtPosition<T extends GameEnv> extends BaseLogicExpression<T> impl
 	@Override
 	public boolean eval(T env) throws LogExpException {
 		FieldVector f = env.getFlag(env.getPlayerPosition());
-		return f != null && f.getDistance() < 8;
+		return f != null && f.getDist() < 8;
 	}
 
 }

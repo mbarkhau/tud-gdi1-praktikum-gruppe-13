@@ -145,7 +145,7 @@ public class GameEnv {
 	public void addMsg(double dir, String msg) {
 		int speakerId = -1;
 		for (Integer curId : ownPlayers.keySet()) {
-			if (Utils.inDelta(dir, ownPlayers.get(curId).getDirection())) {
+			if (Utils.inDelta(dir, ownPlayers.get(curId).getDir())) {
 				speakerId = curId;
 			}
 		}

@@ -28,8 +28,8 @@ public class TurnToGoal<T> extends StudentHFSM<T> {
 			System.out.println(" turns (TO GOAL) 90!");
 		}
 		else{
-			System.out.println(" turns to goal "+ goaly.getDirection());
-			this.player.turn(goaly.getDirection());
+			System.out.println(" turns to goal "+ goaly.getDir());
+			this.player.turn(goaly.getDir());
 			
 		}
 	}

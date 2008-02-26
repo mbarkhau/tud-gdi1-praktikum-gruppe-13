@@ -19,8 +19,8 @@ public class WalkToBall<T extends GameEnv> extends StudentHFSM<T> {
 	@Override
 	public void doOutput() throws AutomatonException {
 		FieldVector ball = player.getEnv().getBall();
-		if (ball.getDirection() != 0){
-			player.turn(ball.getDirection());
+		if (ball.getDir() != 0){
+			player.turn(ball.getDir());
 		}else{
 			player.dash(100);
 		}

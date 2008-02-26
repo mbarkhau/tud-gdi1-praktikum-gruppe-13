@@ -25,6 +25,6 @@ public class InShootDistance<T extends GameEnv> extends
 	@Override
 	public boolean eval(T env) throws LogExpException {
 		FieldVector f = env.getFlag(T_G_C); 
-		return (f != null) && f.getDistance() < dist;
+		return (f != null) && f.getDist() < dist;
 	}
 }
