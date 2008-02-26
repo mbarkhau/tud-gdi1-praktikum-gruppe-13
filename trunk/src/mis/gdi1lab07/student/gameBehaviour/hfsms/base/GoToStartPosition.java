@@ -23,13 +23,14 @@ public class GoToStartPosition<T extends GameEnv> extends BaseHfsm<T> implements
 	 * to the flag.
 	 */
 	public void doOutput() throws AutomatonException {
-	//	if (Utils.canUseMove(env.getPlayMode())) {
+	if (Utils.canUseMove(env.getPlayMode())) {
 			player.move(getX(player.getNumber()), getY(player.getNumber()));
-		//} else {
-			//FieldVector f = env.getFlag(Utils.getPlayerPos(player
-				//	.getNumber()));
-			//gotoVector(f, power, 10);
-	//	}
+		} 
+		else {
+			FieldVector f = env.getFlag(Utils.getPlayerPos(player
+					.getNumber()));
+			gotoVector(f, power, 10);
+		}
 	}
 	
 	/**
