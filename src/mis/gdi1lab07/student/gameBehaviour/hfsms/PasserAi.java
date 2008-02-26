@@ -4,6 +4,7 @@ import mis.gdi1lab07.automaton.AutomatonException;
 import mis.gdi1lab07.automaton.logic.AndExpression;
 import mis.gdi1lab07.automaton.logic.LogicExpression;
 import mis.gdi1lab07.automaton.logic.NotExpression;
+import mis.gdi1lab07.automaton.logic.OrExpression;
 import mis.gdi1lab07.student.StudentHFSM;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.BaseHfsm;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.GotoBall;
@@ -53,10 +54,11 @@ public class PasserAi<T extends GameEnv> extends BaseHfsm<T> {
 		LogicExpression<T> canRequest = new AndExpression<T>(new AndExpression<T>(atBall, anyPlayerVisible), notheardResponse);
 		LogicExpression<T> cannotRequest = new AndExpression<T>(atBall, noPlayerVisible);
 		
-		
 		LogicExpression<T> canPassToPlayer = new AndExpression<T>(atBall, heardResponse);
 		
 		LogicExpression<T> passedByMe = new BallPassedByMe<T>(env);
+		
+		LogicExpression<T> shouldScout = new OrExpression<T>(cannotRequest, passedByMe);
 		
 
 		addTransition(scout, gotoBall, notAtBall);
@@ -65,7 +67,7 @@ public class PasserAi<T extends GameEnv> extends BaseHfsm<T> {
 		addTransition(acknowledge, gotoBall, notAtBall);
 		addTransition(lookAtPassee, gotoBall, notAtBall);
 		
-		addTransition(gotoBall, scout, cannotRequest);
+		addTransition(gotoBall, scout, shouldScout);
 		addTransition(scout, request, canRequest);
 		addTransition(gotoBall, request, canRequest);
 
@@ -73,8 +75,6 @@ public class PasserAi<T extends GameEnv> extends BaseHfsm<T> {
 		addTransition(scout, acknowledge, canPassToPlayer);
 		
 		addTransition(acknowledge, kickToPlayer, canPassToPlayer);
-		
-		addTransition(gotoBall, scout, passedByMe);
 	}
 	
 	@Override

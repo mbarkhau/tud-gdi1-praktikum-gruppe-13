@@ -2,6 +2,7 @@ package mis.gdi1lab07.student.gameData;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -155,21 +156,39 @@ public class GameEnv {
 	}
 
 	/**
-	 * Finde eine nachricht eines eigenen spielers, der am weitesten forne ist und
+	 * Finde eine nachricht eines eigenen spielers, der am weitesten forne ist
+	 * und bei dem möglichst kein gegner im weg ist.
 	 * 
 	 * @return die spielerid des sprechers oder -1, falls keiner die nachricht
 	 *         gesagt hat.
 	 */
 	public int findSpeaker(String msg) {
-		
-		
-		for (PlayerMessage curMsg : msgs) {
-			if (curMsg.getMsg().startsWith(msg) && curMsg.isOwnTeam()
-					&& curMsg.getPlayerId() != -1) {
-				return curMsg.getPlayerId();
+		List<PlayerVector> availablePlayers = new ArrayList<PlayerVector>();
+		for (Integer key : ownPlayers.keySet()) {
+			//hat spieler msg gesagt
+			if (gotMsgFromPlayer(msg, key)){
+				availablePlayers.add(new PlayerVector(this, key, ownPlayers.get(key)));
 			}
 		}
-		return -1;
+		
+		if (availablePlayers.isEmpty()){
+			return -1;
+		} else {
+			Collections.sort(availablePlayers, new PasseeComparator<PlayerVector>());
+			return availablePlayers.get(0).getPlayerId();
+		}
+		
+	}
+
+	public boolean gotMsgFromPlayer(String msg, int speakerId) {
+		for (PlayerMessage curMsg : msgs) {
+			if (((tick - curMsg.getTick()) < 5)
+					&& curMsg.getMsg().startsWith(msg)
+					&& curMsg.getPlayerId() == speakerId) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public boolean receivedMessage(String msg) {
