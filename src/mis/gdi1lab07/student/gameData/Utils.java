@@ -14,7 +14,7 @@ public class Utils implements FlagConstants {
 	
 	public static int DBG_NONE = 0;
 	
-	public static int DEBUG_LEVEL = DBG_ALL;
+	public static int DEBUG_LEVEL = DBG_NONE;
 
 	/** @return the distance between two vectors */
 	public static double getVectorDistance(FieldVector a, FieldVector b) {
@@ -109,7 +109,7 @@ public class Utils implements FlagConstants {
 	}
 	
 	public static boolean debugThis(int threshold) {
-		return (DEBUG_LEVEL<=threshold);
+		return (DEBUG_LEVEL>=threshold);
 	}
 
 	/**
