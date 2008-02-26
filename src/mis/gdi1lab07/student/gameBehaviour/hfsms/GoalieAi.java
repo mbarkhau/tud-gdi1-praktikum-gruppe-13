@@ -6,6 +6,7 @@ import mis.gdi1lab07.automaton.logic.LogicExpression;
 import mis.gdi1lab07.automaton.logic.NotExpression;
 import mis.gdi1lab07.automaton.logic.OrExpression;
 import mis.gdi1lab07.student.StudentHFSM;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.OffensiveAI.Shoot;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.BaseHfsm;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.GotoBall;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.GotoFlag;
@@ -32,8 +33,8 @@ public class GoalieAi<T extends GameEnv> extends BaseHfsm<T> {
 		watchBall.setName("watchBall");
 		StudentHFSM<T> grabBall = new GrabBall<T>(player);
 		grabBall.setName("grabBall");
-		StudentHFSM<T> passer = new PasserAi<T>(player);
-		StudentHFSM<T> kick = new LookAtBall<T>(player);
+		StudentHFSM<T> passer = new PassAi<T>(player);
+		StudentHFSM<T> kick = new Shoot<T>(player);
 		kick.setName("kick");
 		StudentHFSM<T> gotoBall = new GotoBall<T>(player);
 		gotoBall.setName("gotoBall");
@@ -74,7 +75,7 @@ public class GoalieAi<T extends GameEnv> extends BaseHfsm<T> {
 		
 		//Feind attackiert, sobald er und der Ball weniger als 20 Meter vom Tor entfernt sind
 		LogicExpression<T> ballInDangerDist = new BallInDistance<T>(env, 20);
-		LogicExpression<T> playerInDangerDist = new PlayerInDistance<T>(env, false, 20);
+		LogicExpression<T> playerInDangerDist = new PlayerInDistance<T>(env, false, 50);
 		LogicExpression<T> enemyAttacks = new AndExpression<T>(ballInDangerDist, playerInDangerDist);
 		
 		//Goalie hat Ball gefangen, er ist somit weniger als 1 Meter entfernt
@@ -88,13 +89,19 @@ public class GoalieAi<T extends GameEnv> extends BaseHfsm<T> {
 		addTransition(watchBall, scout, hasNotScouted);
 		addTransition(watchBall, grabBall, readyToGrab);
 		addTransition(watchBall, gotoBall, enemyAttacks);
-		addTransition(grabBall, passer, grabbedBall);
-		addTransition(passer, gotoGoal, ballAway);
+		addTransition(gotoBall, grabBall, readyToGrab);
+//		addTransition(grabBall, passer, grabbedBall);
+		addTransition(grabBall, kick, grabbedBall);
+//		addTransition(passer, gotoGoal, ballAway);
+		addTransition(kick, gotoGoal, ballAway);
 		addTransition(gotoBall, gotoGoal, ballAway);
 		addTransition(grabBall, gotoGoal, ballAway);
-		addTransition(passer, gotoGoal, ballAway);
 		addTransition(scout, gotoGoal, returnToGoal);
 		addTransition(gotoGoal, scout, atGoal);
 	}
-
+	
+	public void doOutput() {
+		System.out.println("Goalie-Status: " + this.getCurrentState().toString());
+	}
+	
 }
