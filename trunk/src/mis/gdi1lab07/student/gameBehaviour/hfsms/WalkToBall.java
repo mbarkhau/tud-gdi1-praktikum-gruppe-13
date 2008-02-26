@@ -22,7 +22,7 @@ public class WalkToBall<T extends GameEnv> extends StudentHFSM<T> {
 		if (ball.getDirection() != 0){
 			player.turn(ball.getDirection());
 		}else{
-			player.dash(65);
+			player.dash(100);
 		}
 	}
 }
