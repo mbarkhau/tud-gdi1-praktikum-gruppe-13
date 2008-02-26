@@ -53,7 +53,7 @@ public class SuperAI<T extends GameEnv> extends StudentHFSM<T> {
 		setInitialState(backToStart);
 		
 		if(number!=1)
-		addTransition(backToStart, wait, new FlagInDistance<T>((T) player.getEnv(), Utils.getPlayerPos(number),2));
+		addTransition(backToStart, wait, new GameIsOn<T>((T) player.getEnv()));
 		
 		if(number==1){
 			addTransition(wait, goalie, new GameIsOn<T>((T) player.getEnv()));
