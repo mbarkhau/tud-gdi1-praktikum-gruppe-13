@@ -27,7 +27,7 @@ public class DefenseAI<T extends GameEnv> extends BaseHfsm<T> {
 		StudentHFSM<T> goBack = new GotoFlag<T>(player, env.getHomePos());
 		StudentHFSM<T> gotoEnemy = new GotoPlayer<T>(player, false, -1);
 		StudentHFSM<T> gotoBall = new GotoBall<T> (player);
-		StudentHFSM<T> pass = new PasserAi<T> (player);
+		StudentHFSM<T> pass = new PassAi<T> (player);
 		StudentHFSM<T> watchBall = new LookAtBall<T> (player);
 		StudentHFSM<T> scout = new Scout<T> (player);
 		

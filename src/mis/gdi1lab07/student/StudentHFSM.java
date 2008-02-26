@@ -41,9 +41,6 @@ public class StudentHFSM<T> implements HFSM<T>, FlagConstants {
 
 	@Override
 	public void doOutput() throws AutomatonException {
-		if (log == null)
-			System.out.println(name);
-		else
 			log.log(LogLevel.Info, name);
 	}
 
@@ -87,6 +84,10 @@ public class StudentHFSM<T> implements HFSM<T>, FlagConstants {
 		stateHFSM = initialState;
 		if (stateHFSM != null)
 			stateHFSM.reset();
+	}
+	
+	public HFSM<T> getCurrentState() {
+		return stateHFSM;
 	}
 
 	/*

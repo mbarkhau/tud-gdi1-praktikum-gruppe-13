@@ -15,6 +15,7 @@ import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.BallInDistance;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.LookingAtPlayer;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
 import mis.gdi1lab07.student.gameData.GameEnv;
+import mis.gdi1lab07.student.gameData.Utils;
 
 public class PasserAi<T extends GameEnv> extends BaseHfsm<T> {
 
@@ -34,6 +35,8 @@ public class PasserAi<T extends GameEnv> extends BaseHfsm<T> {
 		addState(gotoBall);
 		addState(kickToPlayer);
 		addState(request);
+		if(Utils.debugThis(Utils.DBG_ALL))
+		System.out.println(request.getName());
 		addState(acknowledge);
 		addState(lookAtPassee);
 		

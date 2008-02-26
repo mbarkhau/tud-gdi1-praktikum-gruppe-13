@@ -13,6 +13,7 @@ public class PlayerMessage {
 		this.playerId = (playerId != -1) ? playerId : Utils.findPlayerId(msg);
 		this.msg = msg;
 		this.tick = tick;
+		if(Utils.debugThis(Utils.DBG_ALL))
 		System.out.println(this);
 	}
 	
