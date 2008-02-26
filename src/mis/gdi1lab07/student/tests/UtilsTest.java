@@ -84,9 +84,15 @@ public class UtilsTest {
 	
 	@Test
 	public void testPredictVector(){
-		FieldVector a1 = new FieldVector(3, 10);
-		FieldVector a2 = new FieldVector(2, 10);
+		FieldVector a1 = new FieldVector(10, -10);
+		FieldVector a2 = new FieldVector(8, 0);
 		System.out.println(Utils.predictVector(a1, a2, 1));
-
+	}
+	
+	public void testAddAngles() {
+		assertTrue(Utils.addAngles(10, 10) == 0);
+		assertTrue(Utils.addAngles(10, -10) == 20);
+		assertTrue(Utils.addAngles(-10, 10) == 20);
+		assertTrue(Utils.addAngles(-10, -10) == 0);
 	}
 }
