@@ -21,24 +21,26 @@ public class DribblePlayerAi<T extends GameEnv> extends StudentHFSM<T> {
 		// TODO Auto-generated constructor stub
 		
 		StudentHFSM<T> turnToBall = new TurnToBall<T>(player);
-		StudentHFSM<T> walkToBall = new GotoBall<T>(player);
+		GotoBall<T> gotoBall = new GotoBall<T>(player);
 		StudentHFSM<T> turnToGoal = new LookAtFlag<T>(player, FlagConstants.T_G_C);;
 		StudentHFSM<T> dribble = new DribbleOnGoal<T>(player);
 		StudentHFSM<T> shoot = new Shoot<T>(player);
 		
 		setInitialState(turnToBall);
 		
+		gotoBall.setPower(100);
+		
 		addState(turnToBall);
-		addState(walkToBall);
+		addState(gotoBall);
 		addState(turnToGoal);
 		addState(dribble);
 		addState(shoot);
 		
 		// turnToBall "in Richtung Ball" WalkToBall
-		addTransition(turnToBall.getName(), walkToBall.getName(), "is in ball direction", new LookingAtBall<T>(player.getEnv()));
+		addTransition(turnToBall.getName(), gotoBall.getName(), "is in ball direction", new LookingAtBall<T>(player.getEnv()));
 		
 		// walkToBall "ist am Ball" turnToGoal
-		addTransition(walkToBall.getName(), turnToGoal.getName(), "is at ball", new BallInDistance<T>(player.getEnv(),0.5));
+		addTransition(gotoBall.getName(), turnToGoal.getName(), "is at ball", new BallInDistance<T>(player.getEnv(),0.5));
 		
 		// turnToGoal "inRichtungTor und in Schussdistanz" shoot
 		AndExpression<T> isInShootMood = new AndExpression<T>(new IsInGoalDirection<T>(player.getEnv()), new IsInShootDistance<T>((T) player.getEnv()));
