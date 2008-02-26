@@ -19,6 +19,7 @@ public class Controller extends ControllerAdaptor {
 	private GameEnv env = new GameEnv();
 
 	public Controller(FieldPlayer<GameEnv> p, StudentHFSM<GameEnv> hfsm) {
+		super(p.isThisNumberAGoalie(), p);
 		this.hfsm = hfsm;
 		this.env = p.getEnv();
 	}
