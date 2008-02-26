@@ -21,7 +21,7 @@ public class DribbleOnGoal<T> extends StudentHFSM<T> {
 	@Override
 	public void doOutput() throws AutomatonException{
 		System.out.println(player.getName()+" dribbles on goal. (kick 15)");
-		this.player.kick(15, 0);
+		this.player.kick(25, 0);
 	}
 	
 }
