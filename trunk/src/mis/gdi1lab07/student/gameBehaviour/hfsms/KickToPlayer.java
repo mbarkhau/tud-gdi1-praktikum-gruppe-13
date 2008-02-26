@@ -26,9 +26,11 @@ public class KickToPlayer<T extends GameEnv> extends BaseHfsm<T> {
 			player.kick(Utils.convertDistToPow(p.getDist()), 
 				p.getDir());
 			env.setHfsmParam(PASSER_HAS_PASSED, new Boolean(true));
+			if(Utils.debugThis(Utils.DBG_ALL))
 			System.out.println(env.getTick() + " kicked to " + passeeId + " at " + p);
 		} else {
 			player.turn(90);
+			if(Utils.debugThis(Utils.DBG_ALL))
 			System.out.println(env.getTick() + " kick failed " + passeeId + ", no player");			
 		}
 	}

@@ -86,6 +86,7 @@ public class UtilsTest {
 	public void testPredictVector(){
 		FieldVector a1 = new FieldVector(10, -10);
 		FieldVector a2 = new FieldVector(8, 0);
+		if(Utils.debugThis(Utils.DBG_ALL))
 		System.out.println(Utils.predictVector(a1, a2, 1));
 	}
 	

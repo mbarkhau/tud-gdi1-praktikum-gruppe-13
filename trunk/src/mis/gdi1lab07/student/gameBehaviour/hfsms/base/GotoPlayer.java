@@ -6,6 +6,7 @@ import mis.gdi1lab07.automaton.AutomatonException;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
 import mis.gdi1lab07.student.gameData.FieldVector;
 import mis.gdi1lab07.student.gameData.GameEnv;
+import mis.gdi1lab07.student.gameData.Utils;
 
 /** Goto a specified player */
 public class GotoPlayer<T extends GameEnv> extends BaseHfsm<T> {
@@ -30,6 +31,9 @@ public class GotoPlayer<T extends GameEnv> extends BaseHfsm<T> {
 
 	@Override
 	public void doOutput() throws AutomatonException {
+
+		if(Utils.debugThis(Utils.DBG_ALL))
+		System.out.println(this.getName());
 		FieldVector p = (ownTeam) ? env.getOwnPlayer(playerId) : env
 				.getOtherPlayer(playerId);
 

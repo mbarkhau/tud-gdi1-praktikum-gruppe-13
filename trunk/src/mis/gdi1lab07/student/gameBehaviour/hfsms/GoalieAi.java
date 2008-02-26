@@ -7,7 +7,9 @@ import mis.gdi1lab07.automaton.logic.NotExpression;
 import mis.gdi1lab07.automaton.logic.OrExpression;
 import mis.gdi1lab07.student.StudentHFSM;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.BaseHfsm;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.base.GotoBall;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.GotoFlag;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.base.GrabBall;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.LookAtBall;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.Scout;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.BallInDistance;
@@ -28,12 +30,12 @@ public class GoalieAi<T extends GameEnv> extends BaseHfsm<T> {
 		StudentHFSM<T> gotoGoal = new GotoFlag<T>(player, O_G_C);
 		StudentHFSM<T> watchBall = new LookAtBall<T>(player);		
 		watchBall.setName("watchBall");
-		StudentHFSM<T> grabBall = new LookAtBall<T>(player);
+		StudentHFSM<T> grabBall = new GrabBall<T>(player);
 		grabBall.setName("grabBall");
 		StudentHFSM<T> passer = new PasserAi<T>(player);
 		StudentHFSM<T> kick = new LookAtBall<T>(player);
 		kick.setName("kick");
-		StudentHFSM<T> gotoBall = new LookAtBall<T>(player);
+		StudentHFSM<T> gotoBall = new GotoBall<T>(player);
 		gotoBall.setName("gotoBall");
 
 		addState(scout);
@@ -46,7 +48,7 @@ public class GoalieAi<T extends GameEnv> extends BaseHfsm<T> {
 
 		setInitialState(scout);
 		
-		LogicExpression<T> atGoal = new FlagInDistance<T>(env, O_G_C, 8);
+		LogicExpression<T> atGoal = new FlagInDistance<T>(env, O_G_C, 4);
 		LogicExpression<T> notAtGoal = new NotExpression<T>(atGoal);
 		
 		LogicExpression<T> hasScouted = new HasScouted<T>(env);
@@ -76,7 +78,7 @@ public class GoalieAi<T extends GameEnv> extends BaseHfsm<T> {
 		LogicExpression<T> enemyAttacks = new AndExpression<T>(ballInDangerDist, playerInDangerDist);
 		
 		//Goalie hat Ball gefangen, er ist somit weniger als 1 Meter entfernt
-		LogicExpression<T> grabbedBall = new BallInDistance<T>(env, 0.5);
+		LogicExpression<T> grabbedBall = new BallInDistance<T>(env, 1);
 		
 		//Wenn der Ball mehr als 40 Meter entfernt ist
 		LogicExpression<T> ballAway = new NotExpression<T>(new BallInDistance<T>(env, 40));
@@ -90,6 +92,7 @@ public class GoalieAi<T extends GameEnv> extends BaseHfsm<T> {
 		addTransition(passer, gotoGoal, ballAway);
 		addTransition(gotoBall, gotoGoal, ballAway);
 		addTransition(grabBall, gotoGoal, ballAway);
+		addTransition(passer, gotoGoal, ballAway);
 		addTransition(scout, gotoGoal, returnToGoal);
 		addTransition(gotoGoal, scout, atGoal);
 	}
@@ -97,6 +100,8 @@ public class GoalieAi<T extends GameEnv> extends BaseHfsm<T> {
 	@Override
 	public void doOutput() throws AutomatonException {
 		// noop
+		
+		System.out.println("Goalie-Status: " + this.getCurrentState().toString());
 	}
 
 }

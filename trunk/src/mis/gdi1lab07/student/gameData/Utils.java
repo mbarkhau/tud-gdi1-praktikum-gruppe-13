@@ -9,6 +9,12 @@ public class Utils implements FlagConstants {
 	public static double KICK_DIST_POW_FACTOR = 2;
 
 	public static double DASH_POW_DIST_FACTOR = 0.01;
+	
+	public static int DBG_ALL = 100;
+	
+	public static int DBG_NONE = 0;
+	
+	public static int DEBUG_LEVEL = DBG_ALL;
 
 	/** @return the distance between two vectors */
 	public static double getVectorDistance(FieldVector a, FieldVector b) {
@@ -96,6 +102,14 @@ public class Utils implements FlagConstants {
 
 		v.setDirection(result);
 		return v;
+	}
+	
+	public static int getDebugLevel() {
+		return DEBUG_LEVEL;
+	}
+	
+	public static boolean debugThis(int threshold) {
+		return (DEBUG_LEVEL<=threshold);
 	}
 
 	/**
