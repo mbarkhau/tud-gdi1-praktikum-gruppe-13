@@ -6,7 +6,7 @@ public class Utils implements FlagConstants {
 
 	public static double DIR_DELTA = 2;
 
-	public static double KICK_DIST_POW_FACTOR = 2;
+	public static double KICK_DIST_POW_FACTOR = 3;
 
 	public static double DASH_POW_DIST_FACTOR = 0.01;
 	

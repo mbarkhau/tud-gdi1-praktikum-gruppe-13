@@ -40,8 +40,14 @@ public class PassAi<T extends GameEnv> extends StudentHFSM<T> {
 		LogicExpression<T> notClosestToBall = new NotExpression<T>(closestToBall);
 		
 		LogicExpression<T> passedByMe = new BallPassedByMe<T>(env);
-		LogicExpression<T> isPasser = new AndExpression<T>(hasScouted, closestToBall);
-		LogicExpression<T> isPassee = new OrExpression<T>(new AndExpression<T>(hasScouted, notClosestToBall), passedByMe);
+		LogicExpression<T> notPassedByMe = new NotExpression<T>(passedByMe);
+		
+		
+		LogicExpression<T> isPasserA = new AndExpression<T>(notPassedByMe, closestToBall);
+		LogicExpression<T> isPasser = new AndExpression<T>(hasScouted, isPasserA);
+		
+		LogicExpression<T> isPasseeA = new AndExpression<T>(hasScouted, notClosestToBall);
+		LogicExpression<T> isPassee = new OrExpression<T>(passedByMe, isPasseeA);
 		
 		LogicExpression<T> atPos = new FlagInDistance<T>(env, flagId, 5);
 		LogicExpression<T> notAtPos = new NotExpression<T>(atPos);
