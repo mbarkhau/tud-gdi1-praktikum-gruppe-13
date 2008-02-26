@@ -37,23 +37,23 @@ public class DribblePlayerAi<T extends GameEnv> extends StudentHFSM<T> {
 		addState(shoot);
 		
 		// turnToBall "in Richtung Ball" gotoBall
-		addTransition(turnToBall.getName(), gotoBall.getName(), "is in ball direction", new LookingAtBall<T>(player.getEnv()));
+		addTransition(turnToBall, gotoBall, new LookingAtBall<T>(player.getEnv()));
 		
 		// gotoBall "ist am Ball" turnToGoal
-		addTransition(gotoBall.getName(), turnToGoal.getName(), "is at ball", new BallInDistance<T>(player.getEnv(),0.5));
+		addTransition(gotoBall, turnToGoal, new BallInDistance<T>(player.getEnv(),0.5));
 		
 		// turnToGoal "inRichtungTor und in Schussdistanz" shoot
 		AndExpression<T> isInShootMood = new AndExpression<T>(new IsInGoalDirection<T>(player.getEnv()), new IsInShootDistance<T>((T) player.getEnv()));
-		addTransition(turnToGoal.getName(), shoot.getName(), "is in shoot distance", isInShootMood);
+		addTransition(turnToGoal, shoot, isInShootMood);
 		
 		// turnToGoal "inRichtungTor und ausserhalb Schussdistanz" dribble
 		AndExpression<T> isNotInShootMood = 
 				new AndExpression<T>(new IsInGoalDirection<T>(player.getEnv()), new NotExpression<T>(new IsInShootDistance<T>((T) player.getEnv())));
-		addTransition(turnToGoal.getName(), dribble.getName(), "is not in shoot distance", isNotInShootMood);
+		addTransition(turnToGoal, dribble, isNotInShootMood);
 		
 		// dribble "ist nicht am Ball" turnToBall
 		NotExpression<T> isAtBallNOT = new NotExpression<T>(new BallInDistance<T>(player.getEnv(),0.5));
-		addTransition(dribble.getName(), turnToBall.getName(), "is not at ball", isAtBallNOT);
+		addTransition(dribble, turnToBall, isAtBallNOT);
 		
 		
 		
