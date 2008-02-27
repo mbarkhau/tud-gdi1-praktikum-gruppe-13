@@ -2,9 +2,9 @@ package mis.gdi1lab07.student.gameBehaviour.hfsms.base;
 
 public interface Formations {
 
-	public int[] x532= {0,-51, -30, -25, -35, -25, -30, -15, -10, -15, -5, -5};
+	public int[] x433= {0,-51, -35, -35, -35, -35, -20, -20, -20, -5, -10, -5};
 	
-	public int[] y532 = {0, 0, -11, -8, 0, 8, 11, -8, 0, 8, -10, 10};
+	public int[] y433 = {0, 0, -11, -3, 3, 11, -11, 11, 0, -10, 0, 10};
 
 	
 
