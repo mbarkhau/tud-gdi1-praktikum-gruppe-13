@@ -52,7 +52,29 @@ public class GameEnv {
 		FieldVector p = otherPlayers.get(id);
 		return (p != null && p.getAge() < 10) ? p : null;
 	}
+	
+	public FieldVector getPlayer(boolean ownTeam, int playerId){
+		return (ownTeam) ? ownPlayers.get(playerId) : otherPlayers.get(playerId);
+	}
 
+	public int getClosestPlayerId(boolean ownTeam){
+		Map<Integer, FieldVector> selectedPlayers = (ownTeam) ? ownPlayers : otherPlayers;
+		FieldVector closestVec = null;
+		Integer closestKey = null;
+		for (Integer pKey : selectedPlayers.keySet()) {
+			FieldVector curVec = selectedPlayers.get(pKey);
+			if (closestKey == null || curVec.getDist() < closestVec.getDist()){
+				closestKey = pKey;
+				closestVec = curVec;
+			}	
+		}
+		return closestKey.intValue();
+	}
+	
+	public FieldVector getClosestPlayer(boolean ownTeam){
+		return getPlayer(ownTeam, getClosestPlayerId(ownTeam));
+	}
+	
 	public FieldVector getFlag(int id) {
 		FieldVector f = flags.get(id);
 		return (f != null && f.getAge() < 25) ? f : null;

@@ -1,7 +1,5 @@
 package mis.gdi1lab07.student.gameBehaviour.hfsms.base;
 
-import java.util.Collection;
-
 import mis.gdi1lab07.automaton.AutomatonException;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
 import mis.gdi1lab07.student.gameData.FieldVector;
@@ -37,15 +35,8 @@ public class GotoPlayer<T extends GameEnv> extends BaseHfsm<T> {
 		FieldVector p = (ownTeam) ? env.getOwnPlayer(playerId) : env
 				.getOtherPlayer(playerId);
 
-		if (p == null) {
-			// finde den nächsten spieler
-			Collection<FieldVector> players = (ownTeam) ? env.getOwnPlayers()
-					: env.getOtherPlayers();
-			for (FieldVector current : players)
-				if (p == null
-						|| current.getDist() < p.getDist())
-					p = current;
-		}
+		if (p == null)
+			p = env.getClosestPlayer(ownTeam);
 		
 		gotoVector(p, power, DELTA_DYNAMIC);
 	}

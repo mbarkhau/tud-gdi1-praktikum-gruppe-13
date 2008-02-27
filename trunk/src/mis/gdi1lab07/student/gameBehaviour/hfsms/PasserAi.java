@@ -28,7 +28,6 @@ public class PasserAi<T extends GameEnv> extends BaseHfsm<T> {
 		StudentHFSM<T> kickToPlayer = new KickToPlayer<T>(player);
 		StudentHFSM<T> request = new PassRequest<T>(player);
 		StudentHFSM<T> acknowledge = new PassAck<T>(player);
-		StudentHFSM<T> lookAtPassee = new LookAtPlayer<T>(player, true, -1);
 
 		setInitialState(scout);
 
@@ -36,10 +35,7 @@ public class PasserAi<T extends GameEnv> extends BaseHfsm<T> {
 		addState(gotoBall);
 		addState(kickToPlayer);
 		addState(request);
-		if(Utils.debugThis(Utils.DBG_ALL))
-		System.out.println(request.getName());
 		addState(acknowledge);
-		addState(lookAtPassee);
 		
 		
 		LogicExpression<T> atBall = new BallInDistance<T>(env, 1);
@@ -65,7 +61,6 @@ public class PasserAi<T extends GameEnv> extends BaseHfsm<T> {
 		addTransition(kickToPlayer, gotoBall, notAtBall);
 		addTransition(request, gotoBall, notAtBall);
 		addTransition(acknowledge, gotoBall, notAtBall);
-		addTransition(lookAtPassee, gotoBall, notAtBall);
 		
 		addTransition(gotoBall, scout, shouldScout);
 		addTransition(scout, request, canRequest);
