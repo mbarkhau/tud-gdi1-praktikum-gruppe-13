@@ -2,6 +2,7 @@ package mis.gdi1lab07.student.gameBehaviour.hfsms;
 
 import mis.gdi1lab07.automaton.AutomatonException;
 import mis.gdi1lab07.automaton.logic.AndExpression;
+import mis.gdi1lab07.automaton.logic.LogExpException;
 import mis.gdi1lab07.automaton.logic.LogicExpression;
 import mis.gdi1lab07.automaton.logic.NotExpression;
 import mis.gdi1lab07.student.StudentHFSM;
@@ -20,6 +21,8 @@ import mis.gdi1lab07.student.gameData.FieldPlayer;
 import mis.gdi1lab07.student.gameData.GameEnv;
 
 public class DefenseAI<T extends GameEnv> extends BaseHfsm<T> {
+	
+	
 
 	public DefenseAI(FieldPlayer<T> player) throws AutomatonException {
 		super(player);
@@ -69,11 +72,14 @@ public class DefenseAI<T extends GameEnv> extends BaseHfsm<T> {
 		LogicExpression<T> shouldWatchBallB = new AndExpression<T>(notClosestToBall, ballNotNear);
 		LogicExpression<T> shouldWatchBall = new AndExpression<T>(shouldWatchBallA, shouldWatchBallB);
 
+		LogicExpression<T> shouldPass = new AndExpression<T>(hasBall, hasScouted);
+		
 		LogicExpression<T> shouldGotoBallA = new AndExpression<T>(hasScouted, atHome);
 		LogicExpression<T> shouldGotoBallB = new AndExpression<T>(closestToBall, ballNear);
-		LogicExpression<T> shouldGotoBall = new AndExpression<T>(shouldGotoBallA, shouldGotoBallB);
+		
+		//Soll nur dann zum Ball gehen, wenn er nicht passen soll, sonst multiple transitions
+		LogicExpression<T> shouldGotoBall = new AndExpression<T>(new AndExpression<T>(shouldGotoBallA, shouldGotoBallB), new NotExpression<T>(shouldPass));
 
-		LogicExpression<T> shouldPass = new AndExpression<T>(hasBall, hasScouted);
 		
 		addTransition(scout, goBack, shouldGoHome);
 		addTransition(gotoEnemy, goBack, shouldGoHome);
@@ -100,6 +106,15 @@ public class DefenseAI<T extends GameEnv> extends BaseHfsm<T> {
 		addTransition(gotoEnemy, passer, shouldPass);
 		addTransition(watchBall, passer, shouldPass);
 		addTransition(scout, passer, shouldPass);
+	}
+	
+	public void doOutput() throws AutomatonException {
+//			System.out.println(shouldGotoBall.eval(env)^shouldPass.eval(env)^shouldGotoEnemy.eval(env)^shouldGoHome.eval(env));
+//			System.out.println("shouldGotoBall: " + shouldGotoBall.eval(env));
+//			System.out.println("shouldPass: " + shouldPass.eval(env));
+//			System.out.println("shouldGotoEnemy: " + shouldGotoEnemy.eval(env));
+//			System.out.println("shouldGoHome: " + shouldGoHome.eval(env));
+		
 	}
 	
 }
