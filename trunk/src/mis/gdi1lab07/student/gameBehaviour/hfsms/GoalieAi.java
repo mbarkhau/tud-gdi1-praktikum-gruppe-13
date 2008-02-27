@@ -96,9 +96,7 @@ public class GoalieAi<T extends GameEnv> extends BaseHfsm<T> {
 		LogicExpression<T> ballAway = new NotExpression<T>(new BallInDistance<T>(env, 40));
 		LogicExpression<T> returnToGoal = new AndExpression<T>(ballAway, notAtGoal);
 		
-		//Leave Ball-Bedingung: Wenn der Ball weg ist oder der Goalie n�her als 35 Meter an der Zentrumsflagge ist
-		LogicExpression<T> leaveBall = new OrExpression<T> (ballAway, new FlagInDistance<T>(env, C, 35));
-		
+			
 		//Wenn der Ball mehr als 10 Meter entfernt ist (nach wegkicken)
 		LogicExpression<T> ballKickedAway = new NotExpression<T> (new BallInDistance<T> (env, 10));
 		
@@ -107,6 +105,17 @@ public class GoalieAi<T extends GameEnv> extends BaseHfsm<T> {
 		
 		//Soll nur dann zum Ball gehen, wenn er ihn nicht greifen kann
 		LogicExpression<T> doGotoBall = new AndExpression<T>(enemyAttacks, new NotExpression<T>(readyToGrab));
+		
+		//Expression, wenn eine der 3 Strafraumflaggen weniger als 
+		LogicExpression<T> FlagRTooNear = new FlagInDistance<T>(env, O_P_R, 15);
+		LogicExpression<T> FlagLTooNear = new FlagInDistance<T>(env, O_P_L, 15);
+		LogicExpression<T> FlagCTooNear = new FlagInDistance<T>(env, O_P_C, 5);
+		
+		LogicExpression<T> onePenaltyFlagIsTooNear = new OrExpression<T>(new OrExpression<T>(FlagRTooNear, FlagLTooNear), FlagCTooNear);
+		
+		//Leave Ball-Bedingung: Wenn der Ball weg ist oder eine Strafraumflagge zu nahe kommt
+		LogicExpression<T> leaveBall = new OrExpression<T> (ballAway, onePenaltyFlagIsTooNear);
+	
 		
 		addTransition(scout, watchBall, atGoal);
 		addTransition(watchBall, scout, doScout);
