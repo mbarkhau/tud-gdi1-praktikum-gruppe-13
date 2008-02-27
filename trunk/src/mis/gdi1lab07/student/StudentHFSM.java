@@ -51,7 +51,8 @@ public class StudentHFSM<T> implements HFSM<T>, FlagConstants {
 			if (trans.getStartState() == stateHFSM && trans.eval(context)) {
 				if (nextState != null){
 					String errMsg = "Multiple transitions for this input.\n";
-					errMsg += "Transition: " + trans.getStartState() + " -> " + trans.getTargetState();
+					errMsg += "First transition: " + trans.getStartState() + " -> " + nextState.toString() + " \n";
+					errMsg += "Second transition: " + trans.getStartState() + " -> " + trans.getTargetState();
 					throw new AutomatonException(errMsg);
 				}
 				nextState = trans.getTargetState();
