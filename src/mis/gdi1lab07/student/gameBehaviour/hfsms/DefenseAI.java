@@ -64,9 +64,6 @@ public class DefenseAI<T extends GameEnv> extends BaseHfsm<T> {
 		LogicExpression<T> notAtHome = new NotExpression<T>(atHome);
 		
 		
-		LogicExpression<T> shouldGoHomeA = new AndExpression<T>(hasScouted, enemyNotNear);
-		LogicExpression<T> shouldGoHomeB = new AndExpression<T>(ballNotInDefenseRange, notAtHome);
-		LogicExpression<T> shouldGoHome = new AndExpression<T>(shouldGoHomeA, shouldGoHomeB);
 
 		LogicExpression<T> hasHeardRequest = new HasHeardRequest<T>(env);
 		LogicExpression<T> hasHeardAck = new HasHeardAck<T>(env);
@@ -79,13 +76,16 @@ public class DefenseAI<T extends GameEnv> extends BaseHfsm<T> {
 		LogicExpression<T> shouldGotoBallA = new AndExpression<T>(hasScouted, ballInDefenseRange);
 		LogicExpression<T> shouldGotoBallB = new AndExpression<T>(shouldGotoBallA, hasNotBall);
 		LogicExpression<T> shouldGotoBall = new OrExpression<T>(shouldGotoBallB, closestToBall);
+		
 		LogicExpression<T> shouldNotGotoBall = new NotExpression<T>(shouldGotoBall);
 
+		LogicExpression<T> shouldGoHomeA = new AndExpression<T>(hasScouted, enemyNotNear);
+		LogicExpression<T> shouldGoHomeB = new AndExpression<T>(shouldNotGotoBall, notAtHome);
+		LogicExpression<T> shouldGoHome = new AndExpression<T>(shouldGoHomeA, shouldGoHomeB);
+		
 		LogicExpression<T> shouldGotoEnemyA = new AndExpression<T>(enemyNear, notClosestToBall);
 		LogicExpression<T> shouldGotoEnemyB = new AndExpression<T>(shouldGotoEnemyA, shouldNotGotoBall);
 		LogicExpression<T> shouldGotoEnemy = new AndExpression<T>(shouldGotoEnemyB, hasScouted);
-
-		
 		
 		addTransition(scout, goBack, shouldGoHome);
 		addTransition(gotoEnemy, goBack, shouldGoHome);
