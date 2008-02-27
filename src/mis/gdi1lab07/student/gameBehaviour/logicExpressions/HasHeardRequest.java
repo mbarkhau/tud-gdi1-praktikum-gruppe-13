@@ -14,12 +14,7 @@ public class HasHeardRequest<T extends GameEnv> extends BaseLogicExpression<T> i
 
 	@Override
 	public boolean eval(T env) throws LogExpException {
-		if(env.receivedMessage(PASS_REQUEST)) {
-			env.removeMessage(PASS_REQUEST);
-			return true;
-		}
-		else
-			return false;
+		return env.receivedMessage(PASS_REQUEST);
 	}
 
 }

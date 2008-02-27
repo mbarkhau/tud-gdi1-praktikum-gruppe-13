@@ -1,45 +1,45 @@
 package mis.gdi1lab07.student.gameBehaviour.hfsms.OffensiveAI;
 
-
 import mis.gdi1lab07.automaton.AutomatonException;
 import mis.gdi1lab07.automaton.logic.AndExpression;
+import mis.gdi1lab07.automaton.logic.LogicExpression;
 import mis.gdi1lab07.automaton.logic.NotExpression;
-import mis.gdi1lab07.automaton.logic.OrExpression;
 import mis.gdi1lab07.student.StudentHFSM;
-import mis.gdi1lab07.student.gameBehaviour.hfsms.PasseeAi;
-import mis.gdi1lab07.student.gameBehaviour.hfsms.base.Wait;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.HasHeardRequest;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.base.BaseHfsm;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.base.Scout;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.IsClosestToBall;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.SeeBall;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.GameIsOn;
+import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.HasScouted;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
 import mis.gdi1lab07.student.gameData.GameEnv;
 
-public class OffensiveAI<T extends GameEnv> extends StudentHFSM<T> {
+public class OffensiveAI<T extends GameEnv> extends BaseHfsm<T> {
 
-	public OffensiveAI(FieldPlayer player) throws AutomatonException {
-		
+	public OffensiveAI(FieldPlayer<T> player) throws AutomatonException {
+		super(player);
+
 		StudentHFSM<T> offensiv = new OffensivePlayerAi<T>(player);
 		StudentHFSM<T> dribble = new DribblePlayerAi<T>(player);
-		StudentHFSM<T> waiting = new Wait<T>(player);
+		StudentHFSM<T> scout = new Scout<T>(player);
 
-		setInitialState(waiting);
+		setInitialState(scout);
 
 		addState(offensiv);
 		addState(dribble);
-		addState(waiting);
+		addState(scout);
+
+		LogicExpression<T> closestToBall = new IsClosestToBall<T>(env);
+		LogicExpression<T> notClosesToBall = new NotExpression<T>(closestToBall);
+		LogicExpression<T> hasScouted = new HasScouted<T>(env);
+		LogicExpression<T> hasNotScouted = new NotExpression<T>(hasScouted);
 		
-		// wait "KickOff" offensiv
-		addTransition(waiting, offensiv, new GameIsOn<T>((T) player.getEnv()));
+		LogicExpression<T> isOffensive = new AndExpression<T>(hasScouted, notClosesToBall);
+		LogicExpression<T> isDribbler = new AndExpression<T>(hasScouted, closestToBall);
+		
+		addTransition(scout, offensiv, isOffensive);
+		addTransition(scout, dribble, isDribbler);
 
-		// offensiv "ist am naechsten" dribble
-		addTransition(offensiv, dribble, new IsClosestToBall<T>((T) player.getEnv()));
+		addTransition(offensiv, scout, hasNotScouted);
+		addTransition(dribble, scout, hasNotScouted);
 
-		// dribble "sieht Ball nicht oder sieht ihn und ist nicht am n�chsten zum Ball" offensiv
-		addTransition(dribble, offensiv, new OrExpression<T>(
-				new NotExpression<T>(new SeeBall<T>((T) player.getEnv())),
-				new AndExpression<T>(
-						new SeeBall<T>((T) player.getEnv()),
-						new NotExpression<T>(new IsClosestToBall<T>((T) player.getEnv())))));
 	}
 }

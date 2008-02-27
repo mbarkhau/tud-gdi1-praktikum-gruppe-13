@@ -16,10 +16,6 @@ public class HasHeardAck<T extends GameEnv> extends BaseLogicExpression<T> imple
 
 	@Override
 	public boolean eval(T env) throws LogExpException {
-		if(env.receivedMessage(PASS_ACK)) {
-			return true;
-		}
-		else
-			return false;
+		return env.receivedMessage(PASS_ACK);
 	}
 }
