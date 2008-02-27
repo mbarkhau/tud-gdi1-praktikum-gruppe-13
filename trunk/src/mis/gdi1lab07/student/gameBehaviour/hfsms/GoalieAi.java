@@ -37,7 +37,8 @@ public class GoalieAi<T extends GameEnv> extends BaseHfsm<T> {
 		watchBall.setName("watchBall");
 		StudentHFSM<T> grabBall = new GrabBall<T>(player);
 		grabBall.setName("grabBall");
-		StudentHFSM<T> passer = new PassAi<T>(player);
+		StudentHFSM<T> passer = new PasserAi<T>(player);
+		passer.setName("Passer");
 		StudentHFSM<T> kick = new Shoot<T>(player);
 		kick.setName("kick");
 		GotoBall<T> gotoBall = new GotoBall<T>(player);
@@ -104,15 +105,18 @@ public class GoalieAi<T extends GameEnv> extends BaseHfsm<T> {
 		//Wenn er nicht gescouted hat und kein Gegner angreift, soll er scouten
 		LogicExpression<T> doScout = new AndExpression<T>(hasNotScouted, new NotExpression<T>(enemyAttacks));
 		
+		//Soll nur dann zum Ball gehen, wenn er ihn nicht greifen kann
+		LogicExpression<T> doGotoBall = new AndExpression<T>(enemyAttacks, new NotExpression<T>(readyToGrab));
+		
 		addTransition(scout, watchBall, atGoal);
 		addTransition(watchBall, scout, doScout);
 		addTransition(watchBall, grabBall, readyToGrab);
-		addTransition(watchBall, gotoBall, enemyAttacks);
+		addTransition(watchBall, gotoBall, doGotoBall);
 		addTransition(gotoBall, grabBall, readyToGrab);
-//		addTransition(grabBall, passer, grabbedBall);
-		addTransition(grabBall, kick, grabbedBall);
-//		addTransition(passer, gotoGoal, ballAway);
-		addTransition(kick, gotoGoal, ballKickedAway);
+		addTransition(grabBall, passer, grabbedBall);
+//		addTransition(grabBall, kick, grabbedBall);
+		addTransition(passer, gotoGoal, ballKickedAway);
+//		addTransition(kick, gotoGoal, ballKickedAway);
 		addTransition(gotoBall, gotoGoal, leaveBall);
 		addTransition(grabBall, gotoGoal, ballAway);
 		addTransition(scout, gotoGoal, returnToGoal);
