@@ -29,7 +29,7 @@ public class OffensiveAI<T extends GameEnv> extends BaseHfsm<T> implements FlagC
 		StudentHFSM<T> scout = new Scout<T>(player);
 		GotoFlag<T> goBack = new GotoFlag<T>(player, env.getHomePos());
 		
-		goBack.setPower(20);
+		goBack.setPower(40);
 		
 		setInitialState(scout);
 
@@ -37,7 +37,12 @@ public class OffensiveAI<T extends GameEnv> extends BaseHfsm<T> implements FlagC
 		addState(dribble);
 		addState(scout);
 		addState(goBack);
-
+		
+		
+		
+		
+		
+		
 		
 		// ist er weiter als 40 weg von eigener Torlinie?
 		LogicExpression<T> ownCornerRDist = new AndExpression<T>(
@@ -54,15 +59,10 @@ public class OffensiveAI<T extends GameEnv> extends BaseHfsm<T> implements FlagC
 		LogicExpression<T> otherCornerRDist = new FlagInDistance<T>(env,T_O_R,58);
 		LogicExpression<T> otherCornerLDist = new FlagInDistance<T>(env,T_O_L,58);
 		LogicExpression<T> otherGoalDist = new FlagInDistance<T>(env,T_G_C,58);
-		
-		
 		LogicExpression<T> inOtherHalfD = new OrExpression<T>(ownCornerRDist,ownCornerLDist);
 		LogicExpression<T> inOtherHalfE = new OrExpression<T>(inOtherHalfD, ownGoalDist);
-
 		LogicExpression<T> inOtherHalfF = new OrExpression<T>(otherCornerRDist,otherCornerLDist);
 		LogicExpression<T> inOtherHalfG = new OrExpression<T>(inOtherHalfF,otherGoalDist);
-		
-
 		LogicExpression<T> inOpponentHalf = new OrExpression<T>(inOtherHalfE,inOtherHalfG);
 		LogicExpression<T> inOwnHalf = new NotExpression<T>(inOpponentHalf);
 		
@@ -81,9 +81,11 @@ public class OffensiveAI<T extends GameEnv> extends BaseHfsm<T> implements FlagC
 		LogicExpression<T> isOffensive = new AndExpression<T>(inOpponentHalf, isOffensiveA);
 		LogicExpression<T> isDribbler = new AndExpression<T>(inOpponentHalf, isDribblerB);
 		
-		LogicExpression<T> atHome = new FlagInDistance<T>(env, env.getHomePos(), 40);
+		LogicExpression<T> atHome = new FlagInDistance<T>(env, env.getHomePos(), 30);
 		LogicExpression<T> ready = new AndExpression<T>(atHome, inOpponentHalf);
 		LogicExpression<T> readyToGoAgain = new OrExpression<T>(ready, closestToBallInOpHalf);
+		
+		
 		
 		addTransition(scout, offensiv, isOffensive);
 		addTransition(scout, dribble, isDribbler);
