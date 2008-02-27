@@ -20,6 +20,7 @@ public class GameIsOn<T extends GameEnv> extends BaseLogicExpression<T> {
 				&& mode != ControllerAdaptor.PLAY_MODE_CORNER_KICK_OTHER
 				&& mode != ControllerAdaptor.PLAY_MODE_FREE_KICK_OTHER
 				&& mode != ControllerAdaptor.PLAY_MODE_GOAL_KICK_OTHER
+				&& mode != ControllerAdaptor.PLAY_MODE_GOAL_KICK_OWN
 				&& mode != ControllerAdaptor.PLAY_MODE_KICK_IN_OTHER
 				&& mode != ControllerAdaptor.PLAY_MODE_KICK_OFF_OTHER;
 	}
