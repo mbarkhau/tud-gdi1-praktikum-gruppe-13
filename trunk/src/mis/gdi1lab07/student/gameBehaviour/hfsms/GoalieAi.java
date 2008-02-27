@@ -27,6 +27,8 @@ public class GoalieAi<T extends GameEnv> extends BaseHfsm<T> {
 
 	//TODO: Erkennung, ob im Strafraum oder nicht!
 	
+	
+	
 	public GoalieAi(FieldPlayer<T> player) throws AutomatonException {
 		super(player);
 		
@@ -65,11 +67,11 @@ public class GoalieAi<T extends GameEnv> extends BaseHfsm<T> {
 		//Goalie im Strafraum, wenn er mittlere Strafraumflagge sieht, aber nicht mittlere Torflagge, oder umgekehrt
 		LogicExpression<T> goalInView = new LookingAtFlag<T>(env, O_G_C);
 		LogicExpression<T> goalNotInView = new NotExpression<T>(goalInView);
-		LogicExpression<T> penaultyFlagInView = new LookingAtFlag<T>(env, O_P_C);
-		LogicExpression<T> penaultyFlagNotInView = new NotExpression<T>(penaultyFlagInView);
+		LogicExpression<T> penaltyFlagsInView = new OrExpression<T> (new OrExpression<T>( new LookingAtFlag<T>(env, O_P_C), new LookingAtFlag<T>(env, O_P_L)), new LookingAtFlag<T>(env, O_P_R));
+		LogicExpression<T> penaltyFlagsNotInView = new NotExpression<T>(penaltyFlagsInView);
 		
-		LogicExpression<T> isInPenaltyArea1 = new AndExpression<T>(goalInView, penaultyFlagNotInView);
-		LogicExpression<T> isInPenaltyArea2 = new AndExpression<T>(goalNotInView, penaultyFlagInView);
+		LogicExpression<T> isInPenaltyArea1 = new AndExpression<T>(goalInView, penaltyFlagsNotInView);
+		LogicExpression<T> isInPenaltyArea2 = new AndExpression<T>(goalNotInView, penaltyFlagsInView);
 		LogicExpression<T> isInPenaltyArea = new OrExpression<T>(isInPenaltyArea1, isInPenaltyArea2);
 		
 		LogicExpression<T> ballInGrabDist = new BallInDistance<T>(env, 2);
@@ -81,7 +83,11 @@ public class GoalieAi<T extends GameEnv> extends BaseHfsm<T> {
 		//Feind attackiert, sobald er und der Ball weniger als 20 Meter vom Tor entfernt sind
 		LogicExpression<T> ballInDangerDist = new BallInDistance<T>(env, 20);
 		LogicExpression<T> playerInDangerDist = new PlayerInDistance<T>(env, false, 20);
-		LogicExpression<T> enemyAttacks = new AndExpression<T>(ballInDangerDist, playerInDangerDist);
+//		LogicExpression<T> enemyAttacks = new AndExpression<T>(ballInDangerDist, playerInDangerDist);
+		
+		//Neue enemyAttack-Expression: Wenn der Ball näher ist als 5 Meter, soll er auf jeden Fall den Ball nehmen.
+		LogicExpression<T> enemyAttacks = new OrExpression<T> (new AndExpression<T>(ballInDangerDist, playerInDangerDist), new BallInDistance<T>(env, 10));
+		
 		
 		//Goalie hat Ball gefangen, er ist somit weniger als 1 Meter entfernt
 		LogicExpression<T> grabbedBall = new BallInDistance<T>(env, 1);
@@ -89,6 +95,12 @@ public class GoalieAi<T extends GameEnv> extends BaseHfsm<T> {
 		//Wenn der Ball mehr als 40 Meter entfernt ist
 		LogicExpression<T> ballAway = new NotExpression<T>(new BallInDistance<T>(env, 40));
 		LogicExpression<T> returnToGoal = new AndExpression<T>(ballAway, notAtGoal);
+		
+		//Leave Ball-Bedingung: Wenn der Ball weg ist oder der Goalie näher als 35 Meter an der Zentrumsflagge ist
+		LogicExpression<T> leaveBall = new OrExpression<T> (ballAway, new FlagInDistance<T>(env, C, 35));
+		
+		//Wenn der Ball mehr als 10 Meter entfernt ist (nach wegkicken)
+		LogicExpression<T> ballKickedAway = new BallInDistance<T> (env, 10);
 		
 		addTransition(scout, watchBall, atGoal);
 		addTransition(watchBall, scout, hasNotScouted);
@@ -98,8 +110,8 @@ public class GoalieAi<T extends GameEnv> extends BaseHfsm<T> {
 //		addTransition(grabBall, passer, grabbedBall);
 		addTransition(grabBall, kick, grabbedBall);
 //		addTransition(passer, gotoGoal, ballAway);
-		addTransition(kick, gotoGoal, ballAway);
-		addTransition(gotoBall, gotoGoal, ballAway);
+		addTransition(kick, gotoGoal, ballKickedAway);
+		addTransition(gotoBall, gotoGoal, leaveBall);
 		addTransition(grabBall, gotoGoal, ballAway);
 		addTransition(scout, gotoGoal, returnToGoal);
 		addTransition(gotoGoal, scout, atGoal);
@@ -109,8 +121,8 @@ public class GoalieAi<T extends GameEnv> extends BaseHfsm<T> {
 		System.out.println("Goalie-Status: " + this.getCurrentState().toString());
 		
 		
-		if(env.getBall()!=null)
-		System.out.println("Distance to Ball: " + env.getBall().getDist());
+		
+		
 	}
 	
 }
