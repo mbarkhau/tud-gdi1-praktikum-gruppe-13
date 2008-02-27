@@ -83,9 +83,7 @@ public class OffensiveAI<T extends GameEnv> extends BaseHfsm<T> implements FlagC
 		
 		LogicExpression<T> atHome = new FlagInDistance<T>(env, env.getHomePos(), 30);
 		LogicExpression<T> ready = new AndExpression<T>(atHome, inOpponentHalf);
-		LogicExpression<T> readyToGoAgain = new OrExpression<T>(ready, closestToBallInOpHalf);
-		
-		
+		LogicExpression<T> readyToGoAgain = new OrExpression<T>(ready, closestToBall);
 		
 		addTransition(scout, offensiv, isOffensive);
 		addTransition(scout, dribble, isDribbler);
