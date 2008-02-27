@@ -22,21 +22,19 @@ public class Shoot<T extends GameEnv> extends BaseHfsm<T> implements FlagConstan
 		if (Utils.debugThis(Utils.DBG_ALL))
 			System.out.println(this.player.getNumber() + " shoots (kick 100)");
 	
-		double playerTurn = 0.7 + 0.2 * Math.random(); // Zahl zw. 0.0 und 1.0
+		double kickDir = 0.7 + 0.2 * Math.random(); // Zahl zw. 0.0 und 1.0
 		if (Math.random() < 0.5) {
-			playerTurn *= env.getFlag(T_G_L).getDir();
+			kickDir *= env.getFlag(T_G_L).getDir();
 		} else {
-			playerTurn *= env.getFlag(T_G_R).getDir();
+			kickDir *= env.getFlag(T_G_R).getDir();
 		}
 		for (FieldVector p : env.getOtherPlayers()) {
-			if (Math.abs(p.getDir() - playerTurn) < 0.5) {
-				playerTurn = -playerTurn;
+			if (Math.abs(p.getDir() - kickDir) < 0.5) {
+				kickDir = -kickDir;
 				break;
 			}
 		}
-		player.turn(playerTurn);
-		System.out.println("PLAYER TURN RANDOM=" + playerTurn);
-		player.kick(100, 0);
+		player.kick(100, kickDir);
 	}
 
 }

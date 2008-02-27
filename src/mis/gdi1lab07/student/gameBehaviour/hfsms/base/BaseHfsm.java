@@ -28,7 +28,7 @@ public abstract class BaseHfsm<T extends GameEnv> extends StudentHFSM<T>
 	public static double DELTA_STATIC = 0.5;
 
 	/** Use for vectors which can move */
-	public static double DELTA_DYNAMIC = 10;
+	public static double DELTA_DYNAMIC = 15;
 
 	protected final FieldPlayer<T> player;
 
