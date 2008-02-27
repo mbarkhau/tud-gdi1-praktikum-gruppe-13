@@ -45,7 +45,7 @@ public class SuperAI<T extends GameEnv> extends BaseHfsm<T> {
 		LogicExpression<T> waitForReposition = new Timer<T>(env, 3);
 
 		if (number == 1) {
-			addTransition(backToStart, goalie, gameOn);
+			addTransition(backToStart, goalie, ourPlay);
 			addTransition(goalie, backToStart, gameNotOn);
 		}else if (number <9) {
 			addTransition(backToStart, defense, gameOn);
