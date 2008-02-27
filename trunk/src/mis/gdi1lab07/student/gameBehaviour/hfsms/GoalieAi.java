@@ -127,7 +127,7 @@ public class GoalieAi<T extends GameEnv> extends BaseHfsm<T> {
 		addTransition(passer, gotoGoal, ballKickedAway);
 //		addTransition(kick, gotoGoal, ballKickedAway);
 		addTransition(gotoBall, gotoGoal, leaveBall);
-		addTransition(grabBall, gotoGoal, ballAway);
+		addTransition(grabBall, gotoGoal, leaveBall);
 		addTransition(scout, gotoGoal, returnToGoal);
 		addTransition(gotoGoal, scout, atGoal);
 	}
