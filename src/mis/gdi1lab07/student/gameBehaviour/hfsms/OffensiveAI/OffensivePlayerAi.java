@@ -28,8 +28,10 @@ public class OffensivePlayerAi<T extends GameEnv> extends BaseHfsm<T> {
 		
 		StudentHFSM<T> scout = new Scout<T>(player);
 		StudentHFSM<T> passee = new PasseeAi<T>(player);
-		StudentHFSM<T> gotoBall = new GotoBall<T>(player);
+		GotoBall<T> gotoBall = new GotoBall<T>(player);
 		StudentHFSM<T> goBack = new GotoFlag<T>(player, env.getHomePos());
+		
+		gotoBall.setPower(30);
 		
 		setInitialState(scout);
 		
