@@ -59,7 +59,7 @@ public class OffensivePlayerAi<T extends GameEnv> extends BaseHfsm<T> {
 		
 		LogicExpression<T> shouldScout = new AndExpression<T>(hasNotScouted, isNotPassee); 
 
-		LogicExpression<T> shouldGoToBall = new AndExpression<T>(hasScouted, ballTooFar); 
+		LogicExpression<T> shouldGoToBall = new AndExpression<T>(new AndExpression<T>(hasScouted, ballTooFar), new NotExpression<T>( isPassee)); 
 		
 		LogicExpression<T> shouldGoHomeA = new AndExpression<T>(hasScouted, isNotPassee);
 		LogicExpression<T> shouldGoHomeB = new AndExpression<T>(shouldGoHomeA, ballNotTooFar);
