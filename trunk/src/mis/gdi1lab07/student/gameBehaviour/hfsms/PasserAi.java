@@ -24,7 +24,7 @@ public class PasserAi<T extends GameEnv> extends BaseHfsm<T> {
 		super(player);
 
 		StudentHFSM<T> scout = new Scout<T>(player);
-		StudentHFSM<T> gotoBall = new GotoBall<T>(player);
+		StudentHFSM<T> gotoBall = new GotoBall<T>(player, POWER_SPRINT);
 		StudentHFSM<T> kickToPlayer = new KickToPlayer<T>(player);
 		StudentHFSM<T> request = new PassRequest<T>(player);
 		StudentHFSM<T> acknowledge = new PassAck<T>(player);
