@@ -10,6 +10,11 @@ public class GotoBall<T extends GameEnv> extends BaseHfsm<T> {
 
 	private int power = POWER_RUN;
 	
+	public GotoBall(FieldPlayer<T> player, int power) {
+		super(player);
+		this.power = power;
+	}
+		
 	public GotoBall(FieldPlayer<T> player) {
 		super(player);
 	}

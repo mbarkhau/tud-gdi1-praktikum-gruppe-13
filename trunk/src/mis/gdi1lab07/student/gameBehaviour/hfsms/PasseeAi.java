@@ -29,7 +29,8 @@ public class PasseeAi<T extends GameEnv> extends BaseHfsm<T> {
 		addState(watchBall);
 		addState(acceptPass);
 		addState(gotoBall);
-		setInitialState(scout);
+		
+		setInitialState(acceptPass);
 		
 		// expressions		
 		LogicExpression<T> heardRequest = new HasHeardRequest<T>(env);
