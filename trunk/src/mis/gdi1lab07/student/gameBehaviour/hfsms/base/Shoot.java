@@ -1,8 +1,7 @@
-package mis.gdi1lab07.student.gameBehaviour.hfsms.OffensiveAI;
+package mis.gdi1lab07.student.gameBehaviour.hfsms.base;
 
 
 import mis.gdi1lab07.automaton.AutomatonException;
-import mis.gdi1lab07.student.gameBehaviour.hfsms.base.BaseHfsm;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
 import mis.gdi1lab07.student.gameData.FieldVector;
 import mis.gdi1lab07.student.gameData.FlagConstants;

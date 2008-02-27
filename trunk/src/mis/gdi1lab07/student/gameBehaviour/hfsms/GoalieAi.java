@@ -2,18 +2,17 @@ package mis.gdi1lab07.student.gameBehaviour.hfsms;
 
 import mis.gdi1lab07.automaton.AutomatonException;
 import mis.gdi1lab07.automaton.logic.AndExpression;
-import mis.gdi1lab07.automaton.logic.LogExpException;
 import mis.gdi1lab07.automaton.logic.LogicExpression;
 import mis.gdi1lab07.automaton.logic.NotExpression;
 import mis.gdi1lab07.automaton.logic.OrExpression;
 import mis.gdi1lab07.student.StudentHFSM;
-import mis.gdi1lab07.student.gameBehaviour.hfsms.OffensiveAI.Shoot;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.BaseHfsm;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.GotoBall;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.GotoFlag;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.GrabBall;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.LookAtBall;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.Scout;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.base.Shoot;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.BallInDistance;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.BallVisible;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.FlagInDistance;
@@ -85,7 +84,7 @@ public class GoalieAi<T extends GameEnv> extends BaseHfsm<T> {
 		LogicExpression<T> playerInDangerDist = new PlayerInDistance<T>(env, false, 20);
 //		LogicExpression<T> enemyAttacks = new AndExpression<T>(ballInDangerDist, playerInDangerDist);
 		
-		//Neue enemyAttack-Expression: Wenn der Ball näher ist als 5 Meter, soll er auf jeden Fall den Ball nehmen.
+		//Neue enemyAttack-Expression: Wenn der Ball nï¿½her ist als 5 Meter, soll er auf jeden Fall den Ball nehmen.
 		LogicExpression<T> enemyAttacks = new OrExpression<T> (new AndExpression<T>(ballInDangerDist, playerInDangerDist), new BallInDistance<T>(env, 10));
 		
 		
@@ -96,7 +95,7 @@ public class GoalieAi<T extends GameEnv> extends BaseHfsm<T> {
 		LogicExpression<T> ballAway = new NotExpression<T>(new BallInDistance<T>(env, 40));
 		LogicExpression<T> returnToGoal = new AndExpression<T>(ballAway, notAtGoal);
 		
-		//Leave Ball-Bedingung: Wenn der Ball weg ist oder der Goalie näher als 35 Meter an der Zentrumsflagge ist
+		//Leave Ball-Bedingung: Wenn der Ball weg ist oder der Goalie nï¿½her als 35 Meter an der Zentrumsflagge ist
 		LogicExpression<T> leaveBall = new OrExpression<T> (ballAway, new FlagInDistance<T>(env, C, 35));
 		
 		//Wenn der Ball mehr als 10 Meter entfernt ist (nach wegkicken)

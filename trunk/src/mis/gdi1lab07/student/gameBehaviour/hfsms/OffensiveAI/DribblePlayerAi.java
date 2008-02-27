@@ -10,6 +10,7 @@ import mis.gdi1lab07.student.gameBehaviour.hfsms.PasserAi;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.BaseHfsm;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.GotoBall;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.Scout;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.base.Shoot;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.BallInDistance;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.FlagInDistance;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.HasScouted;
