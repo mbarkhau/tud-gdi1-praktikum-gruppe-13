@@ -229,13 +229,13 @@ public class Controller extends ControllerAdaptor {
 		int flagId = FlagConstants.INVALD;
 
 		if (id == FLAG_CENTER)
-			flagId = FlagConstants.O_P_C;
+			flagId = FlagConstants.T_P_C;
 
 		if (id == FLAG_RIGHT)
-			flagId = FlagConstants.O_P_R;
+			flagId = FlagConstants.T_P_R;
 
 		if (id == FLAG_LEFT)
-			flagId = FlagConstants.O_P_L;
+			flagId = FlagConstants.T_P_L;
 
 		env.setFlag(flagId, dist, dir);
 	}
@@ -245,13 +245,13 @@ public class Controller extends ControllerAdaptor {
 		int flagId = FlagConstants.INVALD;
 
 		if (id == FLAG_CENTER)
-			flagId = FlagConstants.T_P_C;
+			flagId = FlagConstants.O_P_C;
 
 		if (id == FLAG_RIGHT)
-			flagId = FlagConstants.T_P_R;
+			flagId = FlagConstants.O_P_R;
 
 		if (id == FLAG_LEFT)
-			flagId = FlagConstants.T_P_L;
+			flagId = FlagConstants.O_P_L;
 
 		env.setFlag(flagId, dist, dir);
 	}
