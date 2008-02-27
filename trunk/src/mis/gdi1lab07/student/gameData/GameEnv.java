@@ -40,22 +40,22 @@ public class GameEnv {
 	}
 
 	public FieldVector getBall() {
-		return (ball != null && ball.getAge() < 3) ? ball : null;
+		return (ball != null && ball.getAge() < 5) ? ball : null;
 	}
 
 	public FieldVector getOwnPlayer(int id) {
 		FieldVector p = ownPlayers.get(id);
-		return (p != null && p.getAge() < 5) ? p : null;
+		return (p != null && p.getAge() < 10) ? p : null;
 	}
 
 	public FieldVector getOtherPlayer(int id) {
 		FieldVector p = otherPlayers.get(id);
-		return (p != null && p.getAge() < 5) ? p : null;
+		return (p != null && p.getAge() < 10) ? p : null;
 	}
 
 	public FieldVector getFlag(int id) {
 		FieldVector f = flags.get(id);
-		return (f != null && f.getAge() < 15) ? f : null;
+		return (f != null && f.getAge() < 25) ? f : null;
 	}
 
 	public Collection<FieldVector> getOwnPlayers() {
@@ -141,6 +141,10 @@ public class GameEnv {
 
 	public int getHomePos() {
 		return Utils.getPlayerPos(playerId);
+	}
+	
+	public FieldVector getHomeFlag() {
+		return flags.get(getHomePos());
 	}
 
 	public void addMsg(double dir, String msg) {
