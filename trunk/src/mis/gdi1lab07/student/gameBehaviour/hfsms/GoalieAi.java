@@ -102,8 +102,11 @@ public class GoalieAi<T extends GameEnv> extends BaseHfsm<T> {
 		//Wenn der Ball mehr als 10 Meter entfernt ist (nach wegkicken)
 		LogicExpression<T> ballKickedAway = new BallInDistance<T> (env, 10);
 		
+		//Wenn er nicht gescouted hat und kein Gegner angreift, soll er scouten
+		LogicExpression<T> doScout = new AndExpression<T>(hasNotScouted, new NotExpression<T>(enemyAttacks));
+		
 		addTransition(scout, watchBall, atGoal);
-		addTransition(watchBall, scout, hasNotScouted);
+		addTransition(watchBall, scout, doScout);
 		addTransition(watchBall, grabBall, readyToGrab);
 		addTransition(watchBall, gotoBall, enemyAttacks);
 		addTransition(gotoBall, grabBall, readyToGrab);
