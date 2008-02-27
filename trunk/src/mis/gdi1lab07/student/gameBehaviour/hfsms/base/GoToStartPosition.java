@@ -45,15 +45,15 @@ public class GoToStartPosition<T extends GameEnv> extends BaseHfsm<T> implements
 	
 	public int getX(int number){
 		if(formation==null){
-			return x532[number];
+			return x433[number];
 		}
-		return x532[number];
+		return x433[number];
 	}
 	
 	public int getY(int number){
 		if(formation==null){
-			return y532[number];
+			return y433[number];
 		}
-		return y532[number];
+		return y433[number];
 	}
 }
