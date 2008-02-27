@@ -52,9 +52,8 @@ public class OffensivePlayerAi<T extends GameEnv> extends BaseHfsm<T> {
 		LogicExpression<T> hasHeardAck = new HasHeardAck<T>(env);
 		
 		LogicExpression<T> hasHeardMsg = new OrExpression<T>(hasHeardRequest, hasHeardAck);
+		
 		LogicExpression<T> isPassee = new AndExpression<T>(hasHeardMsg, ballTooFar);
-		
-		
 		LogicExpression<T> isNotPassee = new NotExpression<T>(isPassee); 
 		
 		LogicExpression<T> shouldScout = new AndExpression<T>(hasNotScouted, isNotPassee); 
