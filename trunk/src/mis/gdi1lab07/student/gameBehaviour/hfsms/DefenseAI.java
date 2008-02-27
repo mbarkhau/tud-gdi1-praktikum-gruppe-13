@@ -64,7 +64,8 @@ public class DefenseAI<T extends GameEnv> extends BaseHfsm<T> {
 		LogicExpression<T> notAtHome = new NotExpression<T>(atHome);
 
 		
-		LogicExpression<T> shouldClear = new AndExpression<T>(enemyNearMe, hasBall);
+		LogicExpression<T> shouldClearA = new AndExpression<T>(enemyNearMe, hasScouted);
+		LogicExpression<T> shouldClear = new AndExpression<T>(shouldClearA, hasBall);
 		
 		LogicExpression<T> shouldGoHomeA = new AndExpression<T>(ballNotInDefenseRange, notAtHome);
 		LogicExpression<T> shouldGoHome = new AndExpression<T>(shouldGoHomeA, notClosestToBall);
