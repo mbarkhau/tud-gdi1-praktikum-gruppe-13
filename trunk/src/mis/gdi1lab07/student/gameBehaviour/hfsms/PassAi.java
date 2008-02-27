@@ -6,6 +6,7 @@ import mis.gdi1lab07.automaton.logic.LogicExpression;
 import mis.gdi1lab07.automaton.logic.NotExpression;
 import mis.gdi1lab07.automaton.logic.OrExpression;
 import mis.gdi1lab07.student.StudentHFSM;
+import mis.gdi1lab07.student.gameBehaviour.hfsms.base.BaseHfsm;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.GotoFlag;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.Scout;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.BallPassedByMe;
@@ -16,10 +17,11 @@ import mis.gdi1lab07.student.gameData.FieldPlayer;
 import mis.gdi1lab07.student.gameData.GameEnv;
 import mis.gdi1lab07.student.gameData.Utils;
 
-public class PassAi<T extends GameEnv> extends StudentHFSM<T> {
+public class PassAi<T extends GameEnv> extends BaseHfsm<T> {
 
 	public PassAi(FieldPlayer<T> player) throws AutomatonException {
-		T env = player.getEnv();
+		super(player);
+		
 		int flagId = Utils.getPlayerPos(player.getNumber());
 
 		StudentHFSM<T> passer = new PasserAi<T>(player);
