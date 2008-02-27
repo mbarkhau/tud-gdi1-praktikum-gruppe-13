@@ -31,7 +31,7 @@ public class OffensivePlayerAi<T extends GameEnv> extends BaseHfsm<T> {
 		GotoBall<T> gotoBall = new GotoBall<T>(player);
 		StudentHFSM<T> goBack = new GotoFlag<T>(player, env.getHomePos());
 		
-		gotoBall.setPower(30);
+		gotoBall.setPower(50);
 		
 		setInitialState(scout);
 		
