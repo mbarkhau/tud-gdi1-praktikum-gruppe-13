@@ -47,7 +47,7 @@ public class SuperAI<T extends GameEnv> extends BaseHfsm<T> {
 		if (number == 1) {
 			addTransition(backToStart, goalie, atHome);
 			addTransition(goalie, backToStart, gameNotOn);
-		} else if (number < 7) {
+		} else if (number < 8) {
 			addTransition(backToStart, defense, atHome);
 			addTransition(defense, backToStart, gameNotOn);
 		} else {
