@@ -37,23 +37,27 @@ public class SuperAI<T extends GameEnv> extends BaseHfsm<T> {
 
 		setInitialState(backToStart);
 		
-		LogicExpression<T> atHome = new FlagInDistance<T>(env, Utils
-				.getPlayerPos(number), 4);
+		LogicExpression<T> atHome = new FlagInDistance<T>(env, Utils.
+				getPlayerPos(number), 4);
 		LogicExpression<T> gameOn = new GameIsOn<T>(env);
 		LogicExpression<T> gameNotOn = new NotExpression<T>(gameOn);
 		LogicExpression<T> ourPlay = new PlayOn<T>(env);
 		LogicExpression<T> waitForReposition = new Timer<T>(env, 3);
 
 		if (number == 1) {
-			addTransition(backToStart, goalie, atHome);
+			addTransition(backToStart, goalie, gameOn);
 			addTransition(goalie, backToStart, gameNotOn);
-		} else if (number < 12) {
-			addTransition(backToStart, defense, atHome);
+		} 
+		
+		else if (number <9) {
+			addTransition(backToStart, defense, gameOn);
 			addTransition(defense, backToStart, gameNotOn);
-		} else {
+		} 
+		
+		else {
 			addTransition(offense, backToStart, gameNotOn);
 			addTransition(backToStart, scout, waitForReposition);
-			addTransition(scout, offense, ourPlay);
+			addTransition(scout, offense, gameOn);
 			backToStart.doOutput();
 		}
 	}
