@@ -56,6 +56,6 @@ public class SoccerTeam extends Team {
 
 	@Override
 	public String getLabGroupName() {
-		return null;
+		return "Gruppe13";
 	}
 }
