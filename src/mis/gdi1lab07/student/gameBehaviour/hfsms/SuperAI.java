@@ -10,7 +10,7 @@ import mis.gdi1lab07.student.gameBehaviour.hfsms.base.GoToStartPosition;
 import mis.gdi1lab07.student.gameBehaviour.hfsms.base.Scout;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.FlagInDistance;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.GameIsOn;
-import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.PlayOn;
+import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.KickOffOwn;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.Timer;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
 import mis.gdi1lab07.student.gameData.GameEnv;
@@ -39,11 +39,9 @@ public class SuperAI<T extends GameEnv> extends BaseHfsm<T> {
 		
 		setInitialState(backToStart);
 		
-		LogicExpression<T> atHome = new FlagInDistance<T>(env, Utils.
-				getPlayerPos(number), 4);
 		LogicExpression<T> gameOn = new GameIsOn<T>(env);
 		LogicExpression<T> gameNotOn = new NotExpression<T>(gameOn);
-		LogicExpression<T> ourPlay = new PlayOn<T>(env);
+		LogicExpression<T> ourPlay = new KickOffOwn<T>(env);
 		LogicExpression<T> waitForReposition = new Timer<T>(env, 3);
 
 		if (number == 1) {
