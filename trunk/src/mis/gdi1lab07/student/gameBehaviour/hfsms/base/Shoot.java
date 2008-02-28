@@ -22,10 +22,15 @@ public class Shoot<T extends GameEnv> extends BaseHfsm<T> implements FlagConstan
 			System.out.println(this.player.getNumber() + " shoots (kick 100)");
 	
 		double kickDir = 0.7 + 0.2 * Math.random(); // Zahl zw. 0.0 und 1.0
-		if (Math.random() < 0.5) {
-			kickDir *= env.getFlag(T_G_L).getDir();
+	
+		// nullPointerException behoben!!!
+		if (Math.random() < 0.5 && env.getFlag(T_G_L)!=null) {
+				kickDir *= env.getFlag(T_G_L).getDir();
 		} else {
-			kickDir *= env.getFlag(T_G_R).getDir();
+			if(env.getFlag(T_G_R)!=null)
+				kickDir *= env.getFlag(T_G_R).getDir();
+			else if(env.getFlag(T_G_L)!=null)
+				kickDir *= env.getFlag(T_G_L).getDir();
 		}
 		for (FieldVector p : env.getOtherPlayers()) {
 			if (Math.abs(p.getDir() - kickDir) < 0.5) {
