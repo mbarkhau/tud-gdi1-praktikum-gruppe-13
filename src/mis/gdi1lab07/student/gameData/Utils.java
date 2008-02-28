@@ -16,6 +16,8 @@ public class Utils implements FlagConstants {
 	public static final int DBG_FLAGS = 50;
 
 	public static final int DBG_STAMINA = 25;
+
+	public static final int DBG_STATES = 15;
 	
 	public static final int DBG_NONE = 0;
 	

@@ -31,7 +31,7 @@ public class GotoPlayer<T extends GameEnv> extends BaseHfsm<T> {
 	public void doOutput() throws AutomatonException {
 
 		if(Utils.debugThis(Utils.DBG_ALL))
-		System.out.println(this.getName());
+			System.out.println(this.getName());
 		FieldVector p = (ownTeam) ? env.getOwnPlayer(playerId) : env
 				.getOtherPlayer(playerId);
 
