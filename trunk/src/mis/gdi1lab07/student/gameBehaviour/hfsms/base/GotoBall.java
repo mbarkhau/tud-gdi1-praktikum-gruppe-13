@@ -22,7 +22,7 @@ public class GotoBall<T extends GameEnv> extends BaseHfsm<T> {
 	@Override
 	public void doOutput() throws AutomatonException {
 		if(Utils.debugThis(Utils.DBG_ALL))
-		System.out.println(this.getName());
+			System.out.println(this.getName());
 		FieldVector b = env.getBall();
 		gotoVector(b, power, DELTA_DYNAMIC);
 	}

@@ -18,6 +18,8 @@ public class PasseeComparator<T extends PlayerVector> implements Comparator<T> {
 		//lower is better
 		double p1Score = (p1.getDistToGoal() * GOAL_DIST_WEIGHT) + (p1.getDistToClosestEnemy() * ENEMY_DIST_WEIGHT);
 		double p2Score = (p2.getDistToGoal() * GOAL_DIST_WEIGHT) + (p2.getDistToClosestEnemy() * ENEMY_DIST_WEIGHT);
+
+		if(Utils.debugThis(Utils.DBG_ALL))
 		System.out.println(p1 + " vs " + p2 + ": " + (p2Score - p1Score));
 		return new Double(p2Score - p1Score).intValue();
 	}

@@ -53,12 +53,12 @@ public class DefenseAI<T extends GameEnv> extends BaseHfsm<T> {
 		LogicExpression<T> closestToBall = new IsClosestToBall<T>(env);
 		LogicExpression<T> notClosestToBall = new NotExpression<T>(closestToBall);
 		
-		LogicExpression<T> ballInDefenseRange = new BallInFlagRange<T>(env, 16, env.getHomePos());
+		LogicExpression<T> ballInDefenseRange = new BallInFlagRange<T>(env, 20, env.getHomePos());
 		LogicExpression<T> ballNotInDefenseRange = new NotExpression<T>(ballInDefenseRange);
 		
-		LogicExpression<T> enemyInDefenseRange = new PlayerInFlagRange<T>(env, -1, env.getHomePos(), 16);
+		LogicExpression<T> enemyInDefenseRange = new PlayerInFlagRange<T>(env, -1, env.getHomePos(), 17);
 		LogicExpression<T> enemyNotInDefenseRange = new NotExpression<T>(enemyInDefenseRange);
-		LogicExpression<T> enemyNearMe = new PlayerInDistance<T>(env, false, 6);
+		LogicExpression<T> enemyNearMe = new PlayerInDistance<T>(env, false, 7);
 		
 		LogicExpression<T> atHome = new FlagInDistance<T>(env, env.getHomePos(), 4);
 		LogicExpression<T> notAtHome = new NotExpression<T>(atHome);

@@ -21,6 +21,7 @@ import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.LookingAtFlag;
 import mis.gdi1lab07.student.gameBehaviour.logicExpressions.base.PlayerInDistance;
 import mis.gdi1lab07.student.gameData.FieldPlayer;
 import mis.gdi1lab07.student.gameData.GameEnv;
+import mis.gdi1lab07.student.gameData.Utils;
 
 public class GoalieAi<T extends GameEnv> extends BaseHfsm<T> {
 
@@ -133,10 +134,8 @@ public class GoalieAi<T extends GameEnv> extends BaseHfsm<T> {
 	}
 	
 	public void doOutput(){
-		System.out.println("Goalie-Status: " + this.getCurrentState().toString());
-		
-		
-		
+		if (Utils.getDebugLevel() > Utils.DBG_STATES)
+			System.out.println("Goalie-Status: " + this.getCurrentState().toString());
 		
 	}
 	

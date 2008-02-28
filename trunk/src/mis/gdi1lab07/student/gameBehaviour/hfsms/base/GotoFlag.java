@@ -29,7 +29,7 @@ public class GotoFlag<T extends GameEnv> extends BaseHfsm<T> {
 	public void doOutput() throws AutomatonException {
 
 		if(Utils.debugThis(Utils.DBG_ALL))
-		System.out.println(this.getName());
+			System.out.println(this.getName());
 		FieldVector f = env.getFlag(flagId);
 		gotoVector(f, power, DELTA_STATIC);
 	}
