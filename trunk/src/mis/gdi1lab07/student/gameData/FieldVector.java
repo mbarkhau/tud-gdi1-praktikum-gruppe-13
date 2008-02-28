@@ -52,7 +52,7 @@ public class FieldVector {
 	}
 	
 	public String toString(){
-		return "distance: " + distance + " direction: " + direction;
+		return "age: " + age + "distance: " + distance + " direction: " + direction;
 	}
 	
 }

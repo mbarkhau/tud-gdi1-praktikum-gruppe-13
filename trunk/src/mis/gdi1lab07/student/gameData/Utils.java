@@ -4,17 +4,22 @@ import atan2.model.ControllerAdaptor;
 
 public class Utils implements FlagConstants {
 
+
 	public static double DIR_DELTA = 2;
 
 	public static double KICK_DIST_POW_FACTOR = 3;
 
 	public static double DASH_POW_DIST_FACTOR = 0.01;
 	
-	public static int DBG_ALL = 100;
+	public static final int DBG_ALL = 100;
+
+	public static final int DBG_FLAGS = 50;
+
+	public static final int DBG_STAMINA = 25;
 	
-	public static int DBG_NONE = 0;
+	public static final int DBG_NONE = 0;
 	
-	public static int DEBUG_LEVEL = DBG_NONE;
+	public static final int DEBUG_LEVEL = DBG_NONE;
 
 	/** @return the distance between two vectors */
 	public static double getVectorDistance(FieldVector a, FieldVector b) {

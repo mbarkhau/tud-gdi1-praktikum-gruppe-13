@@ -12,6 +12,14 @@ public class GotoFlag<T extends GameEnv> extends BaseHfsm<T> {
 
 	private int power = POWER_RUN;
 
+
+	public GotoFlag(FieldPlayer<T> player, int flagId, int power) {
+		super(player);
+		this.flagId = flagId;
+		this.power = power;
+	}
+
+	
 	public GotoFlag(FieldPlayer<T> player, int flagId) {
 		super(player);
 		this.flagId = flagId;
