@@ -9,6 +9,16 @@ import atan2.model.Player;
  */
 public class FieldPlayer<T extends GameEnv> implements Player {
 
+	private double POWER_NORMAL_FACTOR = 1;
+	
+	private double POWER_TIRED_FACTOR = 0.75;
+	
+	private double POWER_EXAUSTED_FACTOR = 0;
+	
+	private double curPowFactor = POWER_NORMAL_FACTOR;
+	
+	private int tickPowFactorSet = 0;
+	
 	private Player decoratedPlayer;
 
 	private String name;
@@ -16,7 +26,7 @@ public class FieldPlayer<T extends GameEnv> implements Player {
 	private String teamName;
 
 	private T env;
-
+	
 	public FieldPlayer(Player player, T env) {
 		this.decoratedPlayer = player;
 		this.env = env;
@@ -40,7 +50,7 @@ public class FieldPlayer<T extends GameEnv> implements Player {
 	}
 	
 	/**
-	 * Wenn Nummer 1, dann soll Spieler Goalie werden. Wichtig für Konstruktor
+	 * Wenn Nummer 1, dann soll Spieler Goalie werden. Wichtig fï¿½r Konstruktor
 	 */
 	public boolean isThisNumberAGoalie() {
 		return getNumber()==1;
@@ -60,10 +70,29 @@ public class FieldPlayer<T extends GameEnv> implements Player {
 
 	@Override
 	public void dash(int power) {
-		decoratedPlayer.dash(power);
-		env.dash(power);
+		power = getAllowedPower(power);
+		if (power > 0){
+			decoratedPlayer.dash(power);
+			env.dash(power);
+		}
 	}
 
+	private int getAllowedPower(int power){
+		double stamina = env.getStamina();
+		boolean canSetHigher = (env.getTick() - tickPowFactorSet) > 150;
+		if(stamina < 40 && curPowFactor > POWER_EXAUSTED_FACTOR){
+			curPowFactor = POWER_EXAUSTED_FACTOR;
+			tickPowFactorSet = env.getTick();
+		}else if((stamina < 1000 || canSetHigher && stamina > 1000) && curPowFactor > POWER_TIRED_FACTOR){
+			curPowFactor = POWER_TIRED_FACTOR;
+			tickPowFactorSet = env.getTick();
+		}else if(canSetHigher && stamina > 2000){
+			curPowFactor = POWER_NORMAL_FACTOR;
+			tickPowFactorSet = env.getTick();
+		}
+		return new Double(power * curPowFactor).intValue();
+	}
+	
 	@Override
 	public Controller getController() {
 		return decoratedPlayer.getController();

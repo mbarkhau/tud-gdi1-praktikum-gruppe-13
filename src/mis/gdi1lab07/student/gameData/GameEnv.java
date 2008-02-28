@@ -10,6 +10,11 @@ import java.util.Map;
 
 public class GameEnv {
 
+	//SEHR delikate einstellung, unbedingt mit joggerai testen
+	private double STAMINA_POW_DEPLETE_FAKTOR = 0.98;
+	
+	private double STAMINA_REGEN_FAKTOR = 39.5;
+	
 	private FieldVector ball = null;
 
 	// Key is the player id
@@ -29,6 +34,8 @@ public class GameEnv {
 
 	private int tick = 0;
 
+	private double stamina = 4000;
+	
 	private HashMap<Integer, Object> hfsmParams = new HashMap<Integer, Object>();
 
 	public Object getHfsmParam(Integer key) {
@@ -77,6 +84,8 @@ public class GameEnv {
 	
 	public FieldVector getFlag(int id) {
 		FieldVector f = flags.get(id);
+		if (Utils.getDebugLevel() > Utils.DBG_FLAGS)
+			System.out.println(playerId + " flag " + id + " at "+ f.toString());
 		return (f != null && f.getAge() < 25) ? f : null;
 	}
 
@@ -124,6 +133,11 @@ public class GameEnv {
 			Utils.displaceVector(power, v);
 			v.doAge();
 		}
+		stamina -= power * STAMINA_POW_DEPLETE_FAKTOR;
+		if (stamina < 0)
+			stamina = 0;
+		if (Utils.getDebugLevel() > Utils.DBG_STAMINA)
+			System.out.println(playerId + " stamina: " + stamina);
 	}
 
 	public void setFlag(int id, double dist, double dir) {
@@ -247,6 +261,12 @@ public class GameEnv {
 		for (FieldVector v : vectors) {
 			v.doAge();
 		}
+		
+		stamina += STAMINA_REGEN_FAKTOR;
+		if (stamina > 4000)
+			stamina = 4000;
+		if (Utils.getDebugLevel() > Utils.DBG_STAMINA)
+			System.out.println(playerId + " stamina: " + stamina);
 	}
 
 	/** remove all vectors in view and hence, should be visible on the next turn. */
@@ -265,5 +285,9 @@ public class GameEnv {
 
 	public void resetTick() {
 		tick = 0;
+	}
+
+	public double getStamina() {
+		return stamina;
 	}
 }
