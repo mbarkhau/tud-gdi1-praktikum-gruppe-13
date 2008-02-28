@@ -110,7 +110,7 @@ public class GoalieAi<T extends GameEnv> extends BaseHfsm<T> {
 		LogicExpression<T> onePenaltyFlagIsTooNear = new OrExpression<T>(new OrExpression<T>(FlagRTooNear, FlagLTooNear), FlagCTooNear);
 		
 		//Leave Ball-Bedingung: Wenn der Ball weg ist oder eine Strafraumflagge zu nahe kommt
-		LogicExpression<T> leaveBall = new OrExpression<T> (ballAway, onePenaltyFlagIsTooNear);
+		LogicExpression<T> leaveBall = new AndExpression<T> (new OrExpression<T> (ballAway, onePenaltyFlagIsTooNear), new NotExpression<T>(grabbedBall));
 
 		//Goalie darf Ball nehmen, wenn er im Strafraum ist und der Ball weniger als 2 Meter entfernt ist
 //		LogicExpression<T> readyToGrab = new AndExpression<T>(isInPenaltyArea, ballInGrabDist);
