@@ -77,9 +77,6 @@ public class GoalieAi<T extends GameEnv> extends BaseHfsm<T> {
 		
 		LogicExpression<T> ballInGrabDist = new BallInDistance<T>(env, 2);
 		
-		//Goalie darf Ball nehmen, wenn er im Strafraum ist und der Ball weniger als 2 Meter entfernt ist
-//		LogicExpression<T> readyToGrab = new AndExpression<T>(isInPenaltyArea, ballInGrabDist);
-		LogicExpression<T> readyToGrab = ballInGrabDist;
 		
 		//Feind attackiert, sobald er und der Ball weniger als 20 Meter vom Tor entfernt sind
 		LogicExpression<T> ballInDangerDist = new BallInDistance<T>(env, 20);
@@ -104,8 +101,6 @@ public class GoalieAi<T extends GameEnv> extends BaseHfsm<T> {
 		//Wenn er nicht gescouted hat und kein Gegner angreift, soll er scouten
 		LogicExpression<T> doScout = new AndExpression<T>(hasNotScouted, new NotExpression<T>(enemyAttacks));
 		
-		//Soll nur dann zum Ball gehen, wenn er ihn nicht greifen kann
-		LogicExpression<T> doGotoBall = new AndExpression<T>(enemyAttacks, new NotExpression<T>(readyToGrab));
 		
 		//Expression, wenn eine der 3 Strafraumflaggen weniger als 
 		LogicExpression<T> FlagRTooNear = new FlagInDistance<T>(env, O_P_R, 15);
@@ -116,7 +111,14 @@ public class GoalieAi<T extends GameEnv> extends BaseHfsm<T> {
 		
 		//Leave Ball-Bedingung: Wenn der Ball weg ist oder eine Strafraumflagge zu nahe kommt
 		LogicExpression<T> leaveBall = new OrExpression<T> (ballAway, onePenaltyFlagIsTooNear);
-	
+
+		//Goalie darf Ball nehmen, wenn er im Strafraum ist und der Ball weniger als 2 Meter entfernt ist
+//		LogicExpression<T> readyToGrab = new AndExpression<T>(isInPenaltyArea, ballInGrabDist);
+		LogicExpression<T> readyToGrab = new AndExpression<T>(ballInGrabDist, new NotExpression<T>(onePenaltyFlagIsTooNear));
+		
+		//Soll nur dann zum Ball gehen, wenn er ihn nicht greifen kann
+		LogicExpression<T> doGotoBall = new AndExpression<T>(enemyAttacks, new NotExpression<T>(readyToGrab));
+		
 		
 		addTransition(scout, watchBall, atGoal);
 		addTransition(watchBall, scout, doScout);

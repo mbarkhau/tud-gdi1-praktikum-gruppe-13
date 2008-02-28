@@ -24,7 +24,13 @@ public class GotoBall<T extends GameEnv> extends BaseHfsm<T> {
 		if(Utils.debugThis(Utils.DBG_ALL))
 			System.out.println(this.getName());
 		FieldVector b = env.getBall();
-		gotoVector(b, power, DELTA_DYNAMIC);
+		if(b!=null){
+//			if(b.getDist()<3)
+//			gotoVector(b, power/3, DELTA_DYNAMIC);
+//			else
+				gotoVector(b, power, DELTA_DYNAMIC);
+		}
+		else player.turn(90);
 	}
 	
 	/**
